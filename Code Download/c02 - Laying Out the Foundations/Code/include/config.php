@@ -7,7 +7,7 @@ define('PRESENTATION_DIR', SITE_ROOT . '/presentation/');
 define('BUSINESS_DIR', SITE_ROOT . '/business/');
 
 // Settings needed to configure the Smarty template engine
-define('SMARTY_DIR', SITE_ROOT . '/libs/smarty/');
+define('SMARTY_DIR', SITE_ROOT . '/vendor/smarty/smarty/libs');
 define('TEMPLATE_DIR', PRESENTATION_DIR . '/templates');
 define('COMPILE_DIR', PRESENTATION_DIR . '/templates_c');
 define('CONFIG_DIR', SITE_ROOT . '/include/configs');

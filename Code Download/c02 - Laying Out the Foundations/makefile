@@ -1,3 +1,7 @@
+all: build run
+
+clean:
+	docker system prune -af
 
 build:
 	docker build --progress=plain -t c02-foundations .
