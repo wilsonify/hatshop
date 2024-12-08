@@ -1,0 +1,1 @@
+CREATE DATABASE hatshop ENCODING = 'UTF8';
