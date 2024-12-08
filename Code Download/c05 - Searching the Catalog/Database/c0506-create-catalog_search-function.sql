@@ -1,6 +1,6 @@
 
 -- Create catalog_search function
-CREATE FUNCTION catalog_search(TEXT[], VARCHAR(3), INTEGER, INTEGER, INTEGER)
+CREATE OR REPLACE FUNCTION catalog_search(TEXT[], VARCHAR(3), INTEGER, INTEGER, INTEGER)
 RETURNS SETOF product_list LANGUAGE plpgsql AS $$
   DECLARE
     inWords                         ALIAS FOR $1;
