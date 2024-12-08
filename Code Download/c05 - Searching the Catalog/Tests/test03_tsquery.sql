@@ -1,12 +1,11 @@
-
-
 SELECT
-  rank(search_vector, to_tsquery('yankee | war')) as rank,
+  ts_rank(search_vector, to_tsquery('yankee | war')) AS rank,
   product_id,
   name
 FROM product
 WHERE search_vector @@ to_tsquery('yankee | war')
 ORDER BY rank DESC;
+
 
 --Search Results Ordered by Rank
 --rank product_id name
