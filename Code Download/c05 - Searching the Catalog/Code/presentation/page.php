@@ -7,6 +7,7 @@ require_once __DIR__ . '/smarty_plugins/function.load_department.php';
 require_once __DIR__ . '/smarty_plugins/function.load_departments_list.php';
 require_once __DIR__ . '/smarty_plugins/function.load_product.php';
 require_once __DIR__ . '/smarty_plugins/function.load_products_list.php';
+require_once __DIR__ . '/smarty_plugins/function.load_search_box.php';
 require_once __DIR__ . '/smarty_plugins/modifier.prepare_link.php';
 
 use Smarty\Smarty;
@@ -20,7 +21,7 @@ class Page extends Smarty
   public function __construct()
   {
     // Call Smarty's constructor
-    parent::__construct()
+    parent::__construct();
 
     // Change the default template directories
     $this->template_dir = TEMPLATE_DIR;
@@ -32,6 +33,7 @@ class Page extends Smarty
     $this->registerPlugin('function', 'load_departments_list', 'smarty_function_load_departments_list');
     $this->registerPlugin('function', 'load_product', 'smarty_function_load_product');
     $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
+    $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
     $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
   }
 }
