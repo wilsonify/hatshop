@@ -36,11 +36,11 @@ define('SITE_GENERIC_ERROR_MESSAGE', '<h2>HatShop Error!</h2>');
 
 // Database login info
 define('DB_PERSISTENCY', 'true');
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'hatshopadmin');
-define('DB_PASSWORD', 'hatshopadmin');
-define('DB_DATABASE', 'hatshop');
-define('PDO_DSN', 'pgsql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE);
+define('DB_SERVER', getenv('HATSHOP_DB_SERVER'));
+define('DB_USERNAME', getenv('HATSHOP_DB_USERNAME'));
+define('DB_PASSWORD', getenv('HATSHOP_DB_PASSWORD'));
+define('DB_DATABASE', getenv('HATSHOP_DB_DATABASE'));
+define('PDO_DSN', 'pgsql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE . ';sslmode=require');
 
 // Server HTTP port (can omit if the default 80 is used)
 define('HTTP_SERVER_PORT', '80');
