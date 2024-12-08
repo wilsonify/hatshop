@@ -1,17 +1,16 @@
 # Use the official PHP image with Apache
 FROM php:8.2-apache
 
-# Install dependencies (unzip, git, etc.) and Composer
+# Install dependencies (unzip, git, PostgreSQL extensions, etc.) and Composer
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     unzip \
     git \
     libzip-dev \
-    && docker-php-ext-install zip \
+    libpq-dev \
+    && docker-php-ext-install zip pdo pdo_pgsql pgsql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy application code into /var/www/html and set permissions
-COPY --chown=www-data:www-data --chmod=755 ./Code/ /var/www/html/
 
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
@@ -23,7 +22,15 @@ RUN composer require smarty/smarty
 RUN a2enmod rewrite ssl
 
 # Create Apache configuration for the /hatshop/ virtual folder
-COPY ./hatshop.conf /etc/apache2/conf-available/hatshop.conf
+RUN echo "\
+<IfModule alias_module>\n\
+    Alias /hatshop/ \"/var/www/html/\"\n\
+    Alias /hatshop \"/var/www/html\"\n\
+</IfModule>\n\
+<Directory \"/var/www/html\">\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>\n" > /etc/apache2/conf-available/hatshop.conf
 
 # Enable the hatshop configuration
 RUN a2enconf hatshop
@@ -36,13 +43,30 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=US/ST=ExampleState/L=ExampleCity/O=ExampleOrg/OU=IT/CN=localhost"
 
 # Create and configure an Apache VirtualHost for HTTPS
-COPY ./hatshop-ssl.conf /etc/apache2/sites-available/hatshop-ssl.conf
+RUN echo "\
+<VirtualHost *:443>\n\
+    ServerAdmin webmaster@localhost\n\
+    DocumentRoot /var/www/html\n\
+    ServerName localhost\n\
+    SSLEngine on\n\
+    SSLCertificateFile /etc/ssl/certs/ssl-cert.crt\n\
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert.key\n\
+    <Directory /var/www/html>\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+    ErrorLog \${APACHE_LOG_DIR}/error.log\n\
+    CustomLog \${APACHE_LOG_DIR}/access.log combined\n\
+</VirtualHost>\n" > /etc/apache2/sites-available/hatshop-ssl.conf
 
 # Enable the SSL VirtualHost and default site
 RUN a2ensite hatshop-ssl
 
 # Expose both HTTP (80) and HTTPS (443) ports
 EXPOSE 80 443
+
+# Copy application code into /var/www/html and set permissions
+COPY --chown=www-data:www-data --chmod=755 ./Code/ /var/www/html/
 
 # Set the entrypoint to run Apache in the foreground
 CMD ["apache2-foreground"]
