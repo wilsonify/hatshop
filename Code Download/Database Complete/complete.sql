@@ -711,7 +711,7 @@ RETURNS SETOF product_list LANGUAGE plpgsql AS $$
                discounted_price, thumbnail
       FROM     product
       WHERE    search_vector @@ query_string
-      ORDER BY rank(search_vector, query_string) DESC
+      ORDER BY ts_rank(search_vector, query_string) DESC
       LIMIT    inProductsPerPage
       OFFSET   inStartPage
     LOOP
