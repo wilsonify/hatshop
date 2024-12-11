@@ -2,13 +2,10 @@
 // Reference Smarty library
 require_once '/var/www/html/vendor/autoload.php';
 
-require_once __DIR__ . '/smarty_plugins/function.load_categories_list.php';
-require_once __DIR__ . '/smarty_plugins/function.load_department.php';
-require_once __DIR__ . '/smarty_plugins/function.load_departments_list.php';
-require_once __DIR__ . '/smarty_plugins/function.load_product.php';
-require_once __DIR__ . '/smarty_plugins/function.load_products_list.php';
-require_once __DIR__ . '/smarty_plugins/function.load_search_box.php';
-require_once __DIR__ . '/smarty_plugins/modifier.prepare_link.php';
+// Require all PHP files in the smart_plugins directory
+foreach (glob(__DIR__ . '/smarty_plugins/*.php') as $pluginFile) {
+    require_once $pluginFile;
+}
 
 use Smarty\Smarty;
 
