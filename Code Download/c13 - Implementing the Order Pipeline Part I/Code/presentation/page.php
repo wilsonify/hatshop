@@ -23,8 +23,13 @@ class Page extends Smarty
     $this->template_dir = TEMPLATE_DIR;
     $this->compile_dir = COMPILE_DIR;
     $this->config_dir = CONFIG_DIR;
-    $this->plugins_dir[0] = SMARTY_DIR . 'plugins';
-    $this->plugins_dir[1] = PRESENTATION_DIR . 'smarty_plugins';
-  }
+    $this->registerPlugin('modifier', 'smarty_modifier_prepare_link', 'smarty_function_load_categories_list');
+    $this->registerPlugin('function', 'load_categories_list', 'smarty_function_load_categories_list');
+    $this->registerPlugin('function', 'load_department', 'smarty_function_load_department');
+    $this->registerPlugin('function', 'load_departments_list', 'smarty_function_load_departments_list');
+    $this->registerPlugin('function', 'load_product', 'smarty_function_load_product');
+    $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
+    $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
+    $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');  }
 }
 ?>
