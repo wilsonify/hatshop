@@ -7,6 +7,8 @@ foreach (glob(__DIR__ . '/smarty_plugins/*.php') as $pluginFile) {
     require_once $pluginFile;
 }
 
+use Smarty\Smarty;
+
 /* Class that extends Smarty, used to process and display Smarty
    files */
 class Page extends Smarty
@@ -15,7 +17,7 @@ class Page extends Smarty
   public function __construct()
   {
     // Call Smarty's constructor
-    parent::Smarty();
+    parent::__construct();
 
     // Change the default template directories
     $this->template_dir = TEMPLATE_DIR;
