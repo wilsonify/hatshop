@@ -4,7 +4,7 @@ clean:
 	docker system prune -af
 
 build:
-	docker build --progress=plain -t c06-receiving-payments .
+	docker build --progress=plain -t c14-order-pipeline-part-ii .
 
 run:
-	docker run --rm --name c06-receiving-payments -p 32775:80 -p 32776:443 --env-file ./.env c06-receiving-payments
+	docker run --rm --name c14-order-pipeline-part-ii -p 32775:80 -p 32776:443 --env-file ./.env c14-order-pipeline-part-ii
