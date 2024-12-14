@@ -42,6 +42,10 @@ define('DB_PASSWORD', getenv('HATSHOP_DB_PASSWORD'));
 define('DB_DATABASE', getenv('HATSHOP_DB_DATABASE'));
 define('PDO_DSN', 'pgsql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE);
 
+// Payment Info
+define('PAYPAL_PROFILE', getenv('HATSHOP_PAYPAL_PROFILE'));
+define('PAYPAL_EMAIL', getenv('HATSHOP_PAYPAL_EMAIL'));
+
 // Server HTTP port (can omit if the default 80 is used)
 define('HTTP_SERVER_PORT', '80');
 /* Name of the virtual directory the site runs in, for example:

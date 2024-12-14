@@ -159,16 +159,17 @@ class ProductsList
         $url . $this->mProducts[$i]['product_id'];
 
       // Create the PayPal link
+
       $this->mProducts[$i]['paypal'] =
         'JavaScript:OpenPayPalWindow(&quot;' .
         'https://www.paypal.com/cgi-bin/webscr?' .
-        'cmd=_cart&amp;business=youremail@example.com' .
+        'cmd=_cart&amp;business=' . rawurlencode(PAYPAL_EMAIL) .
         '&amp;item_name=' . rawurlencode($this->mProducts[$i]['name']) .
         '&amp;amount=' . 
         (($this->mProducts[$i]['discounted_price'] == 0) ?
          $this->mProducts[$i]['price'] :
          $this->mProducts[$i]['discounted_price']) .
-        '&amp;currency=USD&amp;add=1&amp;return=www.example.com' .
+        '&amp;currency=USD&amp;add=1&amp;return=' . rawurlencode(SITE_ROOT) .
         '&amp;cancel_return=www.example.com&quot;)';
     }
   }
