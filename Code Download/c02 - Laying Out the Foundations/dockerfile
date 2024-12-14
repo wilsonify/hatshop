@@ -12,6 +12,9 @@ RUN apt-get update && \
 
 # Copy application code into /var/www/html and set permissions
 COPY --chown=www-data:www-data --chmod=755 ./Code/ /var/www/html/
+COPY --chown=www-data:www-data --chmod=755 ./Images/images /var/www/html/images
+COPY --chown=www-data:www-data --chmod=755 ./Images/product_images /var/www/html/product_images
+
 
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
