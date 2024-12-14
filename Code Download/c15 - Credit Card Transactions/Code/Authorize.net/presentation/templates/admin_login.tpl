@@ -15,7 +15,7 @@
   <br />
 {/if}
   <br />
-  <form method="post" action="{"admin.php"|prepare_link:"https"}">
+  <form method="post" action="{"admin.php"|prepare_link:"http"}">
     Username:
     <input type="text" name="username" value="{$admin_login->mUsername}" />
     &nbsp;&nbsp;
