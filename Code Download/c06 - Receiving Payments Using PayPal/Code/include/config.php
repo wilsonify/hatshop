@@ -47,7 +47,7 @@ define('PAYPAL_PROFILE', getenv('HATSHOP_PAYPAL_PROFILE'));
 define('PAYPAL_EMAIL', getenv('HATSHOP_PAYPAL_EMAIL'));
 
 // Server HTTP port (can omit if the default 80 is used)
-define('HTTP_SERVER_PORT', '80');
+define('HTTP_SERVER_PORT', getenv('HATSHOP_HTTP_SERVER_PORT'));
 /* Name of the virtual directory the site runs in, for example:
    '/hatshop/' if the site runs at http://www.example.com/hatshop/
    '/' if the site runs at http://www.example.com/ */

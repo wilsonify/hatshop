@@ -43,7 +43,7 @@ define('DB_DATABASE', getenv('HATSHOP_DB_DATABASE'));
 define('PDO_DSN', 'pgsql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE . ';sslmode=require');
 
 // Server HTTP port (can omit if the default 80 is used)
-define('HTTP_SERVER_PORT', '80');
+define('HTTP_SERVER_PORT', getenv('HATSHOP_HTTP_SERVER_PORT'));
 /* Name of the virtual directory the site runs in, for example:
    '/hatshop/' if the site runs at http://www.example.com/hatshop/
    '/' if the site runs at http://www.example.com/ */
