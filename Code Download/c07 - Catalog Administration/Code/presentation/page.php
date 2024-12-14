@@ -23,13 +23,19 @@ class Page extends Smarty
     $this->template_dir = TEMPLATE_DIR;
     $this->compile_dir = COMPILE_DIR;
     $this->config_dir = CONFIG_DIR;
-    $this->registerPlugin('modifier', 'smarty_modifier_prepare_link', 'smarty_function_load_categories_list');
-    $this->registerPlugin('function', 'load_categories_list', 'smarty_function_load_categories_list');
-    $this->registerPlugin('function', 'load_department', 'smarty_function_load_department');
+    $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
+    $this->registerPlugin('function', 'load_admin_product', 'smarty_function_load_admin_product');
+    $this->registerPlugin('function', 'load_admin_login', 'smarty_function_load_admin_login');
     $this->registerPlugin('function', 'load_departments_list', 'smarty_function_load_departments_list');
-    $this->registerPlugin('function', 'load_product', 'smarty_function_load_product');
+    $this->registerPlugin('function', 'load_admin_products', 'smarty_function_load_admin_products');
+    $this->registerPlugin('function', 'load_admin_categories', 'smarty_function_load_admin_categories');
+    $this->registerPlugin('function', 'load_department', 'smarty_function_load_department');
+    $this->registerPlugin('function', 'load_categories_list', 'smarty_function_load_categories_list');
     $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
+    $this->registerPlugin('function', 'load_admin_departments', 'smarty_function_load_admin_departments');
     $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
-    $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');  }
+    $this->registerPlugin('function', 'load_product', 'smarty_function_load_product');
+    }
+
 }
 ?>
