@@ -9,10 +9,15 @@ echo "<br/>";
 echo "Connect to PostgreSQL";
 echo "<br/>";
 
-$conn = pg_connect("host=" . getenv('HATSHOP_DB_SERVER') .
-                   " dbname=" . getenv('HATSHOP_DB_DATABASE') .
-                   " user=" . getenv('HATSHOP_DB_USERNAME') .
-                   " password=" . getenv('HATSHOP_DB_PASSWORD'));
+echo "Connect to " . getenv('HATSHOP_DB_SERVER');
+echo "<br/>";
+
+$conn = pg_connect(
+    "host=" . getenv('HATSHOP_DB_SERVER') .
+    " dbname=" . getenv('HATSHOP_DB_DATABASE') .
+    " user=" . getenv('HATSHOP_DB_USERNAME') .
+    " password=" . getenv('HATSHOP_DB_PASSWORD')
+    );
 
 // Check if connection was successful
 if (!$conn) {
