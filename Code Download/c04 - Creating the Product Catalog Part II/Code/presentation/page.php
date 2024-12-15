@@ -26,7 +26,7 @@ class Page extends Smarty
     $this->compile_dir = COMPILE_DIR;
     $this->config_dir = CONFIG_DIR;
 
-    $this->registerPlugin('modifier', 'smarty_modifier_prepare_link', 'smarty_function_load_categories_list');
+
     $this->registerPlugin('function', 'load_categories_list', 'smarty_function_load_categories_list');
     $this->registerPlugin('function', 'load_department', 'smarty_function_load_department');
     $this->registerPlugin('function', 'load_departments_list', 'smarty_function_load_departments_list');
