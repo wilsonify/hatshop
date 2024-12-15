@@ -56,8 +56,8 @@ define('SHORT_PRODUCT_DESCRIPTION_LENGTH', 150);
 define('PRODUCTS_PER_PAGE', 4);
 
 // Administrator login information
-define('ADMIN_USERNAME', 'hatshopadmin');
-define('ADMIN_PASSWORD', 'hatshopadmin');
+define('ADMIN_USERNAME', getenv('HATSHOP_ADMIN_USERNAME','hatshopadmin'));
+define('ADMIN_PASSWORD', getenv('HATSHOP_ADMIN_PASSWORD','hatshopadmin'));
 
 // Shopping cart item types
 define('GET_CART_PRODUCTS', 1);
