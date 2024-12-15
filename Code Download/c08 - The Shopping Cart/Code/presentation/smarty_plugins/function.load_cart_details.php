@@ -34,18 +34,18 @@ class CartDetails
       $this->mCartReferrer = $_SESSION['page_link'];
 
     if (isset ($_GET['CartAction']))
-      $this->mCartAction = $_GET['CartAction'];
+      $this->_mCartAction = $_GET['CartAction'];
     else
       trigger_error('CartAction not set', E_USER_ERROR);
 
     // These cart operations require a valid product id
-    if ($this->mCartAction == ADD_PRODUCT ||
-        $this->mCartAction == REMOVE_PRODUCT ||
-        $this->mCartAction == SAVE_PRODUCT_FOR_LATER ||
-        $this->mCartAction == MOVE_PRODUCT_TO_CART)
+    if ($this->_mCartAction == ADD_PRODUCT ||
+        $this->_mCartAction == REMOVE_PRODUCT ||
+        $this->_mCartAction == SAVE_PRODUCT_FOR_LATER ||
+        $this->_mCartAction == MOVE_PRODUCT_TO_CART)
 
     if (isset ($_GET['ProductID']))
-      $this->mProductId = $_GET['ProductID'];
+      $this->_mProductId = $_GET['ProductID'];
     else
       trigger_error('ProductID must be set for this type of request',
                     E_USER_ERROR);
@@ -56,15 +56,15 @@ class CartDetails
 
   public function init()
   {
-    switch ($this->mCartAction)
+    switch ($this->_mCartAction)
     {
       case ADD_PRODUCT:
-        ShoppingCart::AddProduct($this->mProductId);
+        ShoppingCart::AddProduct($this->_mProductId);
         header('Location: ' . $this->mCartReferrer);
 
         break;
       case REMOVE_PRODUCT:
-        ShoppingCart::RemoveProduct($this->mProductId);
+        ShoppingCart::RemoveProduct($this->_mProductId);
 
         break;
       case UPDATE_PRODUCTS_QUANTITIES:
@@ -72,11 +72,11 @@ class CartDetails
 
         break;
       case SAVE_PRODUCT_FOR_LATER:
-        ShoppingCart::SaveProductForLater($this->mProductId);
+        ShoppingCart::SaveProductForLater($this->_mProductId);
 
         break;
       case MOVE_PRODUCT_TO_CART:
-        ShoppingCart::MoveProductToCart($this->mProductId);
+        ShoppingCart::MoveProductToCart($this->_mProductId);
 
         break;
       default:
