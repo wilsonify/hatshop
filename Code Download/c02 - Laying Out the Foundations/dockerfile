@@ -10,8 +10,8 @@ RUN apt-get update && \
     && docker-php-ext-install zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set the working directory to /var/www/html
-WORKDIR /var/www/html
+# Set the working directory to /var/www/hatshop
+WORKDIR /var/www/hatshop
 
 # Install Smarty using Composer
 RUN composer require smarty/smarty
@@ -41,10 +41,10 @@ RUN a2ensite hatshop-ssl
 # Expose both HTTP (80) and HTTPS (443) ports
 EXPOSE 80 443
 
-# Copy application code into /var/www/html and set permissions
-COPY --chown=www-data:www-data --chmod=755 ./Code/ /var/www/html/
-COPY --chown=www-data:www-data --chmod=755 ./Images/images /var/www/html/images
-COPY --chown=www-data:www-data --chmod=755 ./Images/product_images /var/www/html/product_images
+# Copy application code into /var/www/hatshop and set permissions
+COPY --chown=www-data:www-data --chmod=755 ./Code/ /var/www/hatshop/
+COPY --chown=www-data:www-data --chmod=755 ./Images/images /var/www/hatshop/images
+COPY --chown=www-data:www-data --chmod=755 ./Images/product_images /var/www/hatshop/product_images
 
 
 # Set the entrypoint to run Apache in the foreground

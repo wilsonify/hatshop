@@ -1,6 +1,6 @@
 <?php
 // Reference Smarty library
-require_once '/var/www/html/vendor/autoload.php';
+require_once '/var/www/hatshop/vendor/autoload.php';
 
 // Require all PHP files in the smart_plugins directory
 foreach (glob(__DIR__ . '/smarty_plugins/*.php') as $pluginFile) {
