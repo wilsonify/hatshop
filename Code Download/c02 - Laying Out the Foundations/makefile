@@ -1,5 +1,5 @@
-all: clean-local local
-all-docker: build-docker run-docker
+local: clean-local deploy-local
+docker: build-docker run-docker
 
 clean-docker:
 	docker system prune -af
@@ -14,10 +14,11 @@ clean-local:
 	rm -rf /var/www/hatshop/
 	mkdir -p /var/www/hatshop
 
-local:
+deploy-local:
 	cp -r ./Code/* /var/www/hatshop/
 	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
+	mkdir -p /var/www/hatshop/presentation/templates_c
 	chmod -R 755 /var/www/hatshop
 
 
