@@ -50,7 +50,7 @@ class AuthorizeNetRequest
 
     /* Do not verify the Common name of the peer certificate in the SSL
        handshake */
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
     // Prevent CURL from verifying the peer's certificate
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
