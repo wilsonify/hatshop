@@ -32,9 +32,9 @@ COPY --chown=www-data:www-data --chmod=775 ./etc/ssl/certs/rr-origin.pem /etc/ss
 COPY --chown=www-data:www-data --chmod=700 ./etc/ssl/private/rr-private-key.pem /etc/ssl/private/rr-private-key.pem
 
 # Create and configure an Apache VirtualHost for HTTPS
-COPY ./apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-COPY ./apache2/sites-available/hatshop.conf /etc/apache2/sites-available/hatshop.conf
+COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY ./etc/apache2/sites-available/hatshop.conf /etc/apache2/sites-available/hatshop.conf
 
 # Enable the SSL VirtualHost and default site
 RUN a2ensite 000-default.conf default-ssl.conf hatshop.conf
