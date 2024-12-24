@@ -1,10 +1,16 @@
+Beginning PHP and PostgreSQL E-Commerce: From Novice to Professional
+=======
+
+#### Code Download Notes (Nov 27, 2006)
+
 # Apress Source Code
 
 This repository accompanies [*Beginning PHP and PostgreSQL E-Commerce*](http://www.apress.com/9781590596487) by Cristian Darie, Mihai Bucica, and Emilian Balanescu (Apress, 2007).
 
 ![Cover image](9781590596487.jpg)
 
-Download the files as a zip using the green button, or clone the repository to your machine using Git.
+# Get Started 
+git clone the repository to your machine.
 
 ## Releases
 
@@ -13,6 +19,20 @@ Release v1.0 corresponds to the code in the published book, without corrections 
 ## Contributions
 
 See the file Contributing.md for more information on how you can contribute to this repository.
+
+
+**Dear reader,**
+
+Thank you for purchasing Beginning PHP and PostgreSQL E-Commerce: From Novice to Professional! 
+  We really hope you're enjoying reading this book, and that it is effectively helping you build better web sites with PHP and PostgreSQL!
+  Find the most recent version of this document, the latest errata notes and more details about the book at <a href="http://www.cristiandarie.ro/php-postgresql-ecommerce/">http://www.cristiandarie.ro/php-postgresql-ecommerce/</a>. 
+
+The code has been tested with Apache 2, PHP 5, and PostgreSQL 8. 
+  This archive contains the code for each chapter, in folders Chapters 02 through Chapter 17.
+  Each chapter's folder contains a subfolder named Code, which contains the files you should have in your hatshop folder after you've finished the chapter. 
+  For the chapters that require changes to the HatShop database, you'll find a subfolder named Database which contains the database scripts.
+
+
 
 
 # Known Issues
@@ -94,3 +114,5 @@ define('DB_DATABASE', getenv('HATSHOP_DB_DATABASE'));
 ```
 docker run ...  --env-file ./.env ...
 ```
+
+
