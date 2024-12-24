@@ -1,19 +1,20 @@
-all: build run
+all: build-docker run-docker
+local: clean-local deploy-local
 
-clean:
+clean-docker:
 	docker system prune -af
 
-build:
+build-docker:
 	docker build --progress=plain -t c03-catalog-part-i .
 
-run:
+run-docker:
 	docker run --rm --name c03-catalog-part-i -p 32776:443 --env-file ./.env c03-catalog-part-i
 
 clean-local:
 	rm -rf /var/www/hatshop/
 	mkdir -p /var/www/hatshop
 
-local:
+deploy-local:
 	cp -r ./Code/* /var/www/hatshop/
 	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
