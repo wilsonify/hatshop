@@ -38,7 +38,7 @@ class ShoppingCart
         /* Generate cart id and save it to the $_mCartId class member,
            the session and a cookie (on subsequent requests $_mCartId
            will be populated from the session) */
-        self::$_mCartId = md5(uniqid(rand(), true));
+        self::$_mCartId = md5(uniqid(random_int(), true));
 
         // Store cart id in session
         $_SESSION['cart_id'] = self::$_mCartId;
