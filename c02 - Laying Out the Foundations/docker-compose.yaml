@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  c02-foundations:
+  hatshop:
     restart: unless-stopped
     image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
     ports:

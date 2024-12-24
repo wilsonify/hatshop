@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  c04-product-catalog-part-ii:
+  hatshop:
     env_file: [ .env ]
     restart: unless-stopped
     image: ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
