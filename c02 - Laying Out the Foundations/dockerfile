@@ -32,10 +32,9 @@ RUN a2enconf hatshop
 # Create and configure an Apache VirtualHost for HTTPS
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY ./etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-COPY ./etc/apache2/sites-available/hatshop.conf /etc/apache2/sites-available/hatshop.conf
 
 # Enable the SSL VirtualHost and default site
-RUN a2ensite 000-default.conf default-ssl.conf hatshop.conf
+RUN a2ensite 000-default.conf default-ssl.conf
 
 # Expose HTTPS
 EXPOSE 443
