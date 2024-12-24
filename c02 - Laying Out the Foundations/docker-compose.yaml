@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  c02-foundations:
+    restart: unless-stopped
+    image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
