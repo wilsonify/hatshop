@@ -48,7 +48,7 @@ else
 }
 ?>
 <frameset cols="33%, 33%, 33%">
-  <frame src="test_datacash.php?step=1">
-  <frame src="test_datacash.php?step=2">
-  <frame src="test_datacash.php?step=3">
+  <frame src="test_datacash.php?step=1" name="Step 1">
+  <frame src="test_datacash.php?step=2" name="Step 2">
+  <frame src="test_datacash.php?step=3" name="Step 3">
 </frameset>
