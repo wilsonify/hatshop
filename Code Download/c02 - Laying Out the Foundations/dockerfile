@@ -37,7 +37,7 @@ COPY ./apache2/sites-available/hatshop.conf /etc/apache2/sites-available/hatshop
 # Enable the SSL VirtualHost and default site
 RUN a2ensite 000-default.conf default-ssl.conf hatshop.conf
 
-# Expose both HTTP (80) and HTTPS (443) ports
+# Expose HTTPS
 EXPOSE 443
 
 # Copy application code into /var/www/hatshop and set permissions
