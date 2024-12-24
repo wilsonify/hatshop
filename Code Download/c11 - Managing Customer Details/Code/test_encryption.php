@@ -6,7 +6,7 @@ if (isset ($_GET['my_string']))
 
   $string = $_GET['my_string'];
 
-  echo 'The string is:<br />' . $string . '<br /><br />';
+  echo 'The string is:<br />' .  htmlspecialchars($string) . '<br /><br />';
 
   $encrypted_string = SymmetricCrypt::Encrypt($string);
 
