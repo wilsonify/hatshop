@@ -8,7 +8,7 @@ if (empty ($_GET['step']))
 
   $request = new DataCashRequest(DATACASH_URL);
   $request->MakeXmlPre(DATACASH_CLIENT, DATACASH_PASSWORD,
-                       8880000 + rand(0, 10000), 49.99, 'GBP',
+                       8880000 + random_int(0, 10000), 49.99, 'GBP',
                        'pre', '3528000000000007', '11/08');
 
   $request_xml = $request->GetRequest();
