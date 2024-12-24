@@ -22,14 +22,14 @@ RUN composer require smarty/smarty
 RUN a2enmod rewrite ssl
 
 # Create Apache configuration for the /hatshop/ virtual folder
-COPY ./apache2/conf-available/hatshop.conf /etc/apache2/conf-available/hatshop.conf
+COPY ./etc/apache2/conf-available/hatshop.conf /etc/apache2/conf-available/hatshop.conf
 
 # Enable the hatshop configuration
 RUN a2enconf hatshop
 
 # Copy SSL certificate and key
-COPY --chown=www-data:www-data --chmod=775 ./ssl/certs/rr-origin.pem /etc/ssl/certs/rr-origin.pem
-COPY --chown=www-data:www-data --chmod=700 ./ssl/private/rr-private-key.pem /etc/ssl/private/rr-private-key.pem
+COPY --chown=www-data:www-data --chmod=775 ./etc/ssl/certs/rr-origin.pem /etc/ssl/certs/rr-origin.pem
+COPY --chown=www-data:www-data --chmod=700 ./etc/ssl/private/rr-private-key.pem /etc/ssl/private/rr-private-key.pem
 
 # Create and configure an Apache VirtualHost for HTTPS
 COPY ./apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
@@ -44,9 +44,6 @@ EXPOSE 443
 
 # Copy application code into /var/www/hatshop and set permissions
 COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/hatshop/
-COPY --chown=www-data:www-data --chmod=775 ./Images/images /var/www/hatshop/images
-COPY --chown=www-data:www-data --chmod=775 ./Images/product_images /var/www/hatshop/product_images
-
 
 # Set the entrypoint to run Apache in the foreground
 CMD ["apache2-foreground"]
