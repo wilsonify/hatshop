@@ -12,6 +12,7 @@ jobs:
       id-token: write
 
     strategy:
+      fail-fast: false
       matrix:
         unit:
           - 'c02 - Laying Out the Foundations'
