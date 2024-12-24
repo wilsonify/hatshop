@@ -5,7 +5,7 @@ clean-docker:
 	docker system prune -af
 
 build-docker:
-	docker build --progress=plain -t c03-catalog-part-i .
+	docker build --progress=plain -t ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest .
 
 run-docker:
 		docker run --rm --name c03-catalog-part-i --env-file .env \
