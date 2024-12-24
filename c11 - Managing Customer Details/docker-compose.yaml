@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  hatshop:
+    env_file: [ .env ]
+    restart: unless-stopped
+    image: ghcr.io/wilsonify/c11-managing-customer-details:latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
