@@ -19,7 +19,7 @@ deploy-local:
 	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
 	mkdir -p /var/www/hatshop/presentation/templates_c
-	chmod -R 755 /var/www/hatshop
+	chmod -R 775 /var/www/hatshop
 
 
 
