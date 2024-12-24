@@ -1,0 +1,49 @@
+name: Docker
+
+on:
+  workflow_dispatch:
+    inputs: 
+      unit:
+        type: choice
+        description: which folder
+        options:
+          - 'c02 - Laying Out the Foundations'
+          - 'c03 - Creating the Product Catalog Part I'
+          - 'c04 - Creating the Product Catalog Part II'
+          - 'c05 - Searching the Catalog'
+          - 'c06 - Receiving Payments Using PayPal'
+          - 'c07 - Catalog Administration'
+          - 'c08 - The Shopping Cart'
+          - 'c09 - Dealing with Customer Orders'
+          - 'c10 - Product Recommendations'
+          - 'c11 - Managing Customer Details'
+          - 'c12 - Storing Customer Orders'
+          - 'c13 - Implementing the Order Pipeline Part I'
+          - 'c14 - Implementing the Order Pipeline Part II'
+          - 'c15 - Credit Card Transactions'
+          - 'c16 - Product Reviews'
+          - 'c17 - Connecting to Web Services'     
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Login
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build
+        run: |
+          docker build --progress=plain \
+          -t ghcr.io/${{ github.repository_owner }}/${{inputs.unit}}:latest \
+          -f Dockerfile-base . \
+          --label "org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/hatshop"  \
+          --label "org.opencontainers.image.description=hatshop ${{inputs.unit}}" \
+          --label "org.opencontainers.image.licenses=Freeware"
+      - name: Push
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{inputs.unit}}:latest
