@@ -6,12 +6,12 @@ if (isset ($_GET['to_be_hashed']))
 
   $original_string = $_GET['to_be_hashed'];
 
-  echo 'The hash of "' . $original_string . '" is ' .
+  echo 'The hash of "' . htmlspecialchars($original_string) . '" is ' .
        PasswordHasher::Hash($original_string, false);
 
   echo '<br />';
 
-  echo '... and the hash of "' . HASH_PREFIX . $original_string .
+  echo '... and the hash of "' . HASH_PREFIX . htmlspecialchars($original_string) .
        '" (secret prefix concateneted with password) is ' .
        PasswordHasher::Hash($original_string, true);
 }
