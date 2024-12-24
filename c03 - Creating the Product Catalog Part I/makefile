@@ -8,7 +8,11 @@ build-docker:
 	docker build --progress=plain -t c03-catalog-part-i .
 
 run-docker:
-	docker run --rm --name c03-catalog-part-i -p 32776:443 --env-file ./.env c03-catalog-part-i
+		docker run --rm --name c03-catalog-part-i --env-file .env \
+-v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
+-v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
+-p 443:443 ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest
+
 
 clean-local:
 	rm -rf /var/www/hatshop/
