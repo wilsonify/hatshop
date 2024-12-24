@@ -18,7 +18,7 @@ local:
 	cp -r ./Code/* /var/www/hatshop/
 	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
-	chmod -R 777 /var/www/hatshop
+	chmod -R 755 /var/www/hatshop
 
 
 
