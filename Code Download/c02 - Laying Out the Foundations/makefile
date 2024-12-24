@@ -16,7 +16,6 @@ clean-local:
 
 deploy-local:
 	cp -r ./Code/* /var/www/hatshop/
-	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
 	mkdir -p /var/www/hatshop/presentation/templates_c
 	chmod -R 775 /var/www/hatshop
