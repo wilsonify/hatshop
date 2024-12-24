@@ -41,7 +41,7 @@ jobs:
         working-directory: ${{inputs.unit}}
         run: |
           docker build --progress=plain \
-          -t ghcr.io/${{ github.repository_owner }}/${{inputs.unit}}:latest \
+          -t "ghcr.io/${{ github.repository_owner }}/${{inputs.unit}}:latest" \
           -f Dockerfile . \
           --label "org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/hatshop"  \
           --label "org.opencontainers.image.description=hatshop ${{inputs.unit}}" \
