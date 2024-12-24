@@ -8,7 +8,7 @@ build-docker:
 	docker build --progress=plain -t c02-foundations .
 
 run-docker:
-	docker run --rm --name c02-foundations -p 32776:443 c02-foundations
+	docker run --rm --name c02-foundations -p 443:443 c02-foundations
 
 clean-local:
 	rm -rf /var/www/hatshop/
