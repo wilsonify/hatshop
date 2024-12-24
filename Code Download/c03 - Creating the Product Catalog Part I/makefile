@@ -18,3 +18,5 @@ deploy-local:
 	cp -r ./Code/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
 	chmod -R 775 /var/www/hatshop
+
+
