@@ -1,20 +1,26 @@
-all: build run
+all: build-docker run-docker
+local: clean-local deploy-local
 
-clean:
+clean-docker:
 	docker system prune -af
 
-build:
-	docker build --progress=plain -t c15-credit-card-transactions .
+build-docker:
+	docker build --progress=plain -t ghcr.io/wilsonify/c15-credit-card-transactions:latest .
 
-run:
-	docker run --rm --name c15-credit-card-transactions -p 32775:80 -p 32776:443 --env-file ./.env c15-credit-card-transactions
+run-docker:
+		docker run --rm --name hatshop --env-file .env \
+-v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
+-v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
+-p 443:443 ghcr.io/wilsonify/c15-credit-card-transactions:latest
+
 
 clean-local:
 	rm -rf /var/www/hatshop/
 	mkdir -p /var/www/hatshop
 
-local:
+deploy-local:
 	cp -r ./Code/* /var/www/hatshop/
-	cp -r ./Images/* /var/www/hatshop/
 	cd /var/www/hatshop/ && composer require smarty/smarty
-	chmod -R 777 /var/www/hatshop
+	chmod -R 775 /var/www/hatshop
+
+

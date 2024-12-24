@@ -5,10 +5,10 @@ clean-docker:
 	docker system prune -af
 
 build-docker:
-	docker build --progress=plain -t docker ghcr.io/wilsonify/c02-laying-out-the-foundations:latest .
+	docker build --progress=plain -t ghcr.io/wilsonify/c02-laying-out-the-foundations:latest .
 
 run-docker:
-	docker run --rm --name c02-foundations \
+	docker run --rm --name hatshop \
 -v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
