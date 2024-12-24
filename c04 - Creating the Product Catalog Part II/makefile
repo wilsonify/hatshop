@@ -8,7 +8,7 @@ build-docker:
 	docker build --progress=plain -t ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest .
 
 run-docker:
-		docker run --rm --name c03-catalog-part-i --env-file .env \
+		docker run --rm --name c04-product-catalog-part-ii --env-file .env \
 -v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
