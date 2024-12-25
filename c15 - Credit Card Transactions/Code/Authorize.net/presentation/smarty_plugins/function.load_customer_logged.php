@@ -74,7 +74,7 @@ class CustomerLogged
         }
       }
 
-      $redirect_link .= VIRTUAL_LOCATION . $url_base;
+      $redirect_link .=  $url_base;
 
       header('Location:' . $redirect_link);
 

@@ -70,7 +70,7 @@ class CheckoutInfo
         $redirect_link .= ':' . HTTP_SERVER_PORT;
       }
 
-      $redirect_link .= VIRTUAL_LOCATION . 'index.php';
+      $redirect_link .=  'index.php';
 
       header('Location:' . $redirect_link);
 

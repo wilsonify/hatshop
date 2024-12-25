@@ -48,10 +48,7 @@ define('PAYPAL_EMAIL', getenv('HATSHOP_PAYPAL_EMAIL'));
 
 // Server HTTP port (can omit if the default 80 is used)
 define('HTTP_SERVER_PORT', getenv('HATSHOP_HTTP_SERVER_PORT'));
-/* Name of the virtual directory the site runs in, for example:
-   '/hatshop/' if the site runs at http://www.example.com/hatshop/
-   '/' if the site runs at http://www.example.com/ */
-define('VIRTUAL_LOCATION', '/index.php');
+
 // We enable and enforce SSL when this is set to anything else than 'no'
 define('USE_SSL', true);
 

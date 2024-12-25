@@ -81,7 +81,7 @@ class CustomerLogin
             }
           }
 
-          $redirect_link .= VIRTUAL_LOCATION . $this->mCustomerLoginTarget;
+          $redirect_link .=  $this->mCustomerLoginTarget;
 
           header('Location:' . $redirect_link);
 

@@ -166,7 +166,7 @@ class CustomerDetails
         }
       }
 
-      $redirect_link .= VIRTUAL_LOCATION . $this->mReturnLink;
+      $redirect_link .=  $this->mReturnLink;
 
       header('Location:' . $redirect_link);
 
@@ -175,7 +175,7 @@ class CustomerDetails
 
     if ($this->mEditMode == 1 && $this->_mHaveData == 0)
     {
-      // We are editing an existing customer’s details
+      // We are editing an existing customerï¿½s details
       $customer_data = Customer::Get();
 
       $this->mName = $customer_data['name'];

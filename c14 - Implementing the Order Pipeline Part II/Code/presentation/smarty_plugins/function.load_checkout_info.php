@@ -88,7 +88,7 @@ class CheckoutInfo
         $redirect_link .= ':' . HTTP_SERVER_PORT;
       }
 
-      $redirect_link .= VIRTUAL_LOCATION . $redirect_page;
+      $redirect_link .=  $redirect_page;
 
       header('Location:' . $redirect_link);
 

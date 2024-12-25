@@ -129,7 +129,7 @@ class CustomerCreditCard
         }
       }
 
-      $redirect_link .= VIRTUAL_LOCATION . $this->mReturnLink;
+      $redirect_link .=  $this->mReturnLink;
 
       header('Location:' . $redirect_link);
 
