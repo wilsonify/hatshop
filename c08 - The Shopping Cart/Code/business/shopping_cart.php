@@ -10,6 +10,19 @@ class ShoppingCart
   {
   }
 
+  // Creates a new empty cart
+  private static function createEmptyCart()
+  {
+    // Generate a unique cart ID
+    self::$_mCartId = md5(uniqid(random_int(1000, 9999), true));
+
+    // Store cart ID in the session
+    $_SESSION['cart_id'] = self::$_mCartId;
+
+    // Set the cookie to be valid for 7 days (604800 seconds)
+    setcookie('cart_id', self::$_mCartId, time() + 604800);
+  }
+
   /* This will be called by GetCartId to ensure we have the
      visitor's cart ID in the visitor's session in case
      $_mCartID has no value set */
