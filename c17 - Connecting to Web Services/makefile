@@ -15,12 +15,12 @@ run-docker:
 
 
 clean-local:
-	rm -rf /var/www/hatshop/
-	mkdir -p /var/www/hatshop
+	rm -rf /var/www/html/
+	mkdir -p /var/www/html
 
 deploy-local:
-	cp -r ./Code/* /var/www/hatshop/
-	cd /var/www/hatshop/ && composer require smarty/smarty
-	chmod -R 775 /var/www/hatshop
+	cp -r ./Code/* /var/www/html/
+	cd /var/www/html/ && composer require smarty/smarty
+	chmod -R 775 /var/www/html
 
 
