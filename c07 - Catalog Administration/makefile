@@ -9,7 +9,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c07-catalog-administration:latest .
 
 run:
-		docker run --rm --name hatshop --env-file .env \
+	docker run --rm --name hatshop --env-file .env \
 -v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c07-catalog-administration:latest
