@@ -1,42 +1,24 @@
 <?php
 // Plugin functions inside plugin files must be named: smarty_type_name
-function smarty_modifier_prepare_link($string, $link_type = 'http')
+function smarty_modifier_prepare_link($string)
 {
-  // Use SSL?
-  if ($link_type == 'https' && USE_SSL == 'no')
-    $link_type = 'http';
+    // Always use HTTPS and the correct domain
+    $link = 'https://' . getenv('SERVER_NAME');
 
-  switch ($link_type)
-  {
-    case 'http':
-      $link = 'http://' . getenv('SERVER_NAME');
+    // Ensure there's a slash between the domain and the path if needed
+    if ($string && $string[0] !== '/') {
+        $link .= '/';
+    }
 
-      // If HTTP_SERVER_PORT is defined and different than default
-      if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT != '80')
-      {
-        // Append server port
-        $link .= ':' . HTTP_SERVER_PORT;
-      }
+    // Prevent adding index.php if it's already in the string
+    if (strpos($string, 'index.php') === false) {
+        $link .= 'index.php';
+    }
 
-      $link .= VIRTUAL_LOCATION . $string;
+    // Append the provided string (query parameters or path)
+    $link .= $string;
 
-      // Escape html
-      return htmlspecialchars($link, ENT_QUOTES);
-    case 'https':
-      $link = 'https://' . getenv('SERVER_NAME');
-
-      // If HTTP_SERVER_PORT is defined and different than default
-      if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT != '80')
-      {
-        // Append server port
-        $link .= ':' . HTTP_SERVER_PORT;
-      }
-      $link .= VIRTUAL_LOCATION . $string;
-
-      // Escape html
-      return htmlspecialchars($link, ENT_QUOTES);
-    default:
-      return htmlspecialchars($string, ENT_QUOTES);
-  }
+    // Escape the URL to prevent XSS
+    return htmlspecialchars($link, ENT_QUOTES);
 }
 ?>
