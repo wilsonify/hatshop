@@ -1,26 +1,20 @@
-all: build-docker run-docker
-local: clean-local deploy-local
+.phone: all clean build run
 
-clean-docker:
+all: build run
+
+clean:
 	docker system prune -af
 
-build-docker:
+build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c07-catalog-administration:latest .
 
-run-docker:
+run:
 		docker run --rm --name hatshop --env-file .env \
 -v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c07-catalog-administration:latest
 
 
-clean-local:
-	rm -rf /var/www/html/
-	mkdir -p /var/www/html
 
-deploy-local:
-	cp -r ./Code/* /var/www/html/
-	cd /var/www/html/ && composer require smarty/smarty
-	chmod -R 775 /var/www/html
 
 
