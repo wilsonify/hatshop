@@ -10,9 +10,9 @@ function smarty_modifier_prepare_link($string)
         $link .= '/';
     }
 
-    // Prevent adding index.php if it's already in the string
-    if (strpos($string, 'index.php') === false) {
-        $link .= 'index.php';
+    // Check for 'admin.php' or 'index.php' and handle accordingly
+    if (strpos($string, 'index.php') === false && strpos($string, 'admin.php') === false) {
+        $link .= 'index.php';  // Add 'index.php' only if it's not already in the path
     }
 
     // Append the provided string (query parameters or path)
