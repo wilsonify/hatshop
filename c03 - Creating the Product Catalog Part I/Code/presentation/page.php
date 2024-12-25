@@ -1,6 +1,6 @@
 <?php
 // Reference Composer's autoload
-require_once '/var/www/hatshop/vendor/autoload.php';
+require_once '/var/www/html/vendor/autoload.php';
 
 require_once __DIR__ . '/smarty_plugins/function.load_departments_list.php';
 require_once __DIR__ . '/smarty_plugins/modifier.prepare_link.php';

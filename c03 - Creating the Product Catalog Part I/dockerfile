@@ -1,6 +1,9 @@
 # Use the official PHP image with Apache
 FROM php:8.2-apache
 
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
 # Install dependencies (unzip, git, PostgreSQL extensions, etc.) and Composer
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -11,39 +14,19 @@ RUN apt-get update && \
     && docker-php-ext-install zip pdo pdo_pgsql pgsql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-# Set the working directory to /var/www/hatshop
-WORKDIR /var/www/hatshop
-
 # Install Smarty using Composer
 RUN composer require smarty/smarty
 
-# Enable required Apache modules
-RUN a2enmod rewrite ssl
-
-# Create Apache configuration for the /hatshop/ virtual folder
-COPY ./etc/apache2/conf-available/hatshop.conf /etc/apache2/conf-available/hatshop.conf
-
-# Enable the hatshop configuration
-RUN a2enconf hatshop
-
-# Copy SSL certificate and key
-#COPY --chown=www-data:www-data --chmod=775 ./etc/ssl/certs/rr-origin.pem /etc/ssl/certs/rr-origin.pem
-#COPY --chown=www-data:www-data --chmod=700 ./etc/ssl/private/rr-private-key.pem /etc/ssl/private/rr-private-key.pem
-
-# Create and configure an Apache VirtualHost for HTTPS
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-
 
 # Enable the SSL VirtualHost and default site
-RUN a2ensite 000-default.conf default-ssl.conf
+RUN a2enmod rewrite ssl && a2ensite 000-default.conf
 
 # Expose HTTPS
 EXPOSE 443
 
-# Copy application code into /var/www/hatshop and set permissions
-COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/hatshop/
+# Copy application code into /var/www/html and set permissions
+COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/html/
 
 # Set the entrypoint to run Apache in the foreground
 CMD ["apache2-foreground"]
