@@ -40,25 +40,25 @@ The code has been tested with Apache 2, PHP 5, and PostgreSQL 8.
 ## Problem
 ```
 ERRNO: 2
-TEXT: require_once(/var/www/hatshop/libs/smarty/Smarty.class.php): Failed to open stream: No such file or directory
-LOCATION: /var/www/hatshop/presentation/page.php, line 3, at December 8, 2024, 3:16 pm
+TEXT: require_once(/var/www/html/libs/smarty/Smarty.class.php): Failed to open stream: No such file or directory
+LOCATION: /var/www/html/presentation/page.php, line 3, at December 8, 2024, 3:16 pm
 Showing backtrace:
-require_once("/var/www/hatshop/business/error_handler.php") # line    3, file: /var/www/hatshop/presentation/page.php
-require_once("/var/www/hatshop/presentation/page.php") # line   13, file: /var/www/hatshop/include/app_top.php
-require_once("/var/www/hatshop/include/app_top.php") # line    3, file: /var/www/hatshop/index.php
+require_once("/var/www/html/business/error_handler.php") # line    3, file: /var/www/html/presentation/page.php
+require_once("/var/www/html/presentation/page.php") # line   13, file: /var/www/html/include/app_top.php
+require_once("/var/www/html/include/app_top.php") # line    3, file: /var/www/html/index.php
 
 ```
 
 ## Solution
 install and load smarty with composer
 ```php
-require_once '/var/www/hatshop/vendor/autoload.php';
+require_once '/var/www/html/vendor/autoload.php';
 use Smarty\Smarty;
 ```
 
 ## Problem
 ```
-Fatal error: Uncaught Error: Call to undefined method Smarty\Smarty::Smarty() in /var/www/hatshop/presentation/page.php:22 Stack trace: #0 /var/www/hatshop/index.php(15): Page->__construct() #1 {main} thrown in /var/www/hatshop/presentation/page.php on line 22
+Fatal error: Uncaught Error: Call to undefined method Smarty\Smarty::Smarty() in /var/www/html/presentation/page.php:22 Stack trace: #0 /var/www/html/index.php(15): Page->__construct() #1 {main} thrown in /var/www/html/presentation/page.php on line 22
 ```
 
 ## Solution
@@ -73,9 +73,9 @@ parent::__construct();
 ```
 ERRNO: 8192
 TEXT: Creation of dynamic property Page::$plugins_dir is deprecated
-LOCATION: /var/www/hatshop/presentation/page.php, line 28, at December 8, 2024, 3:20 pm
+LOCATION: /var/www/html/presentation/page.php, line 28, at December 8, 2024, 3:20 pm
 Showing backtrace:
-Page.__construct() # line   15, file: /var/www/hatshop/index.php
+Page.__construct() # line   15, file: /var/www/html/index.php
 ```
 
 ## Solution
@@ -97,9 +97,9 @@ TEXT: SQLSTATE[08006] [7] connection to server at "localhost" (::1), port 5432 f
 	Is the server running on that host and accepting TCP/IP connections?
 connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
 	Is the server running on that host and accepting TCP/IP connections?
-LOCATION: /var/www/hatshop/business/database_handler.php, line 35, at December 8, 2024, 3:26 pm
+LOCATION: /var/www/html/business/database_handler.php, line 35, at December 8, 2024, 3:26 pm
 Showing backtrace:
-trigger_error("SQLSTATE[08006] [7] connection to server at "localhost" (::1), p...", "256") # line   35, file: /var/www/hatshop/business/database_handler.php
+trigger_error("SQLSTATE[08006] [7] connection to server at "localhost" (::1), p...", "256") # line   35, file: /var/www/html/business/database_handler.php
 ```
 
 ## Solution
