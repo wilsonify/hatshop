@@ -1,6 +1,6 @@
 <?php
 // Reference Composer's autoload
-require_once '/var/www/hatshop/vendor/autoload.php';
+require_once '/var/www/html/vendor/autoload.php';
 
 /* Class that extends Smarty, used to process and display Smarty
    files */

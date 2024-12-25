@@ -1,46 +1,28 @@
-# Use the official PHP image with Apache
 FROM php:8.2-apache
 
-# Install dependencies (unzip, git, etc.) and Composer
+# Set working directory
+WORKDIR /var/www/html
+
+# Install dependencies and Composer
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    unzip \
-    git \
-    libzip-dev \
-    && docker-php-ext-install zip \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    apt-get install -y --no-install-recommends zip unzip git && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer --version
 
-# Set the working directory to /var/www/hatshop
-WORKDIR /var/www/hatshop
-
-# Install Smarty using Composer
+# Require Smarty
 RUN composer require smarty/smarty
 
-# Enable required Apache modules
-RUN a2enmod rewrite ssl
-
-# Create Apache configuration for the /hatshop/ virtual folder
-COPY ./etc/apache2/conf-available/hatshop.conf /etc/apache2/conf-available/hatshop.conf
-
-# Enable the hatshop configuration
-RUN a2enconf hatshop
-
-# Copy SSL certificate and key
-#COPY --chown=www-data:www-data --chmod=775 ./etc/ssl/certs/rr-origin.pem /etc/ssl/certs/rr-origin.pem
-#COPY --chown=www-data:www-data --chmod=700 ./etc/ssl/private/rr-private-key.pem /etc/ssl/private/rr-private-key.pem
-
-# Create and configure an Apache VirtualHost for HTTPS
+# Copy Apache configuration
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
-# Enable the SSL VirtualHost and default site
-RUN a2ensite 000-default.conf default-ssl.conf
+# Enable Apache modules and site
+RUN a2enmod rewrite ssl && a2ensite 000-default.conf
 
-# Expose HTTPS
+# Expose port
 EXPOSE 443
 
-# Copy application code into /var/www/hatshop and set permissions
-COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/hatshop/
+# Copy application code
+COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/html/
 
-# Set the entrypoint to run Apache in the foreground
+# Run Apache
 CMD ["apache2-foreground"]
