@@ -1,6 +1,6 @@
 services:
   php:
-    image: php:8.2-fpm
+    image: ghcr.io/wilsonify/c01-base-image:latest
     user: www-data:www-data
     volumes:
       - ./Code:/var/www/html:rw

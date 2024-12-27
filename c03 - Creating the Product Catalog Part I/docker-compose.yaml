@@ -1,8 +1,8 @@
 services:
   php:
     env_file: [ .env ]
-    image: php:8.2-fpm
-    user: www-data:www-data
+    image: bitnami/php-fpm:8.4.2
+    user: 1000:1000
     volumes:
       - ./Code:/var/www/html:rw
     restart: unless-stopped
