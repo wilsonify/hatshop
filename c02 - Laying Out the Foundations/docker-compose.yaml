@@ -1,11 +1,19 @@
-version: '3.8'
-
 services:
-  hatshop:
+  php:
+    image: php:8.2-fpm
+    user: www-data:www-data
+    volumes:
+      - ./Code:/var/www/html:rw
     restart: unless-stopped
-    image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
+
+  nginx:
+    depends_on:
+      - php
+    image: nginx:latest
     ports:
       - "443:443"
     volumes:
+      - ./etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
       - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
       - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+    restart: unless-stopped
