@@ -97,4 +97,4 @@ class CustomerLogged
       $this->mAddressAction = 'Change';
   }
 }
-?>
+

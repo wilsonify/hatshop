@@ -36,4 +36,4 @@ require_once BUSINESS_DIR . 'ps_take_payment.php';
 require_once BUSINESS_DIR . 'ps_ship_goods.php';
 require_once BUSINESS_DIR . 'ps_ship_ok.php';
 require_once BUSINESS_DIR . 'ps_final_notification.php';
-?>
+

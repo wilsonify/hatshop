@@ -47,4 +47,4 @@ define('HTTP_SERVER_PORT', getenv('HATSHOP_HTTP_SERVER_PORT'));
 
 // We enable and enforce SSL when this is set to anything else than 'no'
 define('USE_SSL', true);
-?>
+

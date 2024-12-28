@@ -31,4 +31,4 @@ define('SENDMAIL_FROM', getenv('HATSHOP_SENDMAIL_FROM','errors@example.com'));
 ini_set('sendmail_from', SENDMAIL_FROM);
 
 
-?>
+

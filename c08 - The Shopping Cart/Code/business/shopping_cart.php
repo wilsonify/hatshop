@@ -223,4 +223,4 @@ class ShoppingCart
     return DatabaseHandler::Execute($result, $params);
   }
 }
-?>
+

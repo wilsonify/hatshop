@@ -630,4 +630,4 @@ class Catalog
     return DatabaseHandler::GetAll($result, $params);
   }
 }
-?>
+

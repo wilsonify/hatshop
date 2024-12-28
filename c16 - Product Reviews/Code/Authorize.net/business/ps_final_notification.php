@@ -49,4 +49,4 @@ class PsFinalNotification implements IPipelineSection
     return $body;
   }
 }
-?>
+

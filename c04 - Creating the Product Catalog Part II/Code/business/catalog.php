@@ -189,4 +189,4 @@ class Catalog
     return DatabaseHandler::GetRow($result, $params);
   }
 }
-?>
+

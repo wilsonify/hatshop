@@ -107,4 +107,4 @@ class AdminDepartments
     $this->mDepartmentsCount = count($this->mDepartments);
   }
 }
-?>
+

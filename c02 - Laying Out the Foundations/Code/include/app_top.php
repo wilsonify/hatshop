@@ -8,4 +8,4 @@ ErrorHandler::SetHandler();
 
 // Load the page template
 require_once PRESENTATION_DIR . 'page.php';
-?>
+

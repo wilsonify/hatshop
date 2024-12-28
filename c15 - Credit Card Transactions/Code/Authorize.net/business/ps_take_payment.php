@@ -48,4 +48,4 @@ class PsTakePayment implements IPipelineSection
     }
   }
 }
-?>
+

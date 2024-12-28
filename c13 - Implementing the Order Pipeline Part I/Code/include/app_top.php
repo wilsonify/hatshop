@@ -29,4 +29,4 @@ require_once BUSINESS_DIR . 'customer.php';
 require_once BUSINESS_DIR . 'i_pipeline_section.php';
 require_once BUSINESS_DIR . 'ps_dummy.php';
 require_once BUSINESS_DIR . 'order_processor.php';
-?>
+

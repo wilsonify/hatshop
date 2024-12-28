@@ -124,4 +124,4 @@ class AdminCategories
     $this->mCategoriesCount = count($this->mCategories);
   }
 }
-?>
+

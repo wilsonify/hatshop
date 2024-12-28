@@ -34,4 +34,4 @@ class Page extends Smarty
 
 
 
-?>
+

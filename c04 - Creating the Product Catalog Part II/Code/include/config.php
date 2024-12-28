@@ -51,4 +51,4 @@ define('USE_SSL', true);
 // Configure product lists display options
 define('SHORT_PRODUCT_DESCRIPTION_LENGTH', 150);
 define('PRODUCTS_PER_PAGE', 4);
-?>
+

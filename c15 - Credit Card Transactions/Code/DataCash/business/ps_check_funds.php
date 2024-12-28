@@ -53,4 +53,4 @@ class PsCheckFunds implements IPipelineSection
     $processor->CreateAudit('PsCheckFunds finished.', 20101);
   }
 }
-?>
+

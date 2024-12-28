@@ -69,4 +69,4 @@ define('MOVE_PRODUCT_TO_CART', 5);
 
 // Random value used for hashing
 define('HASH_PREFIX', 'K1-');
-?>
+

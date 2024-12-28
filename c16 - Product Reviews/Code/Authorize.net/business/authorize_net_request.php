@@ -66,4 +66,4 @@ class AuthorizeNetRequest
     return $result;
   }
 }
-?>
+

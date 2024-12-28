@@ -224,4 +224,4 @@ class ShoppingCart
     return DatabaseHandler::GetOne($result, $params);
   }
 }
-?>
+

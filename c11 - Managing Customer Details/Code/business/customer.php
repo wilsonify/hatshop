@@ -213,4 +213,4 @@ class Customer
     return DatabaseHandler::Execute($result, $params);
   }
 }
-?>
+

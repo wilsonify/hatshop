@@ -125,4 +125,4 @@ class Amazon
     return $new_result;
   }
 }
-?>
+

@@ -42,4 +42,4 @@ class CategoriesList
         '&CategoryID=' . $this->mCategories[$i]['category_id'];
   }
 }
-?>
+

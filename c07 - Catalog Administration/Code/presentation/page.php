@@ -38,4 +38,4 @@ class Page extends Smarty
     }
 
 }
-?>
+

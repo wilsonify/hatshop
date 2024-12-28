@@ -52,4 +52,4 @@ class SymmetricCrypt
     return $decrypted_string;
   }
 }
-?>
+

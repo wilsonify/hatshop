@@ -44,4 +44,3 @@ class SmartyModifierPrepareLinkTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 }
-?>

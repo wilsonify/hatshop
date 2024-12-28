@@ -56,4 +56,4 @@ class Reviews
     $this->mTotalReviews = count($this->mReviews);
   }
 }
-?>
+

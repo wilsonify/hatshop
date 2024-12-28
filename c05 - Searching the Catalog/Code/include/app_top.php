@@ -17,4 +17,4 @@ require_once BUSINESS_DIR . 'database_handler.php';
 
 // Load Business Tier
 require_once BUSINESS_DIR . 'catalog.php';
-?>
+

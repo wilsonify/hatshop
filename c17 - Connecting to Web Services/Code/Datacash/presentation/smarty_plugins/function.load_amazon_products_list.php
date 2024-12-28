@@ -37,4 +37,4 @@ class AmazonProductsList
         '/ref=nosim/' . AMAZON_ASSOCIATES_ID;
   }
 }
-?>
+

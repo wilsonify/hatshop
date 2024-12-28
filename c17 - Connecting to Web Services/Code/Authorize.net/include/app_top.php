@@ -38,4 +38,4 @@ require_once BUSINESS_DIR . 'ps_ship_ok.php';
 require_once BUSINESS_DIR . 'ps_final_notification.php';
 require_once BUSINESS_DIR . 'authorize_net_request.php';
 require_once BUSINESS_DIR . 'amazon.php';
-?>
+

@@ -7,4 +7,4 @@ $page = new Page();
 
 // Display the page
 $page->display('index.tpl');
-?>
+

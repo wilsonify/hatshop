@@ -34,4 +34,4 @@ class Page extends Smarty
     $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
   }
 }
-?>
+

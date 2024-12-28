@@ -13,7 +13,7 @@ class DatabaseHandler
   // Return an initialized database handler 
   private static function GetHandler()
   {
-    // Create a database connection only if one doesn’t already exist
+    // Create a database connection only if one doesn't already exist
     if (!isset(self::$_mHandler))
     {
       // Execute code catching potential exceptions
@@ -160,4 +160,4 @@ class DatabaseHandler
     return $result;
   }
 }
-?>
+

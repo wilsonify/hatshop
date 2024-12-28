@@ -613,4 +613,4 @@ class Catalog
     return DatabaseHandler::Execute($result, $params);
   }
 }
-?>
+

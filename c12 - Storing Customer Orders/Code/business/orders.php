@@ -140,4 +140,4 @@ class Orders
     return DatabaseHandler::GetAll($result, $params);
   }
 }
-?>
+

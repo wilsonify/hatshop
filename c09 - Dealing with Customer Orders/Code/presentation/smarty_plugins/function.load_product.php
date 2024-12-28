@@ -43,4 +43,4 @@ class Product
                             '&CartAction=' . ADD_PRODUCT;
   }
 }
-?>
+

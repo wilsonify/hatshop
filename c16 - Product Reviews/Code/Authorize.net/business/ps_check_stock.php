@@ -43,4 +43,4 @@ class PsCheckStock implements IPipelineSection
     return $body;
   }
 }
-?>
+

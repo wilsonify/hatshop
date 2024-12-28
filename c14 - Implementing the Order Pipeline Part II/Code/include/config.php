@@ -75,4 +75,4 @@ define('ADMIN_EMAIL', 'Admin@example.com');
 define('CUSTOMER_SERVICE_EMAIL', 'CustomerService@example.com');
 define('ORDER_PROCESSOR_EMAIL', 'OrderProcessor@example.com');
 define('SUPPLIER_EMAIL', 'Supplier@example.com');
-?>
+

@@ -39,4 +39,4 @@ class Product
       $this->mPageLink = $_SESSION['page_link'];
   }
 }
-?>
+

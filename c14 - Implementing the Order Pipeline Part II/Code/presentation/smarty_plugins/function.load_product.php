@@ -53,4 +53,4 @@ class Product
         $this->mRecommendations[$i]['product_id'];
   }
 }
-?>
+

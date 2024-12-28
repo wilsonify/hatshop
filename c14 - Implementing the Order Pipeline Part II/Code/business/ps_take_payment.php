@@ -22,4 +22,4 @@ class PsTakePayment implements IPipelineSection
     $processor->CreateAudit('PsTakePayment finished.', 20401);
   }
 }
-?>
+

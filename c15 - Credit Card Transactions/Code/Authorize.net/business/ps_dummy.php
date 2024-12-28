@@ -16,4 +16,4 @@ class PsDummy implements IPipelineSection
     $processor->CreateAudit('PsDoNothing finished', 99999);
   }
 }
-?>
+

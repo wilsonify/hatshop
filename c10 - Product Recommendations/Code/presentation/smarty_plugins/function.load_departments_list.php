@@ -42,4 +42,4 @@ class DepartmentsList
         $this->mDepartments[$i]['department_id'];
   }
 }
-?>
+

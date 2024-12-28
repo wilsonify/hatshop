@@ -22,4 +22,4 @@ class PsShipOk implements IPipelineSection
     $processor->CreateAudit('PsShipOk finished.', 20601);
   }
 }
-?>
+

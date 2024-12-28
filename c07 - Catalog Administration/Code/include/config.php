@@ -55,4 +55,4 @@ define('PRODUCTS_PER_PAGE', 4);
 // Administrator login information
 define('ADMIN_USERNAME', getenv('HATSHOP_ADMIN_USERNAME','hatshopadmin'));
 define('ADMIN_PASSWORD', getenv('HATSHOP_ADMIN_PASSWORD','hatshopadmin'));
-?>
+

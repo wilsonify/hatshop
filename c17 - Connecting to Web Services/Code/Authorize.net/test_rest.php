@@ -12,4 +12,4 @@ $url = 'http://webservices.amazon.com/onca/xml?Service=AWSECommerceService' .
        '&ResponseGroup=Request,Medium';
 
 echo file_get_contents($url);
-?>
+

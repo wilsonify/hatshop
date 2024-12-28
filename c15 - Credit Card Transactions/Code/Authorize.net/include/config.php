@@ -81,4 +81,4 @@ define('AUTHORIZE_NET_URL', 'https://test.authorize.net/gateway/transact.dll');
 define('AUTHORIZE_NET_LOGIN_ID', '[Your Login ID]');
 define('AUTHORIZE_NET_TRANSACTION_KEY', '[Your Transaction Key]');
 define('AUTHORIZE_NET_TEST_REQUEST', 'FALSE');
-?>
+

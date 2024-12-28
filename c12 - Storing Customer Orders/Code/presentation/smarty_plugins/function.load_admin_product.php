@@ -186,4 +186,4 @@ class AdminProduct
                                   '&ProductID=' . $this->mProductId;
   }
 }
-?>
+

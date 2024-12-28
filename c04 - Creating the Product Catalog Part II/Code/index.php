@@ -40,4 +40,4 @@ $page->display('index.tpl');
 
 // Load app_bottom which closes the database connection
 require_once 'include/app_bottom.php';
-?>
+

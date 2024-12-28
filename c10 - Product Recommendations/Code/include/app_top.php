@@ -22,4 +22,4 @@ require_once BUSINESS_DIR . 'database_handler.php';
 require_once BUSINESS_DIR . 'catalog.php';
 require_once BUSINESS_DIR . 'shopping_cart.php';
 require_once BUSINESS_DIR . 'orders.php';
-?>
+

@@ -11,4 +11,4 @@ class PasswordHasher
     return $hashed_password;
   }
 }
-?>
+

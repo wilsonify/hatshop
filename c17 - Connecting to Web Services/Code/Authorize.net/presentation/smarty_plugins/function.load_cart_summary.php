@@ -32,4 +32,4 @@ class CartSummary
       $this->mEmptyCart = false;
   }
 }
-?>
+

@@ -142,4 +142,4 @@ class AdminProducts
     $this->mProductsCount = count($this->mProducts);
   }
 }
-?>
+

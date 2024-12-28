@@ -49,4 +49,4 @@ class PsShipGoods implements IPipelineSection
     return $body;
   }
 }
-?>
+

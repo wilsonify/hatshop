@@ -281,4 +281,4 @@ class Catalog
     return $search_result;
   }
 }
-?>
+

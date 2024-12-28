@@ -104,4 +104,4 @@ define('AMAZON_RESPONSE_GROUPS', 'Request,Medium');
 define('AMAZON_DEPARTMENT_TITLE', 'Amazon Super Hats');
 define('AMAZON_DEPARTMENT_DESCRIPTION',
        'Browse these super hats that Amazon.com offers');
-?>
+

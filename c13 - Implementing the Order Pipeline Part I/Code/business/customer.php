@@ -225,4 +225,4 @@ class Customer
     return DatabaseHandler::GetAll($result);
   }
 }
-?>
+

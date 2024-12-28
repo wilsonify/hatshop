@@ -18,4 +18,4 @@ class Page extends \Smarty\Smarty
         $this->config_dir = CONFIG_DIR;
     }
 }
-?>
+

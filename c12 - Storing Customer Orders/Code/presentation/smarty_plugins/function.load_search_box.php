@@ -26,4 +26,4 @@ class SearchBox
       $this->mAllWords = $_GET['AllWords'];
   }
 }
-?>
+

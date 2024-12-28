@@ -150,4 +150,4 @@ class CartDetails
         $this->mRecommendations[$i]['product_id'];
   }
 }
-?>
+

@@ -23,4 +23,4 @@ function smarty_modifier_prepare_link($string)
     // Escape the URL to prevent XSS
     return htmlspecialchars($link, ENT_QUOTES);
 }
-?>
+

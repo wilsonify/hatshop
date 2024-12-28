@@ -78,4 +78,4 @@ class AdminOrderDetails
       $this->mEditEnabled = false;
   }
 }
-?>
+

@@ -245,4 +245,4 @@ class ShoppingCart
     return DatabaseHandler::GetAll($result, $params);
   }
 }
-?>
+

@@ -26,4 +26,4 @@ require_once BUSINESS_DIR . 'password_hasher.php';
 require_once BUSINESS_DIR . 'symmetric_crypt.php';
 require_once BUSINESS_DIR . 'secure_card.php';
 require_once BUSINESS_DIR . 'customer.php';
-?>
+

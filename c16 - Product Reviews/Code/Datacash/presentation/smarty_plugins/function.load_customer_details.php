@@ -175,7 +175,7 @@ class CustomerDetails
 
     if ($this->mEditMode == 1 && $this->_mHaveData == 0)
     {
-      // We are editing an existing customer�s details
+      // We are editing an existing customer's details
       $customer_data = Customer::Get();
 
       $this->mName = $customer_data['name'];
@@ -186,4 +186,4 @@ class CustomerDetails
     }
   }
 }
-?>
+

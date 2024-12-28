@@ -20,4 +20,4 @@ class PsStockOk implements IPipelineSection
     $processor->CreateAudit('PsStockOk finished.', 20301);
   }
 }
-?>
+
