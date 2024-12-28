@@ -10,7 +10,6 @@ services:
     depends_on:
       - php
     image: ghcr.io/wilsonify/c00-nginx-image:latest
-    user: www-data:www-data
     ports:
       - "443:443"
     volumes:
