@@ -42,6 +42,7 @@ jobs:
         working-directory: ${{inputs.unit}}
         run: |
           sanitized_unit=$(echo "${{ env.sanitized_unit }}" | tr ' ' '-' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
+          echo "sanitized_unit = $sanitized_unit"
           docker build --progress=plain \
           -t "ghcr.io/${{ github.repository_owner }}/$sanitized_unit:latest" \
           -f Dockerfile . \
