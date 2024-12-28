@@ -149,7 +149,7 @@ class CustomerAddress
       }
       else
       {
-        $redirect_link = 'http://' . getenv('SERVER_NAME');
+        $redirect_link = 'https://' . getenv('SERVER_NAME');
 
         // If HTTP_SERVER_PORT is defined and different than default
         if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT != '80')

@@ -420,8 +420,8 @@ class Security {
 	/**
 	 * Check if URI (e.g. {fetch} or {html_image}) is trusted
 	 * To simplify things, isTrustedUri() resolves all input to "{$PROTOCOL}://{$HOSTNAME}".
-	 * So "http://username:password@hello.world.example.org:8080/some-path?some=query-string"
-	 * is reduced to "http://hello.world.example.org" prior to applying the patters from {@link $trusted_uri}.
+	 * So "https://username:password@hello.world.example.org:8080/some-path?some=query-string"
+	 * is reduced to "https://hello.world.example.org" prior to applying the patters from {@link $trusted_uri}.
 	 *
 	 * @param string $uri
 	 *

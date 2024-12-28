@@ -490,7 +490,7 @@ class DefaultExtension extends Base {
 	/**
 	 * convert characters to their decimal unicode equivalents
 	 *
-	 * @link   http://www.ibm.com/developerworks/library/os-php-unicode/index.html#listing3 for inspiration
+	 * @link   https://www.ibm.com/developerworks/library/os-php-unicode/index.html#listing3 for inspiration
 	 *
 	 * @param string $string   characters to calculate unicode of
 	 * @param string $encoding encoding of $string

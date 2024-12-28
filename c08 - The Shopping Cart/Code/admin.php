@@ -5,7 +5,7 @@ require_once 'include/app_top.php';
 // // Enforce page to be accessed through HTTPS
 // if (USE_SSL != 'no' and getenv('HTTPS') != 'on')
 // {
-//   header ('Location: http://' . getenv('SERVER_NAME') . getenv('REQUEST_URI'));
+//   header ('Location: https://' . getenv('SERVER_NAME') . getenv('REQUEST_URI'));
 //
 //   exit();
 // }

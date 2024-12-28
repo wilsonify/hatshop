@@ -32,7 +32,7 @@ if ($is_sensitive_page && $is_https == false && USE_SSL != 'no')
 if (!$is_sensitive_page && $is_https == true)
 {
 
-  $link = 'http://' . getenv('SERVER_NAME');
+  $link = 'https://' . getenv('SERVER_NAME');
 
   // If HTTP_SERVER_PORT is defined and different than default
   if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT != '80')
