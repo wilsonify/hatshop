@@ -7,6 +7,7 @@ on:
         type: choice
         description: which folder
         options:
+          - 'c01 - Base Image'
           - 'c02 - Laying Out the Foundations'
           - 'c03 - Creating the Product Catalog Part I'
           - 'c04 - Creating the Product Catalog Part II'
