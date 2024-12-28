@@ -14,7 +14,7 @@ class ShoppingCart
   private static function createEmptyCart()
   {
     // Generate a unique cart ID
-    self::$_mCartId = md5(uniqid(random_int(1000, 9999), true));
+    self::$_mCartId = hash("sha512",uniqid(random_int(1000, 9999), true));
 
     // Store cart ID in the session
     $_SESSION['cart_id'] = self::$_mCartId;
@@ -51,7 +51,7 @@ class ShoppingCart
         /* Generate cart id and save it to the $_mCartId class member,
            the session and a cookie (on subsequent requests $_mCartId
            will be populated from the session) */
-        self::$_mCartId = md5(uniqid(random_int(1000,9999), true));
+        self::$_mCartId = hash("sha512",uniqid(random_int(1000,9999), true));
 
         // Store cart id in session
         $_SESSION['cart_id'] = self::$_mCartId;

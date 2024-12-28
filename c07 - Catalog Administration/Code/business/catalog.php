@@ -70,7 +70,7 @@ class Catalog
   private static function HowManyPages($countSql, $countSqlParams)
   {
     // Create a hash for the sql query 
-    $queryHashCode = md5($countSql . var_export($countSqlParams, true));
+    $queryHashCode = hash("sha512",$countSql . var_export($countSqlParams, true));
 
     // Verify if we have the query results in cache
     if (isset ($_SESSION['last_count_hash']) &&
