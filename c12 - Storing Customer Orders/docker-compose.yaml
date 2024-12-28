@@ -1,12 +1,21 @@
-version: '3.8'
-
 services:
-  hatshop:
+  php:
     env_file: [ .env ]
+    image: ghcr.io/wilsonify/c01-base-image:latest
+    user: www-data:www-data
+    volumes:
+      - ./Code:/var/www/html:rw
     restart: unless-stopped
-    image: ghcr.io/wilsonify/c12-storing-customer-orders:latest
+
+  nginx:
+    depends_on:
+      - php
+    image: ghcr.io/wilsonify/c00-nginx-image:latest
     ports:
       - "443:443"
     volumes:
+      - ./Code:/var/www/html:rw
+      - ./etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
       - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
       - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+    restart: unless-stopped
