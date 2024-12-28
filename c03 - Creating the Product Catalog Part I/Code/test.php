@@ -3,14 +3,16 @@
 <html>
 <body>
 <?php
+define('LINE_BREAK', '<br/>');
+
 echo "My first PHP script!";
-echo "<br/>";
+echo LINE_BREAK;
 
 echo "Connect to PostgreSQL";
-echo "<br/>";
+echo LINE_BREAK;
 
 echo "Connect to " . getenv('HATSHOP_DB_SERVER');
-echo "<br/>";
+echo LINE_BREAK;
 
 $conn = pg_connect(
     "host=" . getenv('HATSHOP_DB_SERVER') .
@@ -22,37 +24,37 @@ $conn = pg_connect(
 // Check if connection was successful
 if (!$conn) {
     echo "Error: Unable to connect to database.";
-    echo "<br/>";
+    echo LINE_BREAK;
 
     exit;
 }
 
 
 echo "Execute query";
-echo "<br/>";
+echo LINE_BREAK;
 
 $result = pg_query($conn, "SELECT 1 FROM department");
 
 echo "Check if query was successful";
-echo "<br/>";
+echo LINE_BREAK;
 
 if (!$result) {
     echo "Error: Query failed.";
-    echo "<br/>";
+    echo LINE_BREAK;
 
     exit;
 }
 
 echo " script! Executed";
-echo "<br/>";
+echo LINE_BREAK;
 
 
 echo "Close the connection";
-echo "<br/>";
+echo LINE_BREAK;
 
 pg_close($conn);
 echo "connection Closed";
-echo "<br/>";
+echo LINE_BREAK;
 
 ?>
 
