@@ -7,6 +7,7 @@ on:
         type: choice
         description: which folder
         options:
+          - 'c00 - Nginx Image'
           - 'c01 - Base Image'
           - 'c02 - Laying Out the Foundations'
           - 'c03 - Creating the Product Catalog Part I'
