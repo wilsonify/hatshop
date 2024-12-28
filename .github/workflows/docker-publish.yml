@@ -2,7 +2,7 @@ name: Docker
 
 on:
   workflow_dispatch:
-    inputs: 
+    inputs:
       unit:
         type: choice
         description: which folder
@@ -23,7 +23,7 @@ on:
           - 'c14 - Implementing the Order Pipeline Part II'
           - 'c15 - Credit Card Transactions'
           - 'c16 - Product Reviews'
-          - 'c17 - Connecting to Web Services'     
+          - 'c17 - Connecting to Web Services'
 
 jobs:
   build:
@@ -47,8 +47,5 @@ jobs:
           -f Dockerfile . \
           --label "org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/hatshop"  \
           --label "org.opencontainers.image.description=hatshop ${{inputs.unit}}" \
-          --label "org.opencontainers.image.licenses=Freeware"
-      - name: Push
-        run: |
-          sanitized_unit=$(echo "${{ env.sanitized_unit }}" | tr ' ' '-' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
+          --label "org.opencontainers.image.licenses=Freeware"          
           docker push ghcr.io/${{ github.repository_owner }}/$sanitized_unit:latest
