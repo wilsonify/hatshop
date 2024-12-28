@@ -39,9 +39,9 @@ jobs:
       - name: Login
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build
-        working-directory: ${{inputs.unit}}
+        working-directory: ${{ inputs.unit }}
         run: |
-          sanitized_unit=$(echo "${{ env.sanitized_unit }}" | tr ' ' '-' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
+          sanitized_unit=$(echo "${{ inputs.unit }}" | tr ' ' '-' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
           echo "sanitized_unit = $sanitized_unit"
           docker build --progress=plain \
           -t "ghcr.io/${{ github.repository_owner }}/$sanitized_unit:latest" \
