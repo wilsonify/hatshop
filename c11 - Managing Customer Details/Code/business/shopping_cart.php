@@ -196,18 +196,26 @@ class ShoppingCart
     return DatabaseHandler::GetOne($result, $params);
   }
 
-  // Deletes old shopping carts
+  // Deletes old shopping carts and returns the number of deleted carts
   public static function DeleteOldShoppingCarts($days)
   {
-    // Build SQL query
-    $sql = 'SELECT shopping_cart_delete_old_carts(:days);';
-    // Build the parameters array
-    $params = array (':days' => $days);
-    // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+      // Build SQL query
+      $sql = 'SELECT shopping_cart_delete_old_carts(:days);';
 
-    // Execute the query
-    DatabaseHandler::Execute($result, $params);
+      // Build the parameters array
+      $params = array(':days' => $days);
+
+      // Prepare the statement with PDO-specific functionality
+      $result = DatabaseHandler::Prepare($sql);
+
+      // Execute the query
+      DatabaseHandler::Execute($result, $params);
+
+      // Fetch the result, which should be the number of deleted carts
+      $mDeletedCarts = $result->fetchColumn();
+
+      // Return the number of deleted carts
+      return $mDeletedCarts;
   }
 
   // Create a new order
