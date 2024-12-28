@@ -20,3 +20,9 @@ test:
 	php -r 'echo "PHP version " . phpversion() . ". \n";' &&\
 	php ./vendor/phpunit/phpunit/phpunit \
 	cd ..
+
+redeploy:
+	docker compose down && \
+	git pull && \
+	docker compose pull && \
+	docker compose up -d
