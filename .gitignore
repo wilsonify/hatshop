@@ -3,3 +3,4 @@
 .vscode/
 .env
 ssl/
+templates_c/
