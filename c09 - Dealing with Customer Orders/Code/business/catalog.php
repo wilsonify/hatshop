@@ -312,7 +312,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Deletes a department
@@ -342,7 +342,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets categories in a department
@@ -374,7 +374,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Deletes a category
@@ -406,7 +406,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets products in a category
@@ -439,7 +439,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Updates a product
@@ -461,7 +461,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Removes a product from the product catalog
@@ -475,7 +475,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Unassigns a product from a category
@@ -547,7 +547,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Assigns a product to a category
@@ -563,7 +563,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Moves a product from one category to another
@@ -581,7 +581,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Changes the name of the product image file in the database
@@ -595,7 +595,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Changes the name of the product thumbnail file in the database
@@ -610,7 +610,7 @@ class Catalog
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 }
 

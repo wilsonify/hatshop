@@ -95,7 +95,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets all orders placed by a specified customer

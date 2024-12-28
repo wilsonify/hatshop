@@ -118,7 +118,7 @@ class Customer
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   public static function DecryptCreditCard($encryptedCreditCard)
@@ -174,7 +174,7 @@ class Customer
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   public static function GetShippingRegions()
@@ -210,7 +210,7 @@ class Customer
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 }
 

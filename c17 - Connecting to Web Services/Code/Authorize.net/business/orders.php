@@ -102,7 +102,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets all orders placed by a specified customer
@@ -161,7 +161,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Updates the order pipeline status of an order
@@ -175,7 +175,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Sets order's authorization code
@@ -192,7 +192,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Set order's ship date
@@ -206,7 +206,7 @@ class Orders
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets the audit table entries associated with a specific order

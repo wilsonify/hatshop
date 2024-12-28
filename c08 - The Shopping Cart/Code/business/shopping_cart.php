@@ -84,7 +84,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   /* Updates the shopping cart with new product quantities
@@ -102,7 +102,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Removes product from shopping cart
@@ -117,7 +117,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Save product to the Save for Later list
@@ -133,7 +133,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Get product from the Save for Later list back to the cart
@@ -149,7 +149,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 
   // Gets shopping cart products
@@ -220,7 +220,7 @@ class ShoppingCart
     $result = DatabaseHandler::Prepare($sql);
 
     // Execute the query
-    return DatabaseHandler::Execute($result, $params);
+    DatabaseHandler::Execute($result, $params);
   }
 }
 
