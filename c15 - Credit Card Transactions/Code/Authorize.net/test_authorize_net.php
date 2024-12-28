@@ -54,6 +54,6 @@ else
 }
 ?>
 <frameset cols="50%, 50%">
-  <frame src="test_authorize_net.php?step=1" name="Step 1">
-  <frame src="test_authorize_net.php?step=2" name="Step 2">
+  <frame src="test_authorize_net.php?step=1" name="Step 1" title="Step 1 content">
+  <frame src="test_authorize_net.php?step=2" name="Step 2" title="Step 2 content">
 </frameset>
