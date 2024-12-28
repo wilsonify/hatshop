@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
+<head>
+<title>Some relevant title</title>
+</head>
+
 <body>
 <?php
 define('LINE_BREAK', '<br/>');
