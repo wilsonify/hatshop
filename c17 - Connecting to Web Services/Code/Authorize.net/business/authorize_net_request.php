@@ -52,9 +52,6 @@ class AuthorizeNetRequest
        handshake */
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
-    // Prevent CURL from verifying the peer's certificate
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
     /* We want CURL to directly return the transfer instead of
        printing it */
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
