@@ -1,24 +1,27 @@
 <?php
-// Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_modifier_prepare_link($string)
 {
-    // Always use HTTPS and the correct domain
-    $link = 'https://' . getenv('SERVER_NAME');
+    // Base URL with HTTPS and domain
+    $baseUrl = 'https://' . getenv('SERVER_NAME');
 
-    // Ensure there's a slash between the domain and the path if needed
-    if ($string && $string[0] !== '/') {
-        $link .= '/';
+    // Split the input into path and query string
+    $parts = explode('?', $string, 2);
+    $path = $parts[0];
+    $query = isset($parts[1]) ? '?' . $parts[1] : '';
+
+    // Ensure the path starts with a slash
+    if (!str_starts_with($path, '/')) {
+        $path = '/' . $path;
     }
 
-    // Check for 'admin.php' or 'index.php' and handle accordingly
-    if (strpos($string, 'index.php') === false && strpos($string, 'admin.php') === false) {
-        $link .= 'index.php';  // Add 'index.php' only if it's not already in the path
+    // Check if the path already contains 'index.php' or 'admin.php'
+    if (!str_contains($path, 'index.php') && !str_contains($path, 'admin.php')) {
+        $path = rtrim($path, '/') . '/index.php';
     }
 
-    // Append the provided string (query parameters or path)
-    $link .= $string;
+    // Construct the final URL
+    $fullUrl = $baseUrl . $path . $query;
 
-    // Escape the URL to prevent XSS
-    return htmlspecialchars($link, ENT_QUOTES);
+    // Escape the full URL to prevent XSS
+    return htmlspecialchars($fullUrl, ENT_QUOTES);
 }
-
