@@ -1,0 +1,28 @@
+{
+  "name": "PHP Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "./c01 - Base Image/dockerfile-dev"
+  },
+  "settings": {
+    "php.validate.executablePath": "/usr/local/bin/php"
+  },
+  "extensions": [
+    "bmewburn.vscode-intelephense-client",
+    "xdebug.php-debug",
+    "mehedidracula.php-namespace-resolver"
+  ],
+  "forwardPorts": [],
+  "postCreateCommand": "composer install",
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/var/www/html,type=bind,consistency=cached"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:1": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/php:1": {
+      "version": "8.2"
+    }
+  }
+}
