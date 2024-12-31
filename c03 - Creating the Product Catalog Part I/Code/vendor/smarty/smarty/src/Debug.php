@@ -224,7 +224,7 @@ class Debug extends Data
         $_template->assign('assigned_vars', $_assigned_vars);
         $_template->assign('config_vars', $_config_vars);
         $_template->assign('execution_time', microtime(true) - $smarty->start_time);
-        $_template->assign('targetWindow', $displayMode ? hash("sha512","$offset$templateName") : '__Smarty__');
+        $_template->assign('targetWindow', $displayMode ? md5("$offset$templateName") : '__Smarty__');
         $_template->assign('offset', $offset);
         echo $_template->fetch();
         if (isset($full)) {
