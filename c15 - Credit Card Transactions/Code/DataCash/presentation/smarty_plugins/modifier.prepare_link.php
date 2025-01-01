@@ -1,24 +1,53 @@
 <?php
-// Plugin functions inside plugin files must be named: smarty_type_name
-function smarty_modifier_prepare_link($string)
-{
-    // Always use HTTPS and the correct domain
-    $link = 'https://' . getenv('SERVER_NAME');
 
-    // Ensure there's a slash between the domain and the path if needed
-    if ($string && $string[0] !== '/') {
-        $link .= '/';
+// Function to join multiple paths, ensuring proper slashes
+function joinPaths(...$paths) {
+    return join(DIRECTORY_SEPARATOR, array_map('trimPath', $paths));
+}
+
+// Function to trim leading/trailing slashes from a path
+function trimPath($path) {
+    return trim($path, DIRECTORY_SEPARATOR);
+}
+
+// Function to generate the base link with HTTPS and the correct domain
+function generateBaseLink($string) {
+    return 'https://' . getenv('SERVER_NAME');
+}
+
+// Function to append path to the base link
+function appendPathToLink($baseLink, $string) {
+    return joinPaths($baseLink, $string);
+}
+
+// Function to check if 'index.php' or 'admin.php' are in the link
+function needsIndexPage($link) {
+    return strpos($link, 'index.php') === false && strpos($link, 'admin.php') === false;
+}
+
+// Function to add 'index.php' to the link if necessary
+function appendIndexIfNeeded($link) {
+    // Check if 'index.php' is already in the path to avoid appending it twice
+    if (needsIndexPage($link)) {
+        $urlParts = parse_url($link);
+        $path = isset($urlParts['path']) ? rtrim($urlParts['path'], '/') . '/index.php' : 'index.php';
+        $link = $urlParts['scheme'] . '://' . $urlParts['host'] . $path;
+        if (isset($urlParts['query'])) {
+            $link .= '?' . $urlParts['query'];
+        }
     }
+    return $link;
+}
 
-    // Check for 'admin.php' or 'index.php' and handle accordingly
-    if (strpos($string, 'index.php') === false && strpos($string, 'admin.php') === false) {
-        $link .= 'index.php';  // Add 'index.php' only if it's not already in the path
-    }
-
-    // Append the provided string (query parameters or path)
-    $link .= $string;
-
-    // Escape the URL to prevent XSS
+// Function to escape the URL to prevent XSS
+function escapeUrl($link) {
     return htmlspecialchars($link, ENT_QUOTES);
 }
 
+// Main function to prepare the link
+function smarty_modifier_prepare_link($string) {
+    $baseLink = generateBaseLink($string);
+    $link = appendPathToLink($baseLink, $string);
+    $link = appendIndexIfNeeded($link);
+    return escapeUrl($link);
+}
