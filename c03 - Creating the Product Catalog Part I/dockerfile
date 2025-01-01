@@ -16,6 +16,7 @@ RUN apt-get update && \
 
 # Install Smarty using Composer
 RUN composer require smarty/smarty
+RUN composer require phpunit/phpunit
 
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 
