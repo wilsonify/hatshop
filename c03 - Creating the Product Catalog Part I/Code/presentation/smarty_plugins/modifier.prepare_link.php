@@ -1,27 +1,53 @@
 <?php
-function smarty_modifier_prepare_link($string)
-{
-    // Base URL with HTTPS and domain
-    $baseUrl = 'https://' . getenv('SERVER_NAME');
 
-    // Split the input into path and query string
-    $parts = explode('?', $string, 2);
-    $path = $parts[0];
-    $query = isset($parts[1]) ? '?' . $parts[1] : '';
+// Function to join multiple paths, ensuring proper slashes
+function joinPaths(...$paths) {
+    return join(DIRECTORY_SEPARATOR, array_map('trimPath', $paths));
+}
 
-    // Ensure the path starts with a slash
-    if (!str_starts_with($path, '/')) {
-        $path = '/' . $path;
+// Function to trim leading/trailing slashes from a path
+function trimPath($path) {
+    return trim($path, DIRECTORY_SEPARATOR);
+}
+
+// Function to generate the base link with HTTPS and the correct domain
+function generateBaseLink($string) {
+    return 'https://' . getenv('SERVER_NAME');
+}
+
+// Function to append path to the base link
+function appendPathToLink($baseLink, $string) {
+    return joinPaths($baseLink, $string);
+}
+
+// Function to check if 'index.php' or 'admin.php' are in the link
+function needsIndexPage($link) {
+    return strpos($link, 'index.php') === false && strpos($link, 'admin.php') === false;
+}
+
+// Function to add 'index.php' to the link if necessary
+function appendIndexIfNeeded($link) {
+    // Check if 'index.php' is already in the path to avoid appending it twice
+    if (needsIndexPage($link)) {
+        $urlParts = parse_url($link);
+        $path = isset($urlParts['path']) ? rtrim($urlParts['path'], '/') . '/index.php' : 'index.php';
+        $link = $urlParts['scheme'] . '://' . $urlParts['host'] . $path;
+        if (isset($urlParts['query'])) {
+            $link .= '?' . $urlParts['query'];
+        }
     }
+    return $link;
+}
 
-    // Check if the path already contains 'index.php' or 'admin.php'
-    if (!str_contains($path, 'index.php') && !str_contains($path, 'admin.php')) {
-        $path = rtrim($path, '/') . '/index.php';
-    }
+// Function to escape the URL to prevent XSS
+function escapeUrl($link) {
+    return htmlspecialchars($link, ENT_QUOTES);
+}
 
-    // Construct the final URL
-    $fullUrl = $baseUrl . $path . $query;
-
-    // Escape the full URL to prevent XSS
-    return htmlspecialchars($fullUrl, ENT_QUOTES);
+// Main function to prepare the link
+function smarty_modifier_prepare_link($string) {
+    $baseLink = generateBaseLink($string);
+    $link = appendPathToLink($baseLink, $string);
+    $link = appendIndexIfNeeded($link);
+    return escapeUrl($link);
 }
