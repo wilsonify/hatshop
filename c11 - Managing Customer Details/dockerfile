@@ -16,6 +16,8 @@ RUN apt-get update && \
 
 # Install Smarty using Composer
 RUN composer require smarty/smarty
+RUN composer require phpunit/phpunit
+
 
 # Create and configure an Apache VirtualHost for HTTPS
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf

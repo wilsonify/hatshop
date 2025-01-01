@@ -11,6 +11,8 @@ RUN apt-get update && \
 
 # Require Smarty
 RUN composer require smarty/smarty
+RUN composer require phpunit/phpunit
+
 
 # Copy Apache configuration
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
