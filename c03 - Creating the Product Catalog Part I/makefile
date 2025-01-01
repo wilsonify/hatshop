@@ -1,6 +1,6 @@
 .phone: all build run clean
 
-all: build run
+all: build test run
 
 clean:
 	docker system prune -af
@@ -14,7 +14,7 @@ run:
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest
 
-test:
+test: build
 	docker run --rm --name hatshop-test --env-file .env \
 -v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
