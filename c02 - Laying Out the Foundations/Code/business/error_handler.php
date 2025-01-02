@@ -11,25 +11,64 @@ class ErrorHandler
 
     public static function formatArguments(array $args)
     {
-        return implode(', ', array_map(function ($arg) {
-            if (is_null($arg)) {
-                return 'null';
-            }
-            if (is_bool($arg)) {
-                return $arg ? 'true' : 'false';
-            }
-            if (is_array($arg)) {
-                return 'Array[' . count($arg) . ']';
-            }
-            if (is_object($arg)) {
-                return 'Object: ' . get_class($arg);
-            }
-            if (is_string($arg)) {
-                return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
-            }
-            return '"' . (string) $arg . '"';
-        }, $args));
+        return implode(', ', array_map([self::class, 'formatSingleArgument'], $args));
     }
+
+    private static function formatSingleArgument($arg): string
+    {
+        if (is_null($arg)) {
+            return self::formatNull();
+        }
+
+        if (is_bool($arg)) {
+            return self::formatBoolean($arg);
+        }
+
+        if (is_array($arg)) {
+            return self::formatArray($arg);
+        }
+
+        if (is_object($arg)) {
+            return self::formatObject($arg);
+        }
+
+        if (is_string($arg)) {
+            return self::formatString($arg);
+        }
+
+        return self::formatOther($arg);
+    }
+
+    private static function formatNull(): string
+    {
+        return 'null';
+    }
+
+    private static function formatBoolean(bool $arg): string
+    {
+        return $arg ? 'true' : 'false';
+    }
+
+    private static function formatArray(array $arg): string
+    {
+        return 'Array[' . count($arg) . ']';
+    }
+
+    private static function formatObject(object $arg): string
+    {
+        return 'Object: ' . get_class($arg);
+    }
+
+    private static function formatString(string $arg): string
+    {
+        return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
+    }
+
+    private static function formatOther($arg): string
+    {
+        return '"' . (string) $arg . '"';
+    }
+
 
     public static function setHandler($errTypes = E_ALL)
     {
