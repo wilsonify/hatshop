@@ -1,111 +1,125 @@
 <?php
+
 class ErrorHandler
 {
-  // Private constructor to prevent direct creation of object
-  private function __construct()
-  {
-  }
 
-  /* Set user error handler method to ErrorHandler::Handler method */
-  public static function SetHandler($errTypes = ERROR_TYPES)
-  {
-    return set_error_handler(array ('ErrorHandler', 'Handler'), $errTypes);
-  }
+    const DATE_FORMAT = 'F j, Y, g:i a'; // Date format for error messages
 
-  // Error handler method
-  public static function Handler($errNo, $errStr, $errFile, $errLine)
-  {
-    /* The first two elements of the backtrace array are irrelevant:
-        - ErrorHandler.GetBacktrace
-        - ErrorHandler.Handler */
-    $backtrace = ErrorHandler::GetBacktrace(2);
-
-    // Error message to be displayed, logged, or mailed
-    $error_message = "\nERRNO: $errNo\nTEXT: $errStr" .
-                     "\nLOCATION: $errFile, line " .
-                     "$errLine, at " . date('F j, Y, g:i a') .
-                     "\nShowing backtrace:\n$backtrace\n\n";
-
-    // Email the error details, in case SEND_ERROR_MAIL is true
-    if (SEND_ERROR_MAIL == true)
-      error_log($error_message, 1, ADMIN_ERROR_MAIL, "From: " .
-                SENDMAIL_FROM . "\r\nTo: " . ADMIN_ERROR_MAIL);
-
-    // Log the error, in case LOG_ERRORS is true
-    if (LOG_ERRORS == true)
-      error_log($error_message, 3, LOG_ERRORS_FILE);
-
-    /* Warnings don't abort execution if IS_WARNING_FATAL is false
-       E_NOTICE and E_USER_NOTICE errors don't abort execution */
-    if (($errNo == E_WARNING && IS_WARNING_FATAL == false) ||
-        ($errNo == E_NOTICE || $errNo == E_USER_NOTICE))
-    // If the error is nonfatal ...
+    private function __construct()
     {
-      // Show message only if DEBUGGING is true
-      if (DEBUGGING == true)
-        echo '<pre>' . $error_message . '</pre>';
+    } // Private constructor to prevent instantiation
+
+    public static function formatArguments(array $args)
+    {
+        return implode(', ', array_map(function ($arg) {
+            if (is_null($arg)) {
+                return 'null';
+            }
+            if (is_bool($arg)) {
+                return $arg ? 'true' : 'false';
+            }
+            if (is_array($arg)) {
+                return 'Array[' . count($arg) . ']';
+            }
+            if (is_object($arg)) {
+                return 'Object: ' . get_class($arg);
+            }
+            if (is_string($arg)) {
+                return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
+            }
+            return '"' . (string) $arg . '"';
+        }, $args));
     }
-    else
-    // If error is fatal ...
-    {
-      // Show error message
-      if (DEBUGGING == true)
-        echo '<pre>' . $error_message . '</pre>';
-      else
-        echo SITE_GENERIC_ERROR_MESSAGE;
 
-      // Stop processing the request
-      exit;
+    public static function setHandler($errTypes = E_ALL)
+    {
+        return set_error_handler([self::class, 'handleError'], $errTypes);
     }
-  }
 
-  // Builds backtrace message
-  public static function GetBacktrace($irrelevantFirstEntries)
-  {
-    $s = '';
-    $MAXSTRLEN = 64;
-    $trace_array = debug_backtrace();
-
-    for ($i = 0; $i < $irrelevantFirstEntries; $i++)
-      array_shift($trace_array);
-    $tabs = sizeof($trace_array) - 1;
-
-    foreach ($trace_array as $arr)
+    public static function handleError($errNo, $errStr, $errFile, $errLine)
     {
-      $tabs -= 1;
-      if (isset ($arr['class']))
-        $s .= $arr['class'] . '.';
-      $args = array ();
+        $backtrace = self::getBacktrace(2);
+        $errorMessage = self::formatErrorMessage($errNo, $errStr, $errFile, $errLine, $backtrace);
 
-      if (!empty ($arr['args']))
-        foreach ($arr['args']as $v)
-        {
-          if (is_null($v))
-            $args[] = 'null';
-          elseif (is_array($v))
-            $args[] = 'Array[' . sizeof($v) . ']';
-          elseif (is_object($v))
-            $args[] = 'Object: ' . get_class($v);
-          elseif (is_bool($v))
-            $args[] = $v ? 'true' : 'false';
-          else
-          {
-            $v = (string)@$v;
-            $str = htmlspecialchars(substr($v, 0, $MAXSTRLEN));
-            if (strlen($v) > $MAXSTRLEN)
-              $str .= '...';
-            $args[] = '"' . $str . '"';
-          }
+        self::handleErrorLogging($errorMessage);
+
+        if (self::isNonFatalError($errNo)) {
+            if (DEBUGGING) {
+                echo '<pre>' . $errorMessage . '</pre>';
+            }
+            return true; // Non-fatal error handled.
         }
 
-      $s .= $arr['function'] . '(' . implode(', ', $args) . ')';
-      $line = (isset ($arr['line']) ? $arr['line']: 'unknown');
-      $file = (isset ($arr['file']) ? $arr['file']: 'unknown');
-      $s .= sprintf(' # line %4d, file: %s', $line, $file);
-      $s .= "\n";
+        // Fatal error handling
+        if (DEBUGGING) {
+            echo '<pre>' . $errorMessage . '</pre>';
+        } else {
+            echo defined('SITE_GENERIC_ERROR_MESSAGE') ? SITE_GENERIC_ERROR_MESSAGE : 'An error occurred.';
+        }
+
+        exit(1); // Exit for fatal errors.
     }
 
-    return $s;
-  }
-}
+    public static function getBacktrace($irrelevantFirstEntries = 0)
+    {
+        $traceArray = array_slice(debug_backtrace(), $irrelevantFirstEntries);
+        $result = [];
 
+        foreach ($traceArray as $trace) {
+            $class = $trace['class'] ?? '';
+            $function = $trace['function'] ?? '';
+            $line = $trace['line'] ?? 0;
+            $file = $trace['file'] ?? 'unknown';
+            $result[] = sprintf("%s.%s() # line %4d, file: %s", $class, $function, $line, $file);
+        }
+
+        return implode("\n", $result);
+    }
+
+    public static function formatErrorMessage($errNo, $errStr, $errFile, $errLine, $backtrace)
+    {
+        return sprintf(
+            "ERRNO: %d\nTEXT: %s\nLOCATION: %s, line %d, at %s\nShowing backtrace:\n%s\n",
+            $errNo,
+            $errStr,
+            $errFile,
+            $errLine,
+            date(self::DATE_FORMAT),
+            $backtrace
+        );
+    }
+
+    public static function isNonFatalError($errNo)
+    {
+        return in_array($errNo, [
+            E_WARNING,
+            E_NOTICE,
+            E_USER_NOTICE,
+            E_DEPRECATED,
+            E_USER_DEPRECATED
+        ]) || ($errNo == E_WARNING && defined('IS_WARNING_FATAL') && !IS_WARNING_FATAL);
+    }
+
+    public static function handleErrorLogging($errorMessage)
+    {
+        //self::sendErrorMail($errorMessage);
+        self::logErrorToFile($errorMessage);
+    }
+
+    private static function sendErrorMail($errorMessage)
+    {
+        if (defined('SEND_ERROR_MAIL') && SEND_ERROR_MAIL) {
+            $recipient = defined('ADMIN_ERROR_MAIL') ? ADMIN_ERROR_MAIL : 'admin@example.com';
+            $sender = defined('SENDMAIL_FROM') ? SENDMAIL_FROM : 'no-reply@example.com';
+            error_log($errorMessage, 1, $recipient, 'From: ' . $sender);
+        }
+    }
+
+    private static function logErrorToFile($errorMessage)
+    {
+        if (defined('LOG_ERRORS') && LOG_ERRORS) {
+            $logFile = defined('LOG_ERRORS_FILE') ? LOG_ERRORS_FILE : '/tmp/error.log';
+            error_log($errorMessage, 3, $logFile);
+        }
+    }
+}
