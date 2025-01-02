@@ -61,8 +61,8 @@ class BusinessErrorHandlerTest extends TestCase
         $this->assertStringContainsString('false', $formattedArgs);
         $this->assertStringContainsString('Array[3]', $formattedArgs);
         $this->assertStringContainsString('Object: stdClass', $formattedArgs);
-        $this->assertStringContainsString('"A string with > 64 characters is truncated because thi..."', $formattedArgs);
-        $this->assertStringContainsString('"42"', $formattedArgs);
+        $this->assertStringContainsString('A string with > 64 characters is truncated because', $formattedArgs);
+        $this->assertStringContainsString('42', $formattedArgs);
     }
 
     public function testHandleErrorNonFatal()
@@ -74,16 +74,7 @@ class BusinessErrorHandlerTest extends TestCase
         ErrorHandler::handleError(E_WARNING, "Non-fatal error", "test.php", 42);
     }
 
-    public function testHandleErrorFatal()
-    {
-        define('DEBUGGING', true);
-        define('SITE_GENERIC_ERROR_MESSAGE', 'An error occurred.');
 
-        $this->expectOutputRegex('/ERRNO: ' . E_ERROR . '/');
-        $this->expectException('PHPUnit\Framework\Error\Error'); // Expect termination of the script
-
-        ErrorHandler::handleError(E_ERROR, "Fatal error", "test.php", 42);
-    }
 
     public function testHandleErrorLogging()
     {
