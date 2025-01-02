@@ -2,33 +2,32 @@
 
 class ErrorHandler
 {
+    const DEBUGGING = false; // Set this as needed
+    const DATE_FORMAT = 'F j, Y, g:i a'; // Date format for error messages
+
     private function __construct() {} // Private constructor to prevent instantiation
 
     public static function formatArguments(array $args)
-{
-    $formattedArgs = array_map(function ($arg) {
-        if (is_null($arg)) {
-            return 'null';
-        }
-        if (is_bool($arg)) {
-            return $arg ? 'true' : 'false';
-        }
-        if (is_array($arg)) {
-            return 'Array[' . count($arg) . ']';
-        }
-        if (is_object($arg)) {
-            return 'Object: ' . get_class($arg);
-        }
-        if (is_string($arg)) {
-            return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
-        }
-        return '"' . (string)$arg . '"';
-    }, $args);
-
-    // Join the formatted array into a string and return
-    return implode(', ', $formattedArgs);
-}
-
+    {
+        return implode(', ', array_map(function ($arg) {
+            if (is_null($arg)) {
+                return 'null';
+            }
+            if (is_bool($arg)) {
+                return $arg ? 'true' : 'false';
+            }
+            if (is_array($arg)) {
+                return 'Array[' . count($arg) . ']';
+            }
+            if (is_object($arg)) {
+                return 'Object: ' . get_class($arg);
+            }
+            if (is_string($arg)) {
+                return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
+            }
+            return '"' . (string)$arg . '"';
+        }, $args));
+    }
 
     public static function setHandler($errTypes = E_ALL)
     {
@@ -43,14 +42,14 @@ class ErrorHandler
         self::handleErrorLogging($errorMessage);
 
         if (self::isNonFatalError($errNo)) {
-            if (defined('DEBUGGING') && DEBUGGING) {
+            if (self::DEBUGGING) {
                 echo '<pre>' . $errorMessage . '</pre>';
             }
             return true; // Non-fatal error handled.
         }
 
         // Fatal error handling
-        if (defined('DEBUGGING') && DEBUGGING) {
+        if (self::DEBUGGING) {
             echo '<pre>' . $errorMessage . '</pre>';
         } else {
             echo defined('SITE_GENERIC_ERROR_MESSAGE') ? SITE_GENERIC_ERROR_MESSAGE : 'An error occurred.';
@@ -60,21 +59,20 @@ class ErrorHandler
     }
 
     public static function getBacktrace($irrelevantFirstEntries = 0)
-{
-    $traceArray = debug_backtrace();
-    $traceArray = array_slice($traceArray, $irrelevantFirstEntries);
-    $result = [];
+    {
+        $traceArray = array_slice(debug_backtrace(), $irrelevantFirstEntries);
+        $result = [];
 
-    foreach ($traceArray as $trace) {
-        $class = $trace['class'] ?? '';
-        $function = $trace['function'] ?? '';
-        $line = $trace['line'] ?? 0;
-        $file = $trace['file'] ?? 'unknown';
-        $result[] = sprintf("%s.%s() # line %4d, file: %s", $class, $function, $line, $file);
+        foreach ($traceArray as $trace) {
+            $class = $trace['class'] ?? '';
+            $function = $trace['function'] ?? '';
+            $line = $trace['line'] ?? 0;
+            $file = $trace['file'] ?? 'unknown';
+            $result[] = sprintf("%s.%s() # line %4d, file: %s", $class, $function, $line, $file);
+        }
+
+        return implode("\n", $result);
     }
-
-    return implode("\n", $result);
-}
 
     public static function formatErrorMessage($errNo, $errStr, $errFile, $errLine, $backtrace)
     {
@@ -84,30 +82,39 @@ class ErrorHandler
             $errStr,
             $errFile,
             $errLine,
-            date('F j, Y, g:i a'),
+            date(self::DATE_FORMAT),
             $backtrace
         );
     }
 
     public static function isNonFatalError($errNo)
     {
-        return in_array($errNo, [E_WARNING, E_NOTICE, E_USER_NOTICE]) ||
-               ($errNo == E_WARNING && defined('IS_WARNING_FATAL') && !IS_WARNING_FATAL);
+        return in_array($errNo, [
+            E_WARNING, E_NOTICE, E_USER_NOTICE,
+            E_DEPRECATED, E_USER_DEPRECATED
+        ]) || ($errNo == E_WARNING && defined('IS_WARNING_FATAL') && !IS_WARNING_FATAL);
     }
 
     public static function handleErrorLogging($errorMessage)
     {
-        if (defined('SEND_ERROR_MAIL') && SEND_ERROR_MAIL) {
-            error_log(
-                $errorMessage,
-                1,
-                defined('ADMIN_ERROR_MAIL') ? ADMIN_ERROR_MAIL : 'admin@example.com',
-                'From: ' . (defined('SENDMAIL_FROM') ? SENDMAIL_FROM : 'no-reply@example.com')
-            );
-        }
+        //self::sendErrorMail($errorMessage);
+        self::logErrorToFile($errorMessage);
+    }
 
+    private static function sendErrorMail($errorMessage)
+    {
+        if (defined('SEND_ERROR_MAIL') && SEND_ERROR_MAIL) {
+            $recipient = defined('ADMIN_ERROR_MAIL') ? ADMIN_ERROR_MAIL : 'admin@example.com';
+            $sender = defined('SENDMAIL_FROM') ? SENDMAIL_FROM : 'no-reply@example.com';
+            error_log($errorMessage, 1, $recipient, 'From: ' . $sender);
+        }
+    }
+
+    private static function logErrorToFile($errorMessage)
+    {
         if (defined('LOG_ERRORS') && LOG_ERRORS) {
-            error_log($errorMessage, 3, defined('LOG_ERRORS_FILE') ? LOG_ERRORS_FILE : '/tmp/error.log');
+            $logFile = defined('LOG_ERRORS_FILE') ? LOG_ERRORS_FILE : '/tmp/error.log';
+            error_log($errorMessage, 3, $logFile);
         }
     }
 }
