@@ -2,7 +2,7 @@
 
 class ErrorHandler
 {
-    const DEBUGGING = false; // Set this as needed
+    
     const DATE_FORMAT = 'F j, Y, g:i a'; // Date format for error messages
 
     private function __construct() {} // Private constructor to prevent instantiation
@@ -42,14 +42,14 @@ class ErrorHandler
         self::handleErrorLogging($errorMessage);
 
         if (self::isNonFatalError($errNo)) {
-            if (self::DEBUGGING) {
+            if (DEBUGGING) {
                 echo '<pre>' . $errorMessage . '</pre>';
             }
             return true; // Non-fatal error handled.
         }
 
         // Fatal error handling
-        if (self::DEBUGGING) {
+        if (DEBUGGING) {
             echo '<pre>' . $errorMessage . '</pre>';
         } else {
             echo defined('SITE_GENERIC_ERROR_MESSAGE') ? SITE_GENERIC_ERROR_MESSAGE : 'An error occurred.';
