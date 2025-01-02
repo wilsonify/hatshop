@@ -7,7 +7,7 @@ class ErrorHandler
 
     private function __construct()
     {
-    } // Private constructor to prevent instantiation
+    }
 
     public static function formatArguments(array $args)
     {

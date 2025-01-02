@@ -6,8 +6,8 @@ class ErrorHandler
     const DATE_FORMAT = 'F j, Y, g:i a'; // Date format for error messages
 
     private function __construct()
-    {
-    } // Private constructor to prevent instantiation
+    { // Private constructor to prevent instantiation
+    }
 
     public static function formatArguments(array $args)
     {
