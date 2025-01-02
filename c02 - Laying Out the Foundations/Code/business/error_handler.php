@@ -2,10 +2,12 @@
 
 class ErrorHandler
 {
-    
+
     const DATE_FORMAT = 'F j, Y, g:i a'; // Date format for error messages
 
-    private function __construct() {} // Private constructor to prevent instantiation
+    private function __construct()
+    {
+    } // Private constructor to prevent instantiation
 
     public static function formatArguments(array $args)
     {
@@ -25,7 +27,7 @@ class ErrorHandler
             if (is_string($arg)) {
                 return strlen($arg) > 64 ? '"' . substr($arg, 0, 61) . '..."' : '"' . $arg . '"';
             }
-            return '"' . (string)$arg . '"';
+            return '"' . (string) $arg . '"';
         }, $args));
     }
 
@@ -90,8 +92,11 @@ class ErrorHandler
     public static function isNonFatalError($errNo)
     {
         return in_array($errNo, [
-            E_WARNING, E_NOTICE, E_USER_NOTICE,
-            E_DEPRECATED, E_USER_DEPRECATED
+            E_WARNING,
+            E_NOTICE,
+            E_USER_NOTICE,
+            E_DEPRECATED,
+            E_USER_DEPRECATED
         ]) || ($errNo == E_WARNING && defined('IS_WARNING_FATAL') && !IS_WARNING_FATAL);
     }
 
