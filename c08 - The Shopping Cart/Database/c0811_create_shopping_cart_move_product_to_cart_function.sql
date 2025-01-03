@@ -1,7 +1,7 @@
 
 
 -- Create shopping_cart_move_product_to_cart function
-CREATE FUNCTION shopping_cart_move_product_to_cart(CHAR(32), INTEGER)
+CREATE FUNCTION shopping_cart_move_product_to_cart(CHAR(128), INTEGER)
 RETURNS VOID LANGUAGE plpgsql AS $$
   DECLARE
     inCartId    ALIAS FOR $1;

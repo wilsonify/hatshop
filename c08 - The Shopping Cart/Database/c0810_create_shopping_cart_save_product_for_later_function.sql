@@ -1,7 +1,7 @@
 
 
 -- Create shopping_cart_save_product_for_later function
-CREATE FUNCTION shopping_cart_save_product_for_later(CHAR(32), INTEGER)
+CREATE FUNCTION shopping_cart_save_product_for_later(CHAR(128), INTEGER)
 RETURNS VOID LANGUAGE plpgsql AS $$
   DECLARE
     inCartId    ALIAS FOR $1;

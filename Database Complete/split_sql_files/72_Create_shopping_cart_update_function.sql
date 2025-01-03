@@ -1,5 +1,5 @@
 -- Create shopping_cart_update function
-CREATE FUNCTION shopping_cart_update(CHAR(32), INTEGER[], INTEGER[])
+CREATE FUNCTION shopping_cart_update(CHAR(128), INTEGER[], INTEGER[])
 RETURNS VOID LANGUAGE plpgsql AS $$
   DECLARE
     inCartId     ALIAS FOR $1;

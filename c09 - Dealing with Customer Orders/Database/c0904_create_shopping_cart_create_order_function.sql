@@ -1,6 +1,6 @@
 
 -- Create shopping_cart_create_order function
-CREATE FUNCTION shopping_cart_create_order(CHAR(32))
+CREATE FUNCTION shopping_cart_create_order(CHAR(128))
 RETURNS INTEGER LANGUAGE plpgsql AS $$
   DECLARE
     inCartId ALIAS FOR $1;

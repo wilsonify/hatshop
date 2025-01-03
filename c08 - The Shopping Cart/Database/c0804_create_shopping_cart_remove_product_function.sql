@@ -1,7 +1,7 @@
 
 
 -- Create shopping_cart_remove_product function
-CREATE FUNCTION shopping_cart_remove_product(CHAR(32), INTEGER)
+CREATE FUNCTION shopping_cart_remove_product(CHAR(128), INTEGER)
 RETURNS VOID LANGUAGE plpgsql AS $$
   DECLARE
     inCartId    ALIAS FOR $1;

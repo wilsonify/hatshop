@@ -1,5 +1,5 @@
 -- Create shopping_cart_get_recommendations function
-CREATE FUNCTION shopping_cart_get_recommendations(CHAR(32), INTEGER)
+CREATE FUNCTION shopping_cart_get_recommendations(CHAR(128), INTEGER)
 RETURNS SETOF product_recommendation LANGUAGE plpgsql AS $$
   DECLARE
     inCartId                        ALIAS FOR $1;

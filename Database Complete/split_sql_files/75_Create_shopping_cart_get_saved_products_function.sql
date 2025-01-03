@@ -1,5 +1,5 @@
 -- Create shopping_cart_get_saved_products function
-CREATE FUNCTION shopping_cart_get_saved_products(CHAR(32))
+CREATE FUNCTION shopping_cart_get_saved_products(CHAR(128))
 RETURNS SETOF cart_saved_product LANGUAGE plpgsql AS $$
   DECLARE
     inCartId ALIAS FOR $1;
