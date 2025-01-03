@@ -141,8 +141,8 @@ class ErrorHandler
 
     public static function handleErrorLogging($errorMessage)
     {
-        //self::sendErrorMail($errorMessage);
         self::logErrorToFile($errorMessage);
+        self::sendErrorMail($errorMessage);
     }
 
     private static function sendErrorMail($errorMessage)
