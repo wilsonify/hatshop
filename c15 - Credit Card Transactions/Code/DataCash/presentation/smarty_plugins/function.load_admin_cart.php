@@ -15,6 +15,7 @@ function smarty_function_load_admin_cart($params, $smarty)
 class AdminCart
 {
   // Public variables available in smarty template
+  public $mDeletedCarts;
   public $mMessage;
   public $mDaysOptions = array (0  => 'All shopping carts',
                                 1  => 'One day old',
