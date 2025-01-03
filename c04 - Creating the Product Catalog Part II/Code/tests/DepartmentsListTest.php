@@ -1,6 +1,6 @@
 <?php
 // Reference Composer's autoload
-require_once '/var/www/html/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../presentation/smarty_plugins/function.load_departments_list.php';
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;

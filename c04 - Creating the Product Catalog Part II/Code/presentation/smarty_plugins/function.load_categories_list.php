@@ -2,44 +2,61 @@
 // Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_categories_list($params, $smarty)
 {
-  // Create CategoriesList object
-  $categories_list = new CategoriesList();
-  $categories_list->init();
+    $categoriesList = new CategoriesList();
+    $categoriesList->initialize();
 
-  // Assign template variable
-  $smarty->assign($params['assign'], $categories_list);
+    $smarty->assign($params['assign'], $categoriesList);
 }
 
-// Manages the categories list
 class CategoriesList
 {
-  // Public variables for the smarty template
-  public $mCategorySelected   = 0;
-  public $mDepartmentSelected = 0;
-  public $mCategories;
+    public $mCategorySelected = 0;
+    public $mDepartmentSelected = 0;
+    public $mCategories = [];
 
-  // Constructor reads query string parameter
-  public function __construct()
-  {
-    if (isset ($_GET['DepartmentID']))
-      $this->mDepartmentSelected = (int)$_GET['DepartmentID'];
-    else
-      trigger_error('DepartmentID not set');
+    public function __construct()
+    {
+        $this->mDepartmentSelected = $this->getQueryParameter('DepartmentID');
+        $this->mCategorySelected = $this->getQueryParameter('CategoryID', 0);
+    }
 
-    if (isset ($_GET['CategoryID']))
-      $this->mCategorySelected = (int)$_GET['CategoryID'];
-  }
+    public function initialize()
+    {
+        $this->mCategories = $this->fetchCategories($this->mDepartmentSelected);
+        $this->addCategoryLinks();
+    }
 
-  public function init()
-  {
-    $this->mCategories =
-      Catalog::GetCategoriesInDepartment($this->mDepartmentSelected);
+    public function getQueryParameter($paramName, $default = null)
+    {
+        if (isset($_GET[$paramName])) {
+            return (int)$_GET[$paramName];
+        }
 
-    // Building links for the category pages
-    for ($i = 0; $i < count($this->mCategories); $i++)
-      $this->mCategories[$i]['link'] =
-        'index.php?DepartmentID=' . $this->mDepartmentSelected .
-        '&CategoryID=' . $this->mCategories[$i]['category_id'];
-  }
+        if ($default === null) {
+            trigger_error("$paramName not set", E_USER_WARNING);
+        }
+
+        return $default;
+    }
+
+    public function fetchCategories($departmentId)
+    {
+        return Catalog::GetCategoriesInDepartment($departmentId);
+    }
+
+    public function addCategoryLinks()
+    {
+        foreach ($this->mCategories as &$category) {
+            $category['link'] = $this->buildCategoryLink($category['category_id']);
+        }
+    }
+
+    public function buildCategoryLink($categoryId)
+    {
+        return sprintf(
+            'index.php?DepartmentID=%d&CategoryID=%d',
+            $this->mDepartmentSelected,
+            $categoryId
+        );
+    }
 }
-
