@@ -1,7 +1,7 @@
 -- Create shopping_cart table
 CREATE TABLE shopping_cart
 (
-  cart_id     CHAR(32)  NOT NULL,
+  cart_id     CHAR(128)  NOT NULL,
   product_id  INTEGER   NOT NULL,
   quantity    INTEGER   NOT NULL,
   buy_now     BOOLEAN   NOT NULL DEFAULT true,
