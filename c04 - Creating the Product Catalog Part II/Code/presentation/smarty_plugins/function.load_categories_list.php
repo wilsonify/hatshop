@@ -14,17 +14,19 @@ class CategoriesList
     public $mDepartmentSelected = 0;
     public $mCategories = [];
 
-    public function __construct()
+    public function __construct($categoriesFetcher = null)
     {
         $this->mDepartmentSelected = $this->getQueryParameter('DepartmentID');
         $this->mCategorySelected = $this->getQueryParameter('CategoryID', 0);
+        $this->categoriesFetcher = $categoriesFetcher ?: [Catalog::class, 'GetCategoriesInDepartment'];
     }
 
     public function initialize()
     {
-        $this->mCategories = $this->fetchCategories($this->mDepartmentSelected);
+        $this->mCategories = call_user_func($this->categoriesFetcher, $this->mDepartmentSelected);
         $this->addCategoryLinks();
     }
+
 
     public function getQueryParameter($paramName, $default = null)
     {
