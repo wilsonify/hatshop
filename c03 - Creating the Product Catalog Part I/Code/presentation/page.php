@@ -1,9 +1,8 @@
 <?php
 // Reference Composer's autoload
-require_once '/var/www/html/vendor/autoload.php';
-
-require_once __DIR__ . '/smarty_plugins/function.load_departments_list.php';
-require_once __DIR__ . '/smarty_plugins/modifier.prepare_link.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/smarty_plugins/02.function.load_departments_list.php';
+require_once __DIR__ . '/smarty_plugins/01.modifier.prepare_link.php';
 
 use Smarty\Smarty;
 
