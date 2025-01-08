@@ -20,3 +20,10 @@ test: build
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 ghcr.io/wilsonify/c05-searching-the-catalog:latest \
 ./vendor/phpunit/phpunit/phpunit tests
+
+bootstrap-database:
+	docker run --rm --name hatshop-db-client --env-file .env \
+-v ./Database/:/Database/ \
+-w /Database \
+postgres:17 \
+/Database/execute_sql_scripts.sh

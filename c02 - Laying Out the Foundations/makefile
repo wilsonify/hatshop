@@ -26,3 +26,10 @@ redeploy:
 	git pull && \
 	docker compose pull && \
 	docker compose up -d
+
+bootstrap-database:
+	docker run --rm --name hatshop-db-client --env-file .env \
+-v ./Database/:/Database/ \
+-w /Database \
+postgres:17 \
+/Database/execute_sql_scripts.sh

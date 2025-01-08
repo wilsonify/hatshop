@@ -21,6 +21,9 @@ test: build
 ghcr.io/wilsonify/c07-catalog-administration:latest \
 ./vendor/phpunit/phpunit/phpunit tests
 
-
-
-
+bootstrap-database:
+	docker run --rm --name hatshop-db-client --env-file .env \
+-v ./Database/:/Database/ \
+-w /Database \
+postgres:17 \
+/Database/execute_sql_scripts.sh
