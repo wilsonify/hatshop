@@ -14,7 +14,8 @@ run:
 -v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c00-nginx-image:latest
 
-
+install:
+	helm install my-nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version 2.0.0
 
 
 
