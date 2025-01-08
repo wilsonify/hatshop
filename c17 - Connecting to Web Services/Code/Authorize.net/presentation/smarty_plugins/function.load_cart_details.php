@@ -70,12 +70,12 @@ class CartDetails
     switch ($this->_mCartAction)
     {
       case ADD_PRODUCT:
-        ShoppingCart::AddProduct($this->mProductId);
+        ShoppingCart::AddProduct($this->_mProductId);
         header('Location: ' . $this->mCartReferrer);
 
         break;
       case REMOVE_PRODUCT:
-        ShoppingCart::RemoveProduct($this->mProductId);
+        ShoppingCart::RemoveProduct($this->_mProductId);
 
         break;
       case UPDATE_PRODUCTS_QUANTITIES:
@@ -83,11 +83,11 @@ class CartDetails
 
         break;
       case SAVE_PRODUCT_FOR_LATER:
-        ShoppingCart::SaveProductForLater($this->mProductId);
+        ShoppingCart::SaveProductForLater($this->_mProductId);
 
         break;
       case MOVE_PRODUCT_TO_CART:
-        ShoppingCart::MoveProductToCart($this->mProductId);
+        ShoppingCart::MoveProductToCart($this->_mProductId);
 
         break;
       default:
