@@ -46,7 +46,7 @@ class CartDetails
         $this->_mCartAction == MOVE_PRODUCT_TO_CART)
 
     if (isset ($_GET['ProductID']))
-      $this->mProductId = $_GET['ProductID'];
+      $this->_mProductId = $_GET['ProductID'];
     else
       trigger_error('ProductID must be set for this type of request',
                     E_USER_ERROR);
