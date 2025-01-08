@@ -20,12 +20,12 @@ class DepartmentsList
   // Constructor reads query string parameter
   public function __construct()
   {
-    /* If DepartmentID exists in the query string, we're visiting a
-       department */
-    if (isset ($_GET['DepartmentID']))
-      $this->mSelectedDepartment = (int)$_GET['DepartmentID'];
-    else
+    /* If DepartmentID exists in the query string, we're visiting a department */
+    if (isset($_GET['DepartmentID'])) {
+      $this->mSelectedDepartment = (int) $_GET['DepartmentID'];
+    } else {
       $this->mSelectedDepartment = -1;
+    }
   }
 
   /* Calls business tier method to read departments list and create

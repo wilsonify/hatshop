@@ -25,10 +25,11 @@ class DepartmentsList
   {
     /* If DepartmentID exists in the query string, we're visiting a
        department */
-    if (isset ($_GET['DepartmentID']))
-      $this->mSelectedDepartment = (int)$_GET['DepartmentID'];
-    else
+    if (isset($_GET['DepartmentID'])) {
+      $this->mSelectedDepartment = (int) $_GET['DepartmentID'];
+    } else {
       $this->mSelectedDepartment = -1;
+    }
 
     // Set Amazon department name and build the link for department
     $this->mAmazonDepartmentName = AMAZON_DEPARTMENT_TITLE;
