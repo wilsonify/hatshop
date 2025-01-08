@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/templates/default.conf.template
+              subPath: default.conf.template
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs/rr-origin.pem
+              subPath: rr-origin.pem
+            - name: ssl-keys
+              mountPath: /etc/ssl/private/rr-private-key.pem
+              subPath: rr-private-key.pem
+            - name: env-file
+              mountPath: /etc/nginx/.env
+              subPath: .env
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-env-configmap
+      initContainers:
+        - name: wait-for-php
+          image: busybox
+          command: ['sh', '-c', 'until nc -zv php 9000; do echo "Waiting for PHP..."; sleep 2; done;']
+          restartPolicy: Always
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ .Release.Name }}-configmap
+        - name: ssl-certs
+          secret:
+            secretName: ssl-cert-secret
+        - name: ssl-keys
+          secret:
+            secretName: ssl-key-secret
+        - name: env-file
+          configMap:
+            name: {{ .Release.Name }}-env-configmap

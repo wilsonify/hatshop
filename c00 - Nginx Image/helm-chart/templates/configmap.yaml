@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  default.conf.template: |
+    # Your NGINX default configuration template goes here
+    # Include the template configuration as in your Docker Compose setup
