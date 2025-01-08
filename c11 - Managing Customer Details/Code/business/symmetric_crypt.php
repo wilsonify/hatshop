@@ -1,3 +1,5 @@
+<?php
+
 class SymmetricCrypt
 {
     // Encryption/decryption key

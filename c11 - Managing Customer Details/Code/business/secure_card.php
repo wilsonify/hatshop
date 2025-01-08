@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/symmetric_crypt.php';
+
 // Represents a credit card
 class SecureCard
 {
