@@ -29,6 +29,7 @@ class Page extends Smarty
     $this->registerPlugin('function', 'load_admin_departments', 'smarty_function_load_admin_departments');
     $this->registerPlugin('function', 'load_admin_login', 'smarty_function_load_admin_login');
     $this->registerPlugin('function', 'load_admin_product', 'smarty_function_load_admin_product');
+    $this->registerPlugin('function', 'load_admin_products', 'smarty_function_load_admin_products');
     $this->registerPlugin('function', 'load_cart_details', 'smarty_function_load_cart_details');
     $this->registerPlugin('function', 'load_cart_summary', 'smarty_function_load_cart_summary');
     $this->registerPlugin('function', 'load_categories_list', 'smarty_function_load_categories_list');
