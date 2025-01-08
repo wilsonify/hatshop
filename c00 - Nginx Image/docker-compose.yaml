@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
 
   nginx:
+    env_file: [ .env ]
     depends_on:
       - php
     image: nginx:latest
