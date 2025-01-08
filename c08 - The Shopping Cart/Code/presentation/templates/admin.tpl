@@ -6,6 +6,7 @@
   <head>
     <title>{#site_title#}</title>
     <link href="hatshop.css" type="text/css" rel="stylesheet" />
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   </head>
   <body>
     <div>
