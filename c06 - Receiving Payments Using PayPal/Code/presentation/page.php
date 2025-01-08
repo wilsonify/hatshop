@@ -30,6 +30,7 @@ class Page extends Smarty
     $this->registerPlugin('function', 'load_product', 'smarty_function_load_product');
     $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
     $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
-    $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');  }
+    $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
+    }
 }
 
