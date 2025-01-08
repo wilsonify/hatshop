@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: {{ .Values.nginx.image }}
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: code-volume
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/templates/default.conf.template
+            - name: ssl-cert-volume
+              mountPath: /etc/ssl/certs/rr-origin.pem
+            - name: ssl-key-volume
+              mountPath: /etc/ssl/private/rr-private-key.pem
+          envFrom:
+            - configMapRef:
+                name: nginx-env-config
+

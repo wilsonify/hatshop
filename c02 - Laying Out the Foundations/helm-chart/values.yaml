@@ -1,0 +1,34 @@
+php:
+  image: ghcr.io/wilsonify/c01-base-image:latest
+  user: www-data:www-data
+  volumeMounts:
+    - mountPath: /var/www/html
+      name: code-volume
+  envFile: .env
+
+nginx:
+  image: ghcr.io/wilsonify/c00-nginx-image:latest
+  ports:
+    - containerPort: 443
+  volumeMounts:
+    - mountPath: /var/www/html
+      name: code-volume
+    - mountPath: /etc/nginx/templates/default.conf.template
+      name: nginx-config-volume
+    - mountPath: /etc/ssl/certs/rr-origin.pem
+      name: ssl-cert-volume
+    - mountPath: /etc/ssl/private/rr-private-key.pem
+      name: ssl-key-volume
+  envFile: .env
+  dependsOn:
+    - php
+
+volumes:
+  codeVolume:
+    path: ./Code
+  nginxConfigVolume:
+    path: ./etc/nginx/templates/default.conf.template
+  sslCertVolume:
+    path: ./etc/ssl/certs/rr-origin.pem
+  sslKeyVolume:
+    path: ./etc/ssl/private/rr-private-key.pem

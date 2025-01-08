@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-env-config
+data:
+  .env: |
+    # Add your NGINX environment variables here
+    NGINX_ENV_VAR=some_value
