@@ -17,7 +17,7 @@ class SecureCard
   // Class constructor
   public function __construct()
   {
-    // Nothing here
+    // Private constructor to prevent direct creation of object
   }
 
   // Decrypt data

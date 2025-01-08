@@ -5,9 +5,10 @@ class ShoppingCart
   // Stores the visitor's Cart ID
   private static $_mCartId;
 
-  // Private constructor to prevent direct creation of object
+
   private function __construct()
   {
+      // Private constructor to prevent direct creation of object
   }
 
   // Creates a new empty cart

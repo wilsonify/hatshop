@@ -7,6 +7,7 @@ class ErrorHandler
 
     private function __construct()
     {
+        // Private constructor to prevent direct creation of object
     }
 
     public static function formatArguments(array $args)

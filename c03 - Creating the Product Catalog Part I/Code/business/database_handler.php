@@ -3,7 +3,9 @@ class DatabaseHandler
 {
     private static ?PDO $_mHandler;
 
-    private function __construct() {}
+    private function __construct() {
+        // Private constructor to prevent direct creation of object
+    }
 
     // Returns a database connection, creates one if it doesn't exist
     private static function getHandler(): PDO

@@ -5,9 +5,10 @@ class DatabaseHandler
   // Hold an instance of the PDO class
   private static $_mHandler;
 
-  // Private constructor to prevent direct creation of object
+
   private function __construct()
   {
+    // Private constructor to prevent direct creation of object
   }
 
   // Return an initialized database handler 
