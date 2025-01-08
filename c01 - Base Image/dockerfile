@@ -6,6 +6,7 @@ RUN apt-get update && \
     git \
     libzip-dev \
     libpq-dev \
+    sendmail \
     && docker-php-ext-install zip pdo pdo_pgsql pgsql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer require smarty/smarty
