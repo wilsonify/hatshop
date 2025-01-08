@@ -86,7 +86,7 @@ class BusinessErrorHandlerTest extends TestCase
 
         ErrorHandler::handleErrorLogging("Test error message");
 
-        $this->assertFileExists('/tmp/error.log');
-        $this->assertStringContainsString('Test error message', file_get_contents('/tmp/error.log'));
+        $this->assertFileExists(LOG_ERRORS_FILE);
+        $this->assertStringContainsString('Test error message', file_get_contents(LOG_ERRORS_FILE));
     }
 }
