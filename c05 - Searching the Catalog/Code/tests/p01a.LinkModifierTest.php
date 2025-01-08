@@ -3,8 +3,12 @@
 require_once __DIR__ . '/../presentation/smarty_plugins/modifier.prepare_link.php';
 use PHPUnit\Framework\TestCase;
 
-
 class LinkModifierTest extends TestCase {
+    private const TEST_PATH = 'path/to/file';
+    private const BASE_LINK = 'https://example.com';
+    private const INDEX_PHP = 'index.php';
+    private const ADMIN_PHP = 'admin.php';
+    private const SOME_PATH = 'some/path';
 
     // Test joinPaths function
     public function testJoinPaths() {
@@ -15,32 +19,32 @@ class LinkModifierTest extends TestCase {
     // Test trimPath function
     public function testTrimPath() {
         $result = trimPath('/path/to/file/');
-        $this->assertEquals('path/to/file', $result);
+        $this->assertEquals(self::TEST_PATH, $result);
 
-        $result = trimPath('path/to/file');
-        $this->assertEquals('path/to/file', $result);
+        $result = trimPath(self::TEST_PATH);
+        $this->assertEquals(self::TEST_PATH, $result);
     }
 
     // Test generateBaseLink function
     public function testGenerateBaseLink() {
         putenv('SERVER_NAME=example.com');
         $result = generateBaseLink('any/path');
-        $this->assertEquals('https://example.com', $result);
+        $this->assertEquals(self::BASE_LINK, $result);
     }
 
     // Test appendPathToLink function
     public function testAppendPathToLink() {
-        $baseLink = 'https://example.com';
-        $string = 'some/path';
+        $baseLink = self::BASE_LINK;
+        $string = self::SOME_PATH;
         $result = appendPathToLink($baseLink, $string);
-        $this->assertEquals('https://example.com' . DIRECTORY_SEPARATOR . 'some' . DIRECTORY_SEPARATOR . 'path', $result);
+        $this->assertEquals(self::BASE_LINK . DIRECTORY_SEPARATOR . 'some' . DIRECTORY_SEPARATOR . 'path', $result);
     }
 
     // Test needsIndexPage function
     public function testNeedsIndexPage() {
-        $linkWithIndex = 'https://example.com/index.php';
-        $linkWithAdmin = 'https://example.com/admin.php';
-        $linkWithoutIndex = 'https://example.com/some/path';
+        $linkWithIndex = self::BASE_LINK . '/' . self::INDEX_PHP;
+        $linkWithAdmin = self::BASE_LINK . '/' . self::ADMIN_PHP;
+        $linkWithoutIndex = self::BASE_LINK . '/' . self::SOME_PATH;
 
         $this->assertFalse(needsIndexPage($linkWithIndex));  // Should return false
         $this->assertFalse(needsIndexPage($linkWithAdmin));  // Should return false
@@ -49,20 +53,20 @@ class LinkModifierTest extends TestCase {
 
     // Test appendIndexIfNeeded function
     public function testAppendIndexIfNeeded() {
-        $linkWithoutIndex = 'https://example.com/some/path';
+        $linkWithoutIndex = self::BASE_LINK . '/' . self::SOME_PATH;
         $result = appendIndexIfNeeded($linkWithoutIndex);
-        $this->assertEquals('https://example.com/some/path/index.php', $result);
+        $this->assertEquals(self::BASE_LINK . '/' . self::SOME_PATH . '/' . self::INDEX_PHP, $result);
 
-        $linkWithIndex = 'https://example.com/index.php';
+        $linkWithIndex = self::BASE_LINK . '/' . self::INDEX_PHP;
         $result = appendIndexIfNeeded($linkWithIndex);
-        $this->assertEquals('https://example.com/index.php', $result);
+        $this->assertEquals(self::BASE_LINK . '/' . self::INDEX_PHP, $result);
     }
 
     // Test escapeUrl function
     public function testEscapeUrl() {
-        $unsafeUrl = 'https://example.com/?<script>alert("XSS")</script>';
+        $unsafeUrl = self::BASE_LINK . '/?<script>alert("XSS")</script>';
         $result = escapeUrl($unsafeUrl);
-        $this->assertEquals('https://example.com/?&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;', $result);
+        $this->assertEquals(self::BASE_LINK . '/?&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;', $result);
     }
 
     // Test smarty_modifier_prepare_link function
@@ -70,15 +74,15 @@ class LinkModifierTest extends TestCase {
         putenv('SERVER_NAME=example.com');
 
         // Case with path needing index.php
-        $result = smarty_modifier_prepare_link('some/path');
-        $this->assertEquals('https://example.com/some/path/index.php', $result);
+        $result = smarty_modifier_prepare_link(self::SOME_PATH);
+        $this->assertEquals(self::BASE_LINK . '/' . self::SOME_PATH . '/' . self::INDEX_PHP, $result);
 
         // Case with path already containing index.php
-        $result = smarty_modifier_prepare_link('some/path/index.php');
-        $this->assertEquals('https://example.com/some/path/index.php', $result);
+        $result = smarty_modifier_prepare_link(self::SOME_PATH . '/' . self::INDEX_PHP);
+        $this->assertEquals(self::BASE_LINK . '/' . self::SOME_PATH . '/' . self::INDEX_PHP, $result);
 
         // Case with path containing admin.php
-        $result = smarty_modifier_prepare_link('some/admin.php');
-        $this->assertEquals('https://example.com/some/admin.php', $result);
+        $result = smarty_modifier_prepare_link(self::SOME_PATH . '/' . self::ADMIN_PHP);
+        $this->assertEquals(self::BASE_LINK . '/' . self::SOME_PATH . '/' . self::ADMIN_PHP, $result);
     }
 }
