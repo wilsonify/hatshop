@@ -116,3 +116,12 @@ docker run ...  --env-file ./.env ...
 ```
 
 
+## Problem
+
+Undefined constant "MCRYPT_RIJNDAEL_128"
+
+## Solution
+
+The mcrypt extension was deprecated in PHP 7.1 and removed in PHP 7.2, so the MCRYPT_RIJNDAEL_128 constant is undefined.
+use the openssl extension instead of mcrypt in symmetric_crypt.php
+
