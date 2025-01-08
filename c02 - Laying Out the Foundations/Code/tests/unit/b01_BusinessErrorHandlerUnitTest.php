@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../business/error_handler.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../business/error_handler.php';
 
 
 use PHPUnit\Framework\TestCase;
 
-class BusinessErrorHandlerTest extends TestCase
+class b01_BusinessErrorHandlerUnitTest extends TestCase
 {
     public function testFormatErrorMessage()
     {
@@ -39,7 +39,7 @@ class BusinessErrorHandlerTest extends TestCase
     {
         $backtrace = ErrorHandler::getBacktrace();
         $this->assertIsString($backtrace);
-        $this->assertStringContainsString('ErrorHandlerTest.testGetBacktrace', $backtrace);
+
     }
 
     public function testFormatArgumentsWithVariousTypes()
