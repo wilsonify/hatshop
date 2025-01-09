@@ -1,4 +1,4 @@
-.phone: clean build run all
+.phony: clean build run all
 
 all: build run
 
