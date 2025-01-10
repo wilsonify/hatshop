@@ -25,6 +25,9 @@ on:
           - 'c15 - Credit Card Transactions'
           - 'c16 - Product Reviews'
           - 'c17 - Connecting to Web Services'
+          - 'c18 - Kubernetes In Docker'
+          - 'c19 - Identity Provider'
+          - 'c20 - OAuth2 Proxy'
 
 jobs:
   build:
