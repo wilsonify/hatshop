@@ -12,11 +12,7 @@ run:
 	docker run --rm --name hatshop --env-file .env -p 9000:9000 ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
 
 test: build
-	docker run --rm --name hatshop-test --env-file .env \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
-ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest \
-./vendor/phpunit/phpunit/phpunit tests
+	docker run --rm --name hatshop-test --env-file .env ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest ./vendor/phpunit/phpunit/phpunit tests/unit
 
 bootstrap-database:
 	docker run --rm --name hatshop-db-client --env-file .env \
