@@ -1,19 +1,24 @@
 services:
   php:
+    env_file: [ .env ]
     image: ghcr.io/wilsonify/c01-base-image:latest
+    restart: unless-stopped
     volumes:
       - ./Code:/var/www/html:rw
-    restart: unless-stopped
+    command:
+      - php
+      - -S
+      - 0.0.0.0:9000
 
   nginx:
     env_file: [ .env ]
+    image: nginx:latest
+    restart: unless-stopped
     depends_on:
       - php
-    image: nginx:latest
     ports:
       - "443:443"
     volumes:
       - ./etc/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
       - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
       - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
-    restart: unless-stopped
