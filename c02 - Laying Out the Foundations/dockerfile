@@ -3,16 +3,26 @@ FROM php:8.2-apache
 # Set working directory
 WORKDIR /var/www/html
 
-# Install dependencies and Composer
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends zip unzip git && \
+# dependency management with Composer
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    libcurl4-openssl-dev \
+    libpq-dev \
+    libzip-dev \
+    sendmail \
+    unzip \
+    zip && \
+    docker-php-ext-install \
+    zip \
+    pdo \
+    pdo_pgsql \
+    pgsql \
+    curl && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version
 
-# Require Smarty
 RUN composer require smarty/smarty
 RUN composer require phpunit/phpunit
-
 
 # Copy Apache configuration
 COPY ./etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
@@ -24,7 +34,14 @@ RUN a2enmod rewrite ssl && a2ensite 000-default.conf
 EXPOSE 443
 
 # Copy application code
-COPY --chown=www-data:www-data --chmod=775 ./Code/ /var/www/html/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/index.php /var/www/html/index.php
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/hatshop.css /var/www/html/hatshop.css
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/business/ /var/www/html/business/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/images/ /var/www/html/images/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/include/ /var/www/html/include/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/presentation/ /var/www/html/presentation/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/product_images/ /var/www/html/product_images/
+COPY --chown=www-data:www-data --chmod=775 ./var/www/html/tests/ /var/www/html/tests/
 
 # Run Apache
 CMD ["apache2-foreground"]
