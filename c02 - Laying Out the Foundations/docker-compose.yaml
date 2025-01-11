@@ -13,9 +13,9 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./etc/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
-      - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+      - ./default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
     restart: unless-stopped
 
   selenium:
