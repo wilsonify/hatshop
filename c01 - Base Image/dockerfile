@@ -1,13 +1,21 @@
-FROM php:8.2-fpm
+FROM php:8.2-fpm AS shared_base
 WORKDIR /var/www/html
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y
+
+FROM shared_base AS builder
+WORKDIR /var/www/html
+RUN apt-get install -y \
     unzip \
     git \
     libzip-dev \
     libpq-dev \
-    sendmail \
-    && docker-php-ext-install zip pdo pdo_pgsql pgsql \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    libcurl4-openssl-dev
+RUN docker-php-ext-install zip pdo pdo_pgsql pgsql curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer require smarty/smarty
-CMD ["php-fpm", "--nodaemonize"]
+RUN composer require phpunit/phpunit
+
+FROM shared_base AS runtime
+WORKDIR /var/www/html
+COPY --from=builder /var/www/html/vendor/ /var/www/html/vendor/
+CMD ["php", "-S", "0.0.0.0:9000"]
