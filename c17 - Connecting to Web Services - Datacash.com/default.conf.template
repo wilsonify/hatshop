@@ -1,0 +1,43 @@
+# Local testing on localhost
+server {
+    listen 80;
+    server_name ${NGINX_SERVER};
+    return 301 https://localhost$request_uri;
+}
+
+# HTTPS for localhost
+server {
+    listen 443 ssl;
+    server_name ${NGINX_SERVER};
+
+    # SSL Configuration (use your generated certificate and key)
+    ssl_certificate /etc/ssl/certs/rr-origin.pem;
+    ssl_certificate_key /etc/ssl/private/rr-private-key.pem;
+
+    # Logging Configuration
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    # Root Directory Configuration
+    root /var/www/html;  # Adjust this to your local site files
+    index index.php;
+
+    # Handle static files (css, js, images, etc.)
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|otf|eot|ttc|mp4|webm|ogg|ogv)$ {
+        expires 1d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Default location for non-static files
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # PHP processing (ensure your PHP-FPM service is running and accessible)
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass php:9000;  # Adjust if using a different PHP-FPM setup
+        fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;
+    }
+}
+
