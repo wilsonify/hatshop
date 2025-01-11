@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../presentation/smarty_plugins/modifier.prepare_link.php';
 use PHPUnit\Framework\TestCase;
 
-class LinkModifierTest extends TestCase {
+class p01a_LinkModifierTest extends TestCase {
     private const TEST_PATH = 'path/to/file';
     private const BASE_LINK = 'https://example.com';
     private const INDEX_PHP = 'index.php';

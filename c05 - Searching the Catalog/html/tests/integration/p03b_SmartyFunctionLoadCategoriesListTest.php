@@ -5,7 +5,7 @@ require_once __DIR__ . '/../presentation/smarty_plugins/function.load_categories
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 
-class SmartyFunctionLoadCategoriesListTest extends TestCase
+class p03b_SmartyFunctionLoadCategoriesListTest extends TestCase
 {
     protected function setUp(): void
     {

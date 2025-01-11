@@ -17,7 +17,7 @@ class Catalog
     }
 }
 
-class DepartmentsListTest extends TestCase
+class p02a_DepartmentsListTest extends TestCase
 {
     public function testConstructorWithDepartmentIDInQueryString()
     {

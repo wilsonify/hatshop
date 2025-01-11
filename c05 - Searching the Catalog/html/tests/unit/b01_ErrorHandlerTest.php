@@ -6,7 +6,7 @@ require_once __DIR__ . '/../business/error_handler.php';
 
 use PHPUnit\Framework\TestCase;
 
-class BusinessErrorHandlerTest extends TestCase
+class b01_ErrorHandlerTest extends TestCase
 {
     public function testFormatErrorMessage()
     {
