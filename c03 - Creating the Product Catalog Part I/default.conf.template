@@ -1,0 +1,28 @@
+# Local testing on localhost
+server {
+    listen 80;
+    server_name ${NGINX_SERVER};
+    return 301 https://${NGINX_SERVER}$request_uri;
+}
+
+# HTTPS for localhost
+server {
+    listen 443 ssl;
+    server_name ${NGINX_SERVER};
+
+    # SSL Configuration (use your generated certificate and key)
+    ssl_certificate /etc/ssl/certs/rr-origin.pem;
+    ssl_certificate_key /etc/ssl/private/rr-private-key.pem;
+
+    # Logging Configuration
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    # Redirect root (/) to php
+    location = / { return 302 /php/; }
+
+    # Route for services
+    location /php/ { proxy_pass http://php:9000/; }
+
+}
+
