@@ -4,7 +4,7 @@ services:
     image: ghcr.io/wilsonify/c01-base-image:latest
     restart: unless-stopped
     volumes:
-      - ./Code:/var/www/html:rw
+      - ./var/www/html/index.php:/var/www/html/index.php
     command:
       - php
       - -S
