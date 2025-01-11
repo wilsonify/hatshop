@@ -1,23 +1,9 @@
 services:
   php:
     env_file: [ .env ]
-    image: ghcr.io/wilsonify/c01-base-image:latest
+    image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
     user: www-data:www-data
-    ports:
-      - 9000:9000
-    volumes:
-      - ./var/www/html/index.php:/var/www/html/index.php
-      - ./var/www/html/hatshop.css:/var/www/html/hatshop.css
-      - ./var/www/html/business/:/var/www/html/business/
-      - ./var/www/html/images/:/var/www/html/images/
-      - ./var/www/html/include/:/var/www/html/include/
-      - ./var/www/html/presentation/:/var/www/html/presentation/
-      - ./var/www/html/product_images/:/var/www/html/product_images/
     restart: unless-stopped
-    command:
-      - php
-      - -S
-      - 0.0.0.0:9000
 
   nginx:
     env_file: [ .env ]
