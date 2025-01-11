@@ -17,7 +17,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            HATSHOP_NGINX_SERVER=localhost
+            NGINX_SERVER=localhost
             HATSHOP_HTTP_SERVER_PORT=443
           ports:
             - containerPort: {{ .Values.service.port }}

@@ -1,22 +1,18 @@
 services:
   php:
     env_file: [ .env ]
-    image: ghcr.io/wilsonify/c01-base-image:latest
+    image: ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
     user: www-data:www-data
-    volumes:
-      - ./Code:/var/www/html:rw
     restart: unless-stopped
 
   nginx:
     env_file: [ .env ]
-    depends_on:
-      - php
+    depends_on: [ php ]
+    restart: unless-stopped
     image: ghcr.io/wilsonify/c00-nginx-image:latest
     ports:
       - "443:443"
     volumes:
-      - ./Code:/var/www/html:rw
-      - ./etc/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
-      - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
-    restart: unless-stopped
+      - ./default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
