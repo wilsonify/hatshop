@@ -1,6 +1,6 @@
 services:
   selenium:
-    image:
+    image: ghcr.io/wilsonify/c21-selenium:latest
     restart: unless-stopped
     ports:
       - "4444:4444"
