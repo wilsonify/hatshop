@@ -22,7 +22,10 @@ server {
     location = / { return 302 /php; }
 
     # Route for services
-    location /php/ { proxy_pass http://php:9000; }
+    location /php/ {
+        rewrite ^/php(/.*)$ $1 break; # Strip the name and pass the rest of the URL
+        proxy_pass http://php:9000;
+    }
 
 }
 
