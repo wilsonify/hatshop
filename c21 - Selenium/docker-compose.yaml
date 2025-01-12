@@ -1,0 +1,6 @@
+services:
+  selenium:
+    image:
+    restart: unless-stopped
+    ports:
+      - "4444:4444"
