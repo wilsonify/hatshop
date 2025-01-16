@@ -1,0 +1,11 @@
+services:
+  php:
+    env_file: [ .env ]
+    image: ghcr.io/wilsonify/c00-apache-image:latest
+    restart: unless-stopped
+    volumes:
+      - ./var/www/html/:/var/www/html/
+      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+    ports:
+      - 443:443

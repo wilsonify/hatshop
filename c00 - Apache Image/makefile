@@ -10,7 +10,7 @@ build:
 
 run:
 	docker run --rm --name hatshop \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
+-v ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
+-v ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 -p 443:443 ghcr.io/wilsonify/c00-apache-image:latest
 
