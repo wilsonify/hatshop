@@ -17,5 +17,6 @@ RUN composer require phpunit/phpunit
 
 FROM shared_base AS runtime
 WORKDIR /var/www/html
+COPY ./html /var/www/html/
 COPY --from=builder /var/www/html/vendor/ /var/www/html/vendor/
 CMD ["php", "-S", "0.0.0.0:9000"]

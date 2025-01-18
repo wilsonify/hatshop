@@ -10,14 +10,14 @@ Concept: A virtual store specializing in hats, serving as a demonstration of pha
     Phase II: Enhanced shopping experience with recommendations and promotions.
     Phase III: Full-fledged e-commerce system with secure payments and automated logistics.
 
-Live Demo: Visit HatShop Demo for a preview.
 Final Considerations
 
     Customer-Centric Design: Understand customer needs, preferences, and behaviors.
     Scalability: Plan for growth and future feature additions.
     Cost Efficiency: Focus on delivering value through iterative improvements.
 
-By addressing these foundational steps and considerations, you can launch and grow an e-commerce site that meets your business objectives while serving your customers effectively.
+By addressing these foundational steps and considerations, 
+you can launch and grow an e-commerce site that meets your business objectives while serving your customers effectively.
 
 ## Installed Packages
 
