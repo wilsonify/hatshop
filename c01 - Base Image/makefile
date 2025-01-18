@@ -9,7 +9,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c01-base-image:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env -p 9000:9000 ghcr.io/wilsonify/c01-base-image:latest
+	docker run --rm --name hatshop --env-file .env -p 9000:80 ghcr.io/wilsonify/c01-base-image:latest
 
 
 
