@@ -2,6 +2,12 @@
 FROM php:8.2-fpm AS base
 WORKDIR /var/www/html
 RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y && apt-get install -y libpq-dev sendmail libcurl4-openssl-dev nginx
+RUN docker-php-ext-install pdo pdo_pgsql pgsql
+
+# Builder stage: For dependency installation
+FROM base AS builder
+WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get install -y \
@@ -17,10 +23,6 @@ RUN apt-get install -y \
 
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Builder stage: For dependency installation
-FROM base AS builder
-WORKDIR /var/www/html
 
 # Install PHP dependencies
 RUN composer require smarty/smarty phpunit/phpunit
