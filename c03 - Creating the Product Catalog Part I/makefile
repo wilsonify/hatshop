@@ -9,7 +9,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env -p 9000:9000 ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest
+	docker run --rm --name hatshop --env-file .env -p 9000:80 ghcr.io/wilsonify/c03-creating-the-product-catalog-part-i:latest
 
 test: build
 	docker run --rm --name hatshop-test --env-file .env \
