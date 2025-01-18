@@ -2,7 +2,6 @@ services:
   php:
     env_file: [ .env ]
     image: ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
-    user: www-data:www-data
     restart: unless-stopped
 
   nginx:
