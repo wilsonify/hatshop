@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../presentation/smarty_plugins/function.load_categories_list.php';
+require_once __DIR__ . '/../../presentation/smarty_plugins/04.function.load_categories_list.php';
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 

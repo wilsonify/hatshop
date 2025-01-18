@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../presentation/smarty_plugins/modifier.prepare_link.php';
+
+require_once __DIR__ . '/../../presentation/smarty_plugins/01.modifier.prepare_link.php';
 use PHPUnit\Framework\TestCase;
 
 
