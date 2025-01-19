@@ -10,15 +10,10 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c08-the-shopping-cart:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
--p 443:443 ghcr.io/wilsonify/c08-the-shopping-cart:latest
+	docker run --rm --name hatshop --env-file .env -p 9000:80 ghcr.io/wilsonify/c08-the-shopping-cart:latest
 
 test: build
 	docker run --rm --name hatshop-test --env-file .env \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 ghcr.io/wilsonify/c08-the-shopping-cart:latest \
 ./vendor/phpunit/phpunit/phpunit tests
 
