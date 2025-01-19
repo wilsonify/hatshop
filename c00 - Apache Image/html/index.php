@@ -1,10 +1,6 @@
 <?php
-// Load Smarty library and config files
-require_once 'include/app_top.php';
+// business logic
+include __DIR__ . '/phpinfo_logic.php';
 
-// Load Smarty template file
-$page = new Page();
-
-// Display the page
-$page->display('index.tpl');
-
+// presentation
+include __DIR__ . '/phpinfo_view.tpl';
