@@ -27,5 +27,6 @@ server {
         proxy_pass http://php:80;
     }
 
+
 }
 
