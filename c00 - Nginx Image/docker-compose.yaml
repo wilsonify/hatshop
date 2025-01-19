@@ -1,26 +1,20 @@
 services:
   php:
     env_file: [ .env ]
-    image: ghcr.io/wilsonify/c01-base-image:latest
+    image: ghcr.io/wilsonify/c00-apache-image:latest
     restart: unless-stopped
     volumes:
-      - ./var/www/html/:/var/www/html/
-    ports:
-      - 9000:9000
-    command:
-      - php
-      - -S
-      - 0.0.0.0:9000
+      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
 
   nginx:
     env_file: [ .env ]
-    image: nginx:latest
+    image: ghcr.io/wilsonify/c00-nginx-image:latest
     restart: unless-stopped
     depends_on:
       - php
     ports:
       - "443:443"
     volumes:
-      - ./etc/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
-      - ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
