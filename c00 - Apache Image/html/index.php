@@ -1,6 +1,6 @@
 <?php
 // business logic
-include __DIR__ . '/phpinfo_logic.php';
+include_once __DIR__ . '/phpinfo_logic.php';
 
 // presentation
-include __DIR__ . '/phpinfo_view.tpl';
+include_once __DIR__ . '/phpinfo_view.tpl';
