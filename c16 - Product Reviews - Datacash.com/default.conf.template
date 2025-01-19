@@ -25,7 +25,7 @@ server {
     # Route for services
     location /php/ {
         rewrite ^/php(/.*)$ $1 break; # Strip the name and pass the rest of the URL
-        proxy_pass http://php:443;
+        proxy_pass https://php:443;
     }
 
 
