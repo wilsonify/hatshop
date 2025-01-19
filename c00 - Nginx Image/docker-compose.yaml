@@ -6,13 +6,13 @@ services:
     volumes:
       - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
       - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+    ports:
+      - "444:443"
 
   nginx:
     env_file: [ .env ]
     image: ghcr.io/wilsonify/c00-nginx-image:latest
     restart: unless-stopped
-    depends_on:
-      - php
     ports:
       - "443:443"
     volumes:
