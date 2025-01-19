@@ -19,7 +19,7 @@ be accessed as demonstrated in the examples below:
 {* display the value of the cookie "username" ($_COOKIE['username']) *}
 {$smarty.cookies.username}
 
-{* display the server variable "SERVER_NAME" ($_SERVER['SERVER_NAME'])*}
+{* display the server variable "SERVER_NAME" ($_SERVER['HATSHOP_HTTP_SERVER_HOST'])*}
 {$smarty.server.SERVER_NAME}
 
 {* display the system environment variable "PATH" *}

@@ -32,7 +32,7 @@ class AmazonProductsList
 
     for ($i = 0;$i < count($this->mProducts); $i++)
       $this->mProducts[$i]['link'] =
-        'http://www.amazon.com/exec/obidos/ASIN/' .
+        'https://www.amazon.com/exec/obidos/ASIN/' .
         $this->mProducts[$i]['asin'] .
         '/ref=nosim/' . AMAZON_ASSOCIATES_ID;
   }

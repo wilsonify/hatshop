@@ -3,7 +3,7 @@ try
 {
   // Initialize SOAP client object
   $client = new SoapClient(
-    'http://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl');
+    'https://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl');
 
   /* DON'T FORGET to replace the string '[Your Access Key ID]' with your 
      subscription ID in the following line */

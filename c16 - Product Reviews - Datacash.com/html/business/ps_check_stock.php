@@ -34,7 +34,7 @@ class PsCheckStock implements IPipelineSection
     $body .= "\n\n";
 
     $body .= 'Please check availability and confirm via ' .
-             'http://www.hatshop.com/admin.php';
+             'https://www.hatshop.com/admin.php';
     $body .= "\n\n";
 
     $body .= 'Order reference number: ';

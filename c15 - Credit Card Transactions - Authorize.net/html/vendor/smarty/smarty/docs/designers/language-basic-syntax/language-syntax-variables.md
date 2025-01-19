@@ -34,7 +34,7 @@ Many other combinations are allowed
 {$foo->bar($baz,2,$bar)} <-- passing parameters
 {"foo"}       <-- static values are allowed
 
-{* display the server variable "SERVER_NAME" ($_SERVER['SERVER_NAME'])*}
+{* display the server variable "SERVER_NAME" ($_SERVER['HATSHOP_HTTP_SERVER_HOST'])*}
 {$smarty.server.SERVER_NAME}
 
 Math and embedding tags:

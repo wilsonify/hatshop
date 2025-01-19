@@ -40,7 +40,7 @@ class PsShipGoods implements IPipelineSection
     $body.= "\n\n";
 
     $body.= 'When goods have been shipped, please confirm via ' .
-            'http://www.hatshop.com/admin.php';
+            'https://www.hatshop.com/admin.php';
     $body.= "\n\n";
 
     $body.= 'Order reference number: ';

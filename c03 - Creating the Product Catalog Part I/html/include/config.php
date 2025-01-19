@@ -43,6 +43,7 @@ define('DB_DATABASE', getenv('HATSHOP_DB_DATABASE'));
 define('PDO_DSN', 'pgsql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE . ';sslmode=require');
 
 // Server HTTP port (can omit if the default 80 is used)
+define('HTTP_SERVER_HOST', getenv('HATSHOP_HTTP_SERVER_HOST'));
 define('HTTP_SERVER_PORT', getenv('HATSHOP_HTTP_SERVER_PORT'));
 
 // We enable and enforce SSL when this is set to anything else than 'no'

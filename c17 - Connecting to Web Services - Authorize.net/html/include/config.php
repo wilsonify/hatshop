@@ -86,9 +86,9 @@ define('AUTHORIZE_NET_TEST_REQUEST', 'FALSE');
 // define('AMAZON_METHOD', 'REST');
 define('AMAZON_METHOD', 'SOAP');
 define('AMAZON_WSDL',
-  'http://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl');
+  'https://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl');
 define('AMAZON_REST_BASE_URL',
-  'http://webservices.amazon.com/onca/xml?Service=AWSECommerceService');
+  'https://webservices.amazon.com/onca/xml?Service=AWSECommerceService');
 
 // Set Amazon Access Key ID
 define('AMAZON_ACCESS_KEY_ID', '[Your Access Key ID]');

@@ -28,7 +28,7 @@ multiple domains / multiple virtual hosts.
 
     <?php
 
-    $smarty->compile_id = $_SERVER['SERVER_NAME'];
+    $smarty->compile_id = $_SERVER['HATSHOP_HTTP_SERVER_HOST'];
     $smarty->compile_dir = '/path/to/shared_compile_dir';
 
     ?>

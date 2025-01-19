@@ -12,7 +12,7 @@ function trimPath($path) {
 
 // Function to generate the base link with HTTPS and the correct domain
 function generateBaseLink($string) {
-    return 'https://' . getenv('SERVER_NAME');
+    return 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 }
 
 // Function to append path to the base link

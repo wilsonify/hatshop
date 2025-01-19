@@ -12,7 +12,7 @@ TRUE, this value is ignored.
     // shows debug console only on localhost ie
     // http://localhost/script.php?foo=bar&SMARTY_DEBUG
     $smarty->debugging = false; // the default
-    $smarty->debugging_ctrl = ($_SERVER['SERVER_NAME'] == 'localhost') ? 'URL' : 'NONE';
+    $smarty->debugging_ctrl = ($_SERVER['HATSHOP_HTTP_SERVER_HOST'] == 'localhost') ? 'URL' : 'NONE';
     ?>
 
 See also [debugging console](#chapter.debugging.console) section,

@@ -79,7 +79,7 @@ class CheckoutInfo
       $redirect_page = 'index.php?OrderDone';
 
       // Redirect to index.php
-      $redirect_link = 'http://' . getenv('SERVER_NAME');
+      $redirect_link = 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 
       // If HTTP_SERVER_PORT is defined and different than default
       if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT != '80')
