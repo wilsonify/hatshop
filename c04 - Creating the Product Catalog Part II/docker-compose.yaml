@@ -3,6 +3,10 @@ services:
     env_file: [ .env ]
     image: ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
     restart: unless-stopped
+    volumes:
+      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+      
+
 
   nginx:
     env_file: [ .env ]
