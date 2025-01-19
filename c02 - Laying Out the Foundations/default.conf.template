@@ -20,12 +20,14 @@ server {
 
     # Redirect root (/) to php
     location = / { return 302 /php/; }
+    location = /index.php { return 302 /php/index.php?$args; }
 
     # Route for services
     location /php/ {
         rewrite ^/php(/.*)$ $1 break; # Strip the name and pass the rest of the URL
-        proxy_pass http://php:80;
+        proxy_pass http://php:443;
     }
+
 
 }
 
