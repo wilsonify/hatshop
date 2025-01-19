@@ -1,7 +1,7 @@
 services:
   php:
     env_file: [ .env ]
-    image: ghcr.io/wilsonify/c01-base-image:latest
+    image: ghcr.io/wilsonify/c09-dealing-with-customer-orders:latest
     user: www-data:www-data
     volumes:
       - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
