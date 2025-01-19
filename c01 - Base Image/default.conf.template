@@ -1,11 +1,14 @@
-# Local testing on localhost
+# since this is a template file it should respect NGINX_SERVER, the domain name of your server (e.g. localhost)
+
+# HTTP
+# always redirect http requests to https
 server {
     listen 80;
     server_name ${NGINX_SERVER};
     return 301 https://${NGINX_SERVER}$request_uri;
 }
 
-# HTTPS for localhost
+# HTTPS
 server {
     listen 443 ssl;
     server_name ${NGINX_SERVER};
