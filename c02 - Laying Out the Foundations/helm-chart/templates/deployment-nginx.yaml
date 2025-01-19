@@ -12,6 +12,7 @@ spec:
       labels:
         app: nginx
     spec:
+      serviceAccountName: nginx-service-account
       containers:
         - name: nginx
           image: {{ .Values.nginx.image }}
