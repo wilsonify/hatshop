@@ -1,4 +1,4 @@
-FROM php:8.2-apache AS builder
+FROM php:8.2-apache AS shared_base
 WORKDIR /var/www/html
 
 # update base system
@@ -11,15 +11,14 @@ sendmail \
 libcurl4-openssl-dev
 RUN docker-php-ext-install pdo pdo_pgsql pgsql
 
+FROM shared_base AS builder
+
 # install build dependencies
 RUN apt-get install -y \
     unzip \
     git \
-    libzip-dev \
-    libpq-dev \
-    libcurl4-openssl-dev \
-    nginx \
-    && docker-php-ext-install zip pdo pdo_pgsql pgsql curl \
+    libzip-dev  \
+    && docker-php-ext-install zip curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -36,7 +35,7 @@ COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 # Enable Apache modules and site
 RUN a2enmod rewrite ssl && a2ensite 000-default.conf
 
-FROM php:8.2-apache AS runtime
+FROM shared_base AS runtime
 WORKDIR /var/www/html
 EXPOSE 80
 COPY --chown=www-data:www-data --chmod=775 ./html/ /var/www/html/
