@@ -9,7 +9,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c02-laying-out-the-foundations:latest .
 
 run:
-	docker run --rm --name hatshop -p 9000:80 ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
+	docker run --rm --name hatshop -p 8080:80 ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
 
 test-unit: build
 	docker run --rm --name hatshop-test --env-file .env \
