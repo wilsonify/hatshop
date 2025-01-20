@@ -3,21 +3,5 @@ services:
     env_file: [ .env ]
     image: ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest
     user: www-data:www-data
-    volumes:
-      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
-    restart: unless-stopped
-
-  nginx:
-    env_file: [ .env ]
-    depends_on:
-      - php
-    image: ghcr.io/wilsonify/c00-nginx-image:latest
-    ports:
-      - "443:443"
-    volumes:
-      
-      - ./default.conf.template:/etc/nginx/templates/default.conf.template
-      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
+    ports: [ "8080:80" ]
     restart: unless-stopped
