@@ -9,8 +9,5 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c00-apache-image:latest .
 
 run:
-	docker run --rm --name hatshop \
--v ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
--p 443:443 ghcr.io/wilsonify/c00-apache-image:latest
+	docker run --rm --name hatshop -p 8080:80 ghcr.io/wilsonify/c00-apache-image:latest
 

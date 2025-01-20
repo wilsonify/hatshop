@@ -1,10 +1,7 @@
 services:
   php:
-    env_file: [ .env ]
+    environment: [ "APACHE_SERVER=localhost" ]
     image: ghcr.io/wilsonify/c00-apache-image:latest
     restart: unless-stopped
-    volumes:
-      - ./ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem
-      - ./ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem
     ports:
-      - 443:443
+      - 8080:80
