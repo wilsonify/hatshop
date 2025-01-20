@@ -37,6 +37,8 @@ FROM base AS runtime
 WORKDIR /var/www/html
 
 # adjust file permissions www-data user
+RUN rm -rf /usr/share/nginx/html
+RUN rm /var/www/html/index.nginx-debian.html
 RUN mkdir -p /var/log/php-fpm
 RUN mkdir -p /var/log/nginx
 RUN chown -R www-data /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html

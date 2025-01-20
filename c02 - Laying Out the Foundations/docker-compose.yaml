@@ -4,6 +4,5 @@ services:
     image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
     user: www-data:www-data
     restart: unless-stopped
-    ports:
-      - 8080:80
+    ports: [ "8080:80" ]
 
