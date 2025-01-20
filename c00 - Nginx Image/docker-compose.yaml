@@ -1,7 +1,7 @@
 services:
 
   nginx:
-    environment: [ "NGINX_SERVER=localhost" ]    
+    environment: [ "NGINX_SERVER=localhost" ]
     image: ghcr.io/wilsonify/c00-nginx-image:latest
     restart: unless-stopped
     ports:
