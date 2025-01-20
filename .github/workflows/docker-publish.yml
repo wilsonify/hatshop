@@ -33,6 +33,7 @@ on:
           - 'c19 - Identity Provider'
           - 'c20 - OAuth2 Proxy'
           - 'c21 - Selenium'
+          - 'c22 - Zero Trust'
 
 jobs:
   build:
