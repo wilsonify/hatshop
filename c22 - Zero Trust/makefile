@@ -10,4 +10,3 @@ build:
 
 run:
 	docker run -d ghcr.io/wilsonify/c22-zero-trust:latest tunnel --no-autoupdate run --token $(TOKEN)
-	
