@@ -10,15 +10,10 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
--p 443:443 ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest
+	docker run --rm --name hatshop --env-file .env -p 8080:80 ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest
 
 test: build
 	docker run --rm --name hatshop-test --env-file .env \
--v ./etc/ssl/certs/rr-origin.pem:/etc/ssl/certs/rr-origin.pem \
--v ./etc/ssl/private/rr-private-key.pem:/etc/ssl/private/rr-private-key.pem \
 ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest \
 ./vendor/phpunit/phpunit/phpunit tests
 

@@ -9,8 +9,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c09-dealing-with-customer-orders:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env \
--p 443:443 ghcr.io/wilsonify/c09-dealing-with-customer-orders:latest
+	docker run --rm --name hatshop --env-file .env -p 8080:80 ghcr.io/wilsonify/c09-dealing-with-customer-orders:latest
 
 test: build
 	docker run --rm --name hatshop-test --env-file .env \
