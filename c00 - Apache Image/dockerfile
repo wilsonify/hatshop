@@ -37,4 +37,5 @@ COPY --chown=www-data:www-data --chmod=775 ./html/ /var/www/html/
 COPY --from=builder --chown=www-data:www-data --chmod=775 /var/www/html/vendor/ /var/www/html/vendor/
 COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite ssl && a2ensite 000-default.conf
+USER www-data
 CMD ["apache2-foreground"]

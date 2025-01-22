@@ -49,4 +49,8 @@ RUN composer install
 COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite && a2ensite 000-default.conf
 EXPOSE 80
+# Change to non-root user here
+
+USER www-data
 CMD ["apache2-foreground"]
+
