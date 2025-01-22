@@ -43,7 +43,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # use Composer for dependency management
 COPY --chown=www-data:www-data --chmod=775 ./html/ /var/www/html/
-RUN composer install
+RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress
 
 # Enable Apache modules and site
 COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
