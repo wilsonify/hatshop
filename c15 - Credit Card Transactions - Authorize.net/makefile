@@ -10,7 +10,7 @@ build:
 	docker build --progress=plain -t ghcr.io/wilsonify/c15-credit-card-transactions-authorize-net:latest .
 
 run:
-	docker run --rm --name hatshop --env-file .env -p 9000:9000 ghcr.io/wilsonify/c15-credit-card-transactions-authorize-net:latest
+	docker run --rm --name hatshop --env-file .env -p 8080:80 ghcr.io/wilsonify/c15-credit-card-transactions-authorize-net:latest
 
 test: build
 	docker run --rm --name hatshop-test --env-file .env ghcr.io/wilsonify/c15-credit-card-transactions-authorize-net:latest ./vendor/phpunit/phpunit/phpunit tests/unit
