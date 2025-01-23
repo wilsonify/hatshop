@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../presentation/smarty_plugins/01.modifier.prepare_l
 use PHPUnit\Framework\TestCase;
 
 
-class p01b_SmartyModifierPrepareLinkTest extends TestCase
+class p01_SmartyModifierPrepareLinkTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../presentation/smarty_plugins/02.function.load_depa
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 
-class p02b_SmartyFunctionLoadDepartmentsListAssignsVariableTest  extends TestCase
+class p02_SmartyFunctionLoadDepartmentsListAssignsVariableTest  extends TestCase
 {
     public function testSmartyFunctionLoadDepartmentsListAssignsVariable()
     {

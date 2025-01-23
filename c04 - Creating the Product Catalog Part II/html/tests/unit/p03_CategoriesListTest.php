@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 
 
-class p03a_CategoriesListTest extends TestCase
+class p03_CategoriesListTest extends TestCase
 {
     protected function setUp(): void
     {

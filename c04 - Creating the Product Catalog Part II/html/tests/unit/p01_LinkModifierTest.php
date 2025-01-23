@@ -4,10 +4,12 @@
 require_once __DIR__ . '/../../presentation/smarty_plugins/01.modifier.prepare_link.php';
 use PHPUnit\Framework\TestCase;
 
+define('HTTP_SERVER_HOST', getenv('HATSHOP_HTTP_SERVER_HOST'));
 
-class p01a_LinkModifierTest extends TestCase {
+class p01_LinkModifierTest extends TestCase {
+
     private const TEST_PATH = 'path/to/file';
-    private const BASE_LINK = 'https://example.com';
+    private const BASE_LINK = 'https://' . HTTP_SERVER_HOST;
     private const INDEX_PHP = 'index.php';
     private const ADMIN_PHP = 'admin.php';
     private const SOME_PATH = 'some/path';
@@ -29,7 +31,7 @@ class p01a_LinkModifierTest extends TestCase {
 
     // Test generateBaseLink function
     public function testGenerateBaseLink() {
-        putenv('SERVER_NAME=example.com');
+        putenv('SERVER_NAME=' . HTTP_SERVER_HOST);
         $result = generateBaseLink('any/path');
         $this->assertEquals(self::BASE_LINK, $result);
     }
@@ -73,7 +75,7 @@ class p01a_LinkModifierTest extends TestCase {
 
     // Test smarty_modifier_prepare_link function
     public function testSmartyModifierPrepareLink() {
-        putenv('SERVER_NAME=example.com');
+        putenv('SERVER_NAME=' . HTTP_SERVER_HOST);
 
         // Case with path needing index.php
         $result = smarty_modifier_prepare_link(self::SOME_PATH);
