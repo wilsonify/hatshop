@@ -12,10 +12,10 @@
     {/if}
     <span>E-mail address:</span><br />
     <input type="text" maxlength="50" name="email"
-     size="25" value="{$customer_login->mEmail}" /><br />
+     size="24" value="{$customer_login->mEmail}" /><br />
     <span>Password:</span><br />
     <input type="password" maxlength="50"
-     name="password" size="25" />
+     name="password" size="24" />
     <br />
     <input type="submit" name="Login" value="Login" />
     <strong>(
