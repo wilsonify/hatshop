@@ -1,0 +1,12 @@
+aws_account_number =ENC[AES256_GCM,data:Plr1kK/K7Zu+d8bU4fci,iv:78acUW4tuHzAkoScPcv4foRS+G+gOXNfUEbE0o97xRI=,tag:MP6NCdTrqsSFAnaeCEzp1w==,type:str]
+bucket             =ENC[AES256_GCM,data:iRnsKz+hfOpa/8+LVfZXaEYb7TTzNRyFCOpW71f+/Q==,iv:HvbCJwA0Ey1y3gcRKgbWyd7fni+Ld0XWjdjmER2b0IM=,tag:HvEfPQ8vKRLABh22emP/Nw==,type:str]
+key                =ENC[AES256_GCM,data:aapuRozb7uNeC77MB2lL0uTBooRvYg08n3mW95buUOA=,iv:VpawLuVdHGJh6Pkd+TzASyNW3QqHsTWk4tEYBQKpl+Y=,tag:GG3x33zg8jXuct3lt2b/TA==,type:str]
+region             =ENC[AES256_GCM,data:5UtqOgY+lFK3vqTl,iv:QsoDs4ScFlL5tXggnTchFdrKdoGZAo9NlaWxM5jxCZA=,tag:XU8HM73Fo/BcWwfJVNBg8Q==,type:str]
+dynamodb_table     =ENC[AES256_GCM,data:H9ZXkp8pzhuGI6/+1aqaG0kHltwozdav11U=,iv:K/ayDVq87zpwK8HLwljagu2PBCCXhq1/tFgN7grfl/Q=,tag:PbtKS3iM0Ysl3I6cpLDX4w==,type:str]
+aws_profile            =ENC[AES256_GCM,data:dm/MRR8YdtnT/YxwmzUR,iv:/xOp2fV4Ti9H8RWvoapTYse30Is9GTbCnQYMvIjimao=,tag:H1XueKjowA6T9KV0k1ZlVQ==,type:str]
+sops_age__list_0__map_enc=-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGLzNIQlk1MmxGQUUzUmlR\nYjUxOXZOK1dGU0dlY0ZPTVEyckpQV0g4b1IwClJmdE9UMW1mRmF0T1EyVUJTQ3hL\nWG1UNHZyU2t4WHdLUUh1TnV6R2UzWUUKLS0tIFJVVjc3QTUxdVBZWkpyWVp2OE0z\nVVV3b2ZhRTh0SjNqMUxBS2NCR1N6K0UKE0OLuwHTpaXyQt8LzhAkk1p/BMb2VgmR\nyrTZqyFDD7/4dZXzJvKQftar61p+cQWVKc97J8R7LnB+2rwPoZWqgw==\n-----END AGE ENCRYPTED FILE-----\n
+sops_age__list_0__map_recipient=age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
+sops_lastmodified=2025-06-14T17:48:01Z
+sops_mac=ENC[AES256_GCM,data:15Od9fr2IYSduhoOTlP05HJh570Od2HL5afVEtP0HAmVOkOwqsq2A3BZ8TLZeAiBwFj+rfWvFAqDBr76hNi4uV0GL5hXD7iBE60Ic9sDWR9efVohhl5E07nHJJ5BacEc1ZTBOXkxAK0VAmTZ2kZCVYQN0t0YaEw4QCDEQytxhGk=,iv:eL3QFTKSEoou8YvqnI2iuWrfMp51i/RrSj7XWUtGUfA=,tag:PNP/OuOrGzFa12634TY6hA==,type:str]
+sops_unencrypted_suffix=_unencrypted
+sops_version=3.9.3

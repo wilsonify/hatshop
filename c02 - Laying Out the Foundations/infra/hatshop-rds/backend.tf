@@ -1,0 +1,18 @@
+terraform {
+  backend "s3" {
+    bucket         = "${var.aws_account_number}-terraform-state"
+    key            = "hatshop-rds/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "${var.aws_account_number}-lock-table"
+    profile        = "${var.aws_profile}"
+  }
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"  # Specify a version constraint (update as needed)
+    }
+    aws = {
+      version = "~> 3.76.1"
+    }
+  }
+}
