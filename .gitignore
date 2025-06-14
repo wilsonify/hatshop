@@ -5,3 +5,8 @@
 ssl/
 templates_c/
 vendor/
+*.env
+*.tfvars
+*.tfbackend
+.terraform/
+.terraform.lock.hcl

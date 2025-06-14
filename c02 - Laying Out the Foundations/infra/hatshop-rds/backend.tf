@@ -7,12 +7,8 @@ terraform {
     profile        = "${var.aws_profile}"
   }
   required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.0"  # Specify a version constraint (update as needed)
-    }
     aws = {
-      version = "~> 3.76.1"
+      version = "~> 5.100.0"
     }
   }
 }
