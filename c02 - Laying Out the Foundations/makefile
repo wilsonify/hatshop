@@ -34,7 +34,7 @@ redeploy:
 
 bootstrap-database:
 	docker run --rm --name hatshop-db-client --env-file .env \
--v ./Database/:/Database/ \
--w /Database \
+-v ./database/:/database/ \
+-w /database \
 postgres:17 \
-/Database/execute_sql_scripts.sh
+/database/execute_sql_scripts.sh
