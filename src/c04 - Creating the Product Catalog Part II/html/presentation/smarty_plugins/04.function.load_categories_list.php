@@ -13,12 +13,13 @@ class CategoriesList
     public $mCategorySelected = 0;
     public $mDepartmentSelected = 0;
     public $mCategories = [];
+    private $categoriesFetcher;
 
     public function __construct($categoriesFetcher = null)
     {
         $this->mDepartmentSelected = $this->getQueryParameter('DepartmentID');
         $this->mCategorySelected = $this->getQueryParameter('CategoryID', 0);
-        $this->categoriesFetcher = $categoriesFetcher ?: [Catalog::class, 'GetCategoriesInDepartment'];
+        $this->categoriesFetcher = $categoriesFetcher ?: [Catalog::class, 'getCategoriesInDepartment'];
     }
 
     public function initialize()
