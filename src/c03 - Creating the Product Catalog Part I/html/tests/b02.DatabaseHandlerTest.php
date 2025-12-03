@@ -1,4 +1,3 @@
-
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
@@ -17,24 +16,31 @@ class DatabaseHandlerTest extends TestCase
         $this->pdoMock = $this->createMock(PDO::class);
         $this->statementMock = $this->createMock(PDOStatement::class);
 
-        // Inject the PDO mock into the static property using reflection
-        // This is safe because:
-        // 1. It's limited to test scope only
-        // 2. The property is properly restored in tearDown()
-        // 3. No instance is passed to setAccessible, so it affects the static property
+        // Inject the PDO mock into the static property using reflection (NOSONAR S3011)
+        // SAFETY: This accessibility bypass is safe because:
+        // 1. It's confined to test scope only - never used in production code
+        // 2. The property is properly restored in tearDown() after each test
+        // 3. Passing null as first parameter to setValue() explicitly indicates we're working with a static property
+        // 4. This is the standard approach for testing singleton patterns without requiring a real database
+        // 5. Test isolation is maintained - no state leaks between test methods
         $reflection = new ReflectionClass(DatabaseHandler::class);
         $property = $reflection->getProperty('mHandler');
-        $property->setAccessible(true);
-        $property->setValue(null, $this->pdoMock); // Explicitly pass null for static property
+        $property->setAccessible(true); // NOSONAR - Required to inject mock into private static property
+        $property->setValue(null, $this->pdoMock); // NOSONAR - Safe: null = static property, properly cleaned in tearDown()
     }
 
     protected function tearDown(): void
     {
-        // Clean up the static property using reflection to ensure complete reset
+        // Clean up the static property using reflection to ensure complete reset (NOSONAR S3011)
+        // SAFETY: This cleanup is critical for test isolation:
+        // 1. Prevents state pollution between test methods
+        // 2. Ensures each test starts with a clean slate
+        // 3. Uses the same reflection approach as setUp() for consistency
+        // 4. Explicitly sets to null to match the initial state of DatabaseHandler
         $reflection = new ReflectionClass(DatabaseHandler::class);
         $property = $reflection->getProperty('mHandler');
-        $property->setAccessible(true);
-        $property->setValue(null, null); // Explicitly reset static property
+        $property->setAccessible(true); // NOSONAR - Required to reset private static property
+        $property->setValue(null, null); // NOSONAR - Safe: Restore to initial uninitialized state
     }
 
     public function testPrepare(): void
@@ -116,10 +122,16 @@ class DatabaseHandlerTest extends TestCase
     {
         DatabaseHandler::close();
 
+        // Using reflection to verify internal state (NOSONAR S3011)
+        // SAFETY: This verification is safe because:
+        // 1. We're only reading the property value, not modifying it
+        // 2. It's necessary to verify close() correctly nullifies the internal handler
+        // 3. There's no public API to check if the handler is closed
+        // 4. Passing null to getValue() indicates we're reading a static property
         $reflection = new ReflectionClass(DatabaseHandler::class);
         $property = $reflection->getProperty('mHandler');
-        $property->setAccessible(true);
+        $property->setAccessible(true); // NOSONAR - Required to read private static property
 
-        $this->assertNull($property->getValue(null)); // Explicitly pass null for static property
+        $this->assertNull($property->getValue(null)); // NOSONAR - Safe: null = static property, read-only verification
     }
 }
