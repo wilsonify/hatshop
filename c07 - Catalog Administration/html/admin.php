@@ -47,12 +47,13 @@ if (!(isset ($_SESSION['admin_logged'])) || $_SESSION['admin_logged'] != true) {
   // Choose what admin page to load ...
   if ($admin_page == 'Departments') {
     $pageContentsCell = 'admin_departments.tpl';
-  } elseif ($admin_page == 'Categories')
+  } elseif ($admin_page == 'Categories') {
     $pageContentsCell = 'admin_categories.tpl';
-  elseif ($admin_page == 'Products') {
+  } elseif ($admin_page == 'Products') {
     $pageContentsCell = 'admin_products.tpl';
-  } elseif ($admin_page == 'ProductDetails')
+  } elseif ($admin_page == 'ProductDetails') {
     $pageContentsCell = 'admin_product.tpl';
+  }
 }
 
 // Assign templates file to be loaded

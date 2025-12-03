@@ -7,8 +7,9 @@ class Customer
   {
     if (!(isset ($_SESSION['hatshop_customer_id']))) {
       return 0;
-    } else
+    } else {
       return 1;
+    }
   }
 
   // Returns customer_id and password for customer with email $email
@@ -55,8 +56,9 @@ class Customer
   {
     if (self::IsAuthenticated()) {
       return $_SESSION['hatshop_customer_id'];
-    } else
+    } else {
       return 0;
+    }
   }
 
   /* Adds a new customer account, log him in if $addAndLogin is true
@@ -148,11 +150,12 @@ class Customer
 
     if (!(empty ($customer_data['credit_card']))) {
       return self::DecryptCreditCard($customer_data['credit_card']);
-    } else
+    } else {
       return array('card_holder' => '', 'card_number' => '',
                    'issue_date' => '', 'expiry_date' => '',
                    'issue_number' => '', 'card_type' => '',
                    'card_number_x' => '');
+    }
   }
 
   public static function UpdateCreditCardDetails($plainCreditCard,
