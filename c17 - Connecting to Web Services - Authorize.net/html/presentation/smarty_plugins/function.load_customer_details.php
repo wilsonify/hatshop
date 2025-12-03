@@ -39,8 +39,9 @@ class CustomerDetails
   public function __construct()
   {
     // Check if we have new user or editing existing customer details
-    if (Customer::IsAuthenticated())
+    if (Customer::IsAuthenticated()) {
       $this->mEditMode = 1;
+    }
 
     $url_base = substr(getenv('REQUEST_URI'),
                        strrpos(getenv('REQUEST_URI'), '/') + 1,
@@ -50,19 +51,23 @@ class CustomerDetails
 
     $this->mCustomerDetailsTarget = $url_base;
 
-    if ($this->mEditMode == 0)
+    if ($this->mEditMode == 0) {
       $this->mReturnLink = str_replace($url_parameter_prefix .
+    }
                              'RegisterCustomer', '', $url_base);
-    else
+    else {
       $this->mReturnLink = str_replace($url_parameter_prefix .
+    }
                              'UpdateAccountDetails', '', $url_base);
 
-    if (isset($_GET['Checkout']) && USE_SSL != 'no')
+    if (isset($_GET['Checkout']) && USE_SSL != 'no') {
       $this->mReturnLinkProtocol = 'https';
+    }
 
     // Check if we have submitted data
-    if (isset ($_POST['sended']))
+    if (isset ($_POST['sended'])) {
       $this->_mHaveData = 1;
+    }
 
     if ($this->_mHaveData == 1)
     {
@@ -72,16 +77,18 @@ class CustomerDetails
         $this->mNameError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mName = $_POST['name'];
+      }
 
       if ($this->mEditMode == 0 && empty ($_POST['email']))
       {
         $this->mEmailError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mEmail = $_POST['email'];
+      }
 
       // Password cannot be empty
       if (empty ($_POST['password']))
@@ -89,8 +96,9 @@ class CustomerDetails
         $this->mPasswordError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mPassword = $_POST['password'];
+      }
 
       // Password confirm cannot be empty
       if (empty ($_POST['passwordConfirm']))
@@ -98,8 +106,9 @@ class CustomerDetails
         $this->mPasswordConfirmError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $password_confirm = $_POST['passwordConfirm'];
+      }
 
       // Password and password confirm should be the same
       if (!isset ($password_confirm) ||
@@ -111,14 +120,17 @@ class CustomerDetails
 
       if ($this->mEditMode == 1)
       {
-        if (!empty ($_POST['dayPhone']))
+        if (!empty ($_POST['dayPhone'])) {
           $this->mDayPhone = $_POST['dayPhone'];
+        }
 
-        if (!empty ($_POST['evePhone']))
+        if (!empty ($_POST['evePhone'])) {
           $this->mEvePhone = $_POST['evePhone'];
+        }
 
-        if (!empty ($_POST['mobPhone']))
+        if (!empty ($_POST['mobPhone'])) {
           $this->mMobPhone = $_POST['mobPhone'];
+        }
       }
     }
   }
@@ -142,9 +154,9 @@ class CustomerDetails
       }
 
       // We have a new user or we are updating an exisiting user details
-      if ($this->mEditMode == 0)
+      if ($this->mEditMode == 0) {
         Customer::Add($this->mName, $this->mEmail, $this->mPassword);
-      else
+      } else
         Customer::UpdateAccountDetails($this->mName, $this->mEmail,
           $this->mPassword, $this->mDayPhone, $this->mEvePhone,
           $this->mMobPhone);

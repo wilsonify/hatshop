@@ -22,9 +22,9 @@ class Reviews
 
   public function __construct()
   {
-    if (isset ($_GET['ProductID']))
+    if (isset ($_GET['ProductID'])) {
       $this->mProductId = (int)$_GET['ProductID'];
-    else
+    } else
       trigger_error('ProductID not set', E_USER_ERROR);
 
     $this->mAddProductReviewTarget .= '?ProductID=' . $this->mProductId;
@@ -36,8 +36,9 @@ class Reviews
     if (Customer::IsAuthenticated())
     {
       // Check if visitor is adding a review
-      if (isset($_POST['AddProductReview']))
+      if (isset($_POST['AddProductReview'])) {
         Catalog::CreateProductReview(Customer::GetCurrentCustomerId(),
+      }
                                      $this->mProductId, $_POST['review'],
                                      $_POST['rating']);
 

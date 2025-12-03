@@ -17,11 +17,13 @@ class OrderProcessor
     // Get order
     $this->mOrderInfo = Orders::GetOrderInfo($orderId);
 
-    if (empty ($this->mOrderInfo['shipping_id']))
+    if (empty ($this->mOrderInfo['shipping_id'])) {
       $this->mOrderInfo['shipping_id'] = -1;
+    }
 
-    if (empty ($this->mOrderInfo['tax_id']))
+    if (empty ($this->mOrderInfo['tax_id'])) {
       $this->mOrderInfo['tax_id'] = -1;
+    }
 
     // Get order details
     $this->mOrderDetailsInfo = Orders::GetOrderDetails($orderId);
@@ -211,8 +213,9 @@ class OrderProcessor
     $address_details = $this->mCustomerInfo['name'] . $new_line .
                        $this->mCustomerInfo['address_1'] . $new_line;
 
-    if (!empty ($this->mOrderInfo['address_2']))
+    if (!empty ($this->mOrderInfo['address_2'])) {
       $address_details .= $this->mCustomerInfo['address_2'] . $new_line;
+    }
 
     $address_details .= $this->mCustomerInfo['city'] . $new_line .
                         $this->mCustomerInfo['region'] . $new_line .

@@ -10,11 +10,13 @@ class Amazon
   public function GetProducts()
   {
     // Use SOAP to get data
-    if (AMAZON_METHOD == 'SOAP')
+    if (AMAZON_METHOD == 'SOAP') {
       $result = $this->GetDataWithSoap();
+    }
     // Use REST to get data
-    else
+    else {
       $result = $this->GetDataWithRest();
+    }
 
     // Initializes Array object
     $results = array ();
@@ -102,22 +104,26 @@ class Amazon
       if (property_exists($temp, 'SmallImage') &&
           ((string) $temp->SmallImage->URL) != '')
         $new_result[$k]['image'] = (string) $temp->SmallImage->URL;
-      else
+      else {
         $new_result[$k]['image'] = 'images/not_available.jpg';
+      }
 
       // Save asin, brand, name, and price into the $new_result array
       $new_result[$k]['asin'] = (string) $temp->ASIN;
       $new_result[$k]['brand'] = (string) $temp->ItemAttributes->Brand;
       $new_result[$k]['item_name'] = (string) $temp->ItemAttributes->Title;
 
-      if (property_exists($temp->OfferSummary, 'LowestNewPrice'))
+      if (property_exists($temp->OfferSummary, 'LowestNewPrice')) {
         $new_result[$k]['price'] =
+      }
           (string) $temp->OfferSummary->LowestNewPrice->FormattedPrice;
-      elseif (property_exists($temp->ItemAttributes, 'ListPrice'))
+      elseif (property_exists($temp->ItemAttributes, 'ListPrice')) {
         $new_result[$k]['price'] =
+      }
           (string) $temp->ItemAttributes->ListPrice->FormattedPrice;
-      else
+      else {
         $new_result[$k]['price'] = '';
+      }
 
       $k++;
     }

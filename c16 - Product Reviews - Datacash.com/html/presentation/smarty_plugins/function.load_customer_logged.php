@@ -35,22 +35,26 @@ class CustomerLogged
 
     $url_parameter_prefix = (count($_GET) == 1 ? '?' : '&');
 
-    if (isset($_GET['Logout']))
+    if (isset($_GET['Logout'])) {
       $url_base = str_replace($url_parameter_prefix . 'Logout', '',
+    }
                               $url_base);
-    elseif (isset($_GET['UpdateAccountDetails']))
+    elseif (isset($_GET['UpdateAccountDetails'])) {
       $url_base = str_replace($url_parameter_prefix .
+    }
                     'UpdateAccountDetails', '', $url_base);
-    elseif (isset($_GET['UpdateCreditCardDetails']))
+    elseif (isset($_GET['UpdateCreditCardDetails'])) {
       $url_base = str_replace($url_parameter_prefix .
+    }
                     'UpdateCreditCardDetails', '', $url_base);
-    elseif (isset($_GET['UpdateAddressDetails']))
+    elseif (isset($_GET['UpdateAddressDetails'])) {
       $url_base = str_replace($url_parameter_prefix .
+    }
                     'UpdateAddressDetails', '', $url_base);
 
-    if (strpos($url_base, '?', 0) === false)
+    if (strpos($url_base, '?', 0) === false) {
       $url_parameter_prefix = '?';
-    else
+    } else
       $url_parameter_prefix = '&';
 
     if (isset($_GET['Logout']))
@@ -90,11 +94,13 @@ class CustomerLogged
     $customer_data = Customer::Get();
     $this->mCustomerName = $customer_data['name'];
 
-    if (!(empty($customer_data['credit_card'])))
+    if (!(empty($customer_data['credit_card']))) {
       $this->mCreditCardAction = 'Change';
+    }
 
-    if (!(empty($customer_data['address_1'])))
+    if (!(empty($customer_data['address_1']))) {
       $this->mAddressAction = 'Change';
+    }
   }
 }
 

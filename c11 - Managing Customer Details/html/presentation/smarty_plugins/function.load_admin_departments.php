@@ -59,16 +59,19 @@ class AdminDepartments
       $department_name = $_POST['department_name'];
       $department_description = $_POST['department_description'];
 
-      if ($department_name == null)
+      if ($department_name == null) {
         $this->mErrorMessage = 'Department name required';
+      }
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::AddDepartment($department_name, $department_description);
+      }
     }
 
     // If editing an existing department ...
-    if ($this->mAction == 'edit_dep')
+    if ($this->mAction == 'edit_dep') {
       $this->mEditItem = $this->mActionedDepartmentId;
+    }
 
     // If updating a department ...
     if ($this->mAction == 'update_dep')
@@ -76,11 +79,13 @@ class AdminDepartments
       $department_name = $_POST['name'];
       $department_description = $_POST['description'];
 
-      if ($department_name == null)
+      if ($department_name == null) {
         $this->mErrorMessage = 'Department name required';
+      }
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::UpdateDepartment($this->mActionedDepartmentId,
+      }
                                   $department_name, $department_description);
     }
 
@@ -89,8 +94,9 @@ class AdminDepartments
     {
       $status = Catalog::DeleteDepartment($this->mActionedDepartmentId);
 
-      if ($status < 0)
+      if ($status < 0) {
         $this->mErrorMessage = 'Department not empty';
+      }
     }
 
     // If editing department's categories ...

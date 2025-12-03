@@ -120,12 +120,14 @@ class CartDetails
       ShoppingCart::GetCartProducts(GET_CART_SAVED_PRODUCTS);
 
     // Check whether we have an empty shopping cart
-    if (count($this->mCartProducts) == 0)
+    if (count($this->mCartProducts) == 0) {
       $this->mIsCartNowEmpty = 1;
+    }
 
     // Check whether we have an empty Saved for Later list
-    if (count($this->mSavedCartProducts) == 0)
+    if (count($this->mSavedCartProducts) == 0) {
       $this->mIsCartLaterEmpty = 1;
+    }
 
     // Build the links for cart actions
     for ($i = 0; $i < count($this->mCartProducts); $i++)

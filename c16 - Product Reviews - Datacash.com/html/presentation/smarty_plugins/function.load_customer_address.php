@@ -52,11 +52,13 @@ class CustomerAddress
     $this->mReturnLink = str_replace($url_parameter_prefix .
                            'UpdateAddressDetails', '', $url_base);
 
-    if (isset($_GET['Checkout']) && USE_SSL != 'no')
+    if (isset($_GET['Checkout']) && USE_SSL != 'no') {
       $this->mReturnLinkProtocol = 'https';
+    }
 
-    if (isset ($_POST['sended']))
+    if (isset ($_POST['sended'])) {
       $this->_mHaveData = 1;
+    }
 
     if ($this->_mHaveData == 1)
     {
@@ -66,51 +68,58 @@ class CustomerAddress
         $this->mAddress1Error = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mAddress1 = $_POST['address1'];
+      }
 
-      if (isset ($_POST['address2']))
+      if (isset ($_POST['address2'])) {
         $this->mAddress2 = $_POST['address2'];
+      }
 
       if (empty ($_POST['city']))
       {
         $this->mCityError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mCity = $_POST['city'];
+      }
 
       if (empty ($_POST['region']))
       {
         $this->mRegionError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mRegion = $_POST['region'];
+      }
 
       if (empty ($_POST['postalCode']))
       {
         $this->mPostalCodeError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mPostalCode = $_POST['postalCode'];
+      }
 
       if (empty ($_POST['country']))
       {
         $this->mCountryError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mCountry = $_POST['country'];
+      }
 
       if ($_POST['shippingRegion'] == 1)
       {
         $this->mShippingRegionError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mShippingRegion = $_POST['shippingRegion'];
+      }
     }
   }
 

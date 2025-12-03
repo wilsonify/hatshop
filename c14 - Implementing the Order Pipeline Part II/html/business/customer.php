@@ -5,9 +5,9 @@ class Customer
   // Checks if a customer_id exists in session
   public static function IsAuthenticated()
   {
-    if (!(isset ($_SESSION['hatshop_customer_id'])))
+    if (!(isset ($_SESSION['hatshop_customer_id']))) {
       return 0;
-    else
+    } else
       return 1;
   }
 
@@ -29,15 +29,16 @@ class Customer
   {
     $customer = self::GetLoginInfo($email);
 
-    if (empty ($customer['customer_id']))
+    if (empty ($customer['customer_id'])) {
       return 2;
+    }
 
     $customer_id = $customer['customer_id'];
     $hashed_password = $customer['password'];
 
-    if (PasswordHasher::Hash($password) != $hashed_password)
+    if (PasswordHasher::Hash($password) != $hashed_password) {
       return 1;
-    else
+    } else
     {
       $_SESSION['hatshop_customer_id'] = $customer_id;
 
@@ -52,9 +53,9 @@ class Customer
 
   public static function GetCurrentCustomerId()
   {
-    if (self::IsAuthenticated())
+    if (self::IsAuthenticated()) {
       return $_SESSION['hatshop_customer_id'];
-    else
+    } else
       return 0;
   }
 
@@ -75,16 +76,18 @@ class Customer
     // Execute the query and get the customer_id
     $customer_id = DatabaseHandler::GetOne($result, $params);
 
-    if ($addAndLogin)
+    if ($addAndLogin) {
       $_SESSION['hatshop_customer_id'] = $customer_id;
+    }
 
     return $customer_id;
   }
 
   public static function Get($customerId = null)
   {
-    if (is_null($customerId))
+    if (is_null($customerId)) {
       $customerId = self::GetCurrentCustomerId();
+    }
 
     // Build the SQL query
     $sql = 'SELECT * FROM customer_get_customer(:customer_id);';
@@ -101,8 +104,9 @@ class Customer
                            $dayPhone, $evePhone, $mobPhone,
                            $customerId = null)
   {
-    if (is_null($customerId))
+    if (is_null($customerId)) {
       $customerId = self::GetCurrentCustomerId();
+    }
 
     $hashed_password = PasswordHasher::Hash($password);
 
@@ -142,9 +146,9 @@ class Customer
   {
     $customer_data = self::Get();
 
-    if (!(empty ($customer_data['credit_card'])))
+    if (!(empty ($customer_data['credit_card']))) {
       return self::DecryptCreditCard($customer_data['credit_card']);
-    else
+    } else
       return array('card_holder' => '', 'card_number' => '',
                    'issue_date' => '', 'expiry_date' => '',
                    'issue_number' => '', 'card_type' => '',
@@ -154,8 +158,9 @@ class Customer
   public static function UpdateCreditCardDetails($plainCreditCard,
                                                  $customerId = null)
   {
-    if (is_null($customerId))
+    if (is_null($customerId)) {
       $customerId = self::GetCurrentCustomerId();
+    }
 
     $secure_card = new SecureCard();
     $secure_card->LoadPlainDataAndEncrypt($plainCreditCard['card_holder'],
@@ -192,8 +197,9 @@ class Customer
                            $region, $postalCode, $country,
                            $shippingRegionId, $customerId = null)
   {
-    if (is_null($customerId))
+    if (is_null($customerId)) {
       $customerId = self::GetCurrentCustomerId();
+    }
 
     // Build the SQL query
     $sql = 'SELECT customer_update_address(:customer_id, :address_1,

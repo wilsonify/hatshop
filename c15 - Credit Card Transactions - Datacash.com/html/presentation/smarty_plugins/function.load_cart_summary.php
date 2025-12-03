@@ -26,9 +26,9 @@ class CartSummary
     // Get shopping cart products
     $this->mItems = ShoppingCart::GetCartProducts(GET_CART_PRODUCTS);
 
-    if (empty($this->mItems))
+    if (empty($this->mItems)) {
       $this->mEmptyCart = true;
-    else
+    } else
       $this->mEmptyCart = false;
   }
 }

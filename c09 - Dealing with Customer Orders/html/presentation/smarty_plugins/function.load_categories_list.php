@@ -21,13 +21,14 @@ class CategoriesList
   // Constructor reads query string parameter
   public function __construct()
   {
-    if (isset ($_GET['DepartmentID']))
+    if (isset ($_GET['DepartmentID'])) {
       $this->mDepartmentSelected = (int)$_GET['DepartmentID'];
-    else
+    } else
       trigger_error('DepartmentID not set');
 
-    if (isset ($_GET['CategoryID']))
+    if (isset ($_GET['CategoryID'])) {
       $this->mCategorySelected = (int)$_GET['CategoryID'];
+    }
   }
 
   public function init()

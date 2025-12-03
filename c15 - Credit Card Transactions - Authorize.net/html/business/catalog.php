@@ -212,9 +212,9 @@ class Catalog
                            'ignored_words' => array ());
 
     for ($i = 0; $i < count($flags); $i++)
-      if ($flags[$i]['catalog_flag_stop_words'])
+      if ($flags[$i]['catalog_flag_stop_words']) {
         $search_words['ignored_words'][] = $words[$i];
-      else
+      } else
         $search_words['accepted_words'][] = $words[$i];
 
     return $search_words;
@@ -230,8 +230,9 @@ class Catalog
                             'products' => array ());
 
     // Return void result if the search string is void
-    if (empty ($searchString))
+    if (empty ($searchString)) {
       return $search_result;
+    }
 
     // Search string delimiters
     $delimiters = ',.; ';
@@ -253,8 +254,9 @@ class Catalog
     $search_result['ignored_words'] = $search_words['ignored_words'];
 
     // Return void result if all words are stop words
-    if (count($search_result['accepted_words']) == 0)
+    if (count($search_result['accepted_words']) == 0) {
       return $search_result;
+    }
 
     // Count the number of search results
     $sql = 'SELECT catalog_count_search_result(:words, :all_words);';

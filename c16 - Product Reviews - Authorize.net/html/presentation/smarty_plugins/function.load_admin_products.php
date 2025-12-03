@@ -33,14 +33,14 @@ class AdminProducts
   // Class constructor
   public function __construct()
   {
-    if (isset ($_GET['DepartmentID']))
+    if (isset ($_GET['DepartmentID'])) {
       $this->mDepartmentId = (int)$_GET['DepartmentID'];
-    else
+    } else
       trigger_error('DepartmentID not set');
 
-    if (isset ($_GET['CategoryID']))
+    if (isset ($_GET['CategoryID'])) {
       $this->mCategoryId = (int)$_GET['CategoryID'];
-    else
+    } else
       trigger_error('CategoryID not set');
 
     $category_details = Catalog::GetCategoryDetails($this->mCategoryId);
@@ -77,17 +77,21 @@ class AdminProducts
       $product_description = $_POST['product_description'];
       $product_price = $_POST['product_price'];
 
-      if ($product_name == null)
+      if ($product_name == null) {
         $this->mErrorMessage = 'Product name is empty';
+      }
 
-      if ($product_description == null)
+      if ($product_description == null) {
         $this->mErrorMessage = 'Product description is empty';
+      }
 
-      if ($product_price == null || !is_numeric($product_price))
+      if ($product_price == null || !is_numeric($product_price)) {
         $this->mErrorMessage = 'Product price must be a number!';
+      }
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::AddProductToCategory($this->mCategoryId, $product_name,
+      }
           $product_description, $product_price, 'generic_image.jpg',
           'generic_thumbnail.jpg');
     }
@@ -116,21 +120,25 @@ class AdminProducts
       $product_price = $_POST['price'];
       $product_discounted_price = $_POST['discounted_price'];
 
-      if ($product_name == null)
+      if ($product_name == null) {
         $this->mErrorMessage = 'Product name is empty';
+      }
 
-      if ($product_description == null)
+      if ($product_description == null) {
         $this->mErrorMessage = 'Product description is empty';
+      }
 
-      if ($product_price == null || !is_numeric($product_price))
+      if ($product_price == null || !is_numeric($product_price)) {
         $this->mErrorMessage = 'Product price must be a number!';
+      }
 
       if ($product_discounted_price == null ||
           !is_numeric($product_discounted_price))
         $this->mErrorMessage = 'Product discounted price must be a number!';
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::UpdateProduct($this->mActionedProductId, $product_name,
+      }
           $product_description, $product_price, $product_discounted_price);
     }
 

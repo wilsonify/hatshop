@@ -33,9 +33,9 @@ class AdminOrderDetails
     $this->mAdminOrdersPageLink = $_SESSION['admin_orders_page_link'];
 
     // We receive the order ID in the query string
-    if (isset ($_GET['OrderId']))
+    if (isset ($_GET['OrderId'])) {
       $this->mOrderId = (int) $_GET['OrderId'];
-    else
+    } else
       trigger_error('OrderId paramater is required');
 
     $this->mOrderStatusOptions = Orders::$mOrderStatusOptions;
@@ -62,8 +62,9 @@ class AdminOrderDetails
     $this->mCustomerInfo = Customer::Get($this->mOrderInfo['customer_id']);
     $this->mTotalCost = $this->mOrderInfo['total_amount'];
 
-    if ($this->mOrderInfo['tax_percentage'] !== 0.0)
+    if ($this->mOrderInfo['tax_percentage'] !== 0.0) {
       $this->mTaxCost = round((float)$this->mTotalCost *
+    }
                               (float)$this->mOrderInfo['tax_percentage'], 2)
                              / 100.00;
 
@@ -74,15 +75,15 @@ class AdminOrderDetails
     $this->mTotalCost = number_format($this->mTotalCost, 2, '.', '');
     $this->mTaxCost = number_format($this->mTaxCost, 2, '.', '');
 
-    if ($this->mOrderInfo['status'] == 3)
+    if ($this->mOrderInfo['status'] == 3) {
       $this->mProcessButtonText = 'Confirm Stock for Order';
-    elseif ($this->mOrderInfo['status'] == 6)
+    } elseif ($this->mOrderInfo['status'] == 6)
       $this->mProcessButtonText = 'Confirm Shipment for Order';
 
     // Value which specifies whether to enable or disable edit mode
-    if (isset ($_GET['submitEdit']))
+    if (isset ($_GET['submitEdit'])) {
       $this->mEditEnabled = true;
-    else
+    } else
       $this->mEditEnabled = false;
   }
 }

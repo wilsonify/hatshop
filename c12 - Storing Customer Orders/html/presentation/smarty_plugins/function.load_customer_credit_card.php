@@ -47,11 +47,13 @@ class CustomerCreditCard
     $this->mReturnLink = str_replace($url_parameter_prefix .
                            'UpdateCreditCardDetails', '', $url_base);
 
-    if (isset($_GET['Checkout']) && USE_SSL != 'no')
+    if (isset($_GET['Checkout']) && USE_SSL != 'no') {
       $this->mReturnLinkProtocol = 'https';
+    }
 
-    if (!(empty ($_POST['sended'])))
+    if (!(empty ($_POST['sended']))) {
       $this->_mHaveData = 1;
+    }
 
     $this->mCardTypes = array ('Mastercard' => 'Mastercard',
       'Visa' => 'Visa', 'Mastercard' => 'Mastercard',
@@ -66,30 +68,35 @@ class CustomerCreditCard
         $this->mCardHolderError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mPlainCreditCard['card_holder'] = $_POST['cardHolder'];
+      }
 
       if (empty ($_POST['cardNumber']))
       {
         $this->mCardNumberError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mPlainCreditCard['card_number'] = $_POST['cardNumber'];
+      }
 
       if (empty ($_POST['expDate']))
       {
         $this->mExpDateError = 1;
         $this->_mErrors++;
       }
-      else
+      else {
         $this->mPlainCreditCard['expiry_date'] = $_POST['expDate'];
+      }
 
-      if (isset ($_POST['issueDate']))
+      if (isset ($_POST['issueDate'])) {
         $this->mPlainCreditCard['issue_date'] = $_POST['issueDate'];
+      }
 
-      if (isset ($_POST['issueNumber']))
+      if (isset ($_POST['issueNumber'])) {
         $this->mPlainCreditCard['issue_number'] = $_POST['issueNumber'];
+      }
 
       $this->mPlainCreditCard['card_type'] = $_POST['cardType'];
 

@@ -20,18 +20,20 @@ $pageMenuCell = 'blank.tpl';
 $pageContentsCell = 'blank.tpl';
 
 // If admin is not logged, assign admin_login template to $pageContentsCell
-if (!(isset ($_SESSION['admin_logged'])) || $_SESSION['admin_logged'] != true)
+if (!(isset ($_SESSION['admin_logged'])) || $_SESSION['admin_logged'] != true) {
   $pageContentsCell = 'admin_login.tpl';
-else
+} else
 {
   // If admin is logged, load the admin page menu
   $pageMenuCell = 'admin_menu.tpl';
 
-  if (isset ($_GET['Page']))
+  if (isset ($_GET['Page'])) {
     $admin_page = $_GET['Page'];
+  }
   // If Page is not explicitly set, assume the Departments page
-  else
+  else {
     $admin_page = 'Departments';
+  }
 
   // If loggin out ...
   if (isset ($_GET['Page']) && ($_GET['Page'] == 'Logout'))
@@ -43,20 +45,21 @@ else
   }
 
   // Choose what admin page to load ...
-  if ($admin_page == 'Departments')
+  if ($admin_page == 'Departments') {
     $pageContentsCell = 'admin_departments.tpl';
-  elseif ($admin_page == 'Categories')
+  } elseif ($admin_page == 'Categories')
     $pageContentsCell = 'admin_categories.tpl';
-  elseif ($admin_page == 'Products')
+  elseif ($admin_page == 'Products') {
     $pageContentsCell = 'admin_products.tpl';
-  elseif ($admin_page == 'ProductDetails')
+  } elseif ($admin_page == 'ProductDetails')
     $pageContentsCell = 'admin_product.tpl';
-  elseif ($admin_page == 'Cart')
+  elseif ($admin_page == 'Cart') {
     $pageContentsCell = 'admin_cart.tpl';
-  elseif ($admin_page == 'Orders')
+  } elseif ($admin_page == 'Orders')
     $pageContentsCell = 'admin_orders.tpl';
-  elseif ($admin_page == 'OrderDetails')
+  elseif ($admin_page == 'OrderDetails') {
     $pageContentsCell = 'admin_order_details.tpl';
+  }
 }
 
 // Assign templates file to be loaded

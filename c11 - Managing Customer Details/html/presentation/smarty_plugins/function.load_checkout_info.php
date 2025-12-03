@@ -33,8 +33,9 @@ class CheckoutInfo
   // Class constructor
   public function __construct()
   {
-    if (isset ($_POST['sended']))
+    if (isset ($_POST['sended'])) {
       $this->_mPlaceOrder = 1;
+    }
   }
 
   public function init()

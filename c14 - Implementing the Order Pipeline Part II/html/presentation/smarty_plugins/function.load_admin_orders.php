@@ -49,8 +49,9 @@ class AdminOrders
         $this->mRecordCount = (int)$_GET['recordCount'];
         $this->mOrders = Orders::GetMostRecentOrders($this->mRecordCount);
       }
-      else
+      else {
         $this->mErrorMessage = $_GET['recordCount'] . ' is not a number.';
+      }
     }
 
     /* If the "Show all records created between date_1 and date_2"
@@ -64,8 +65,9 @@ class AdminOrders
       if (($this->mStartDate == '') ||
           ($timestamp = strtotime($this->mStartDate)) == -1)
         $this->mErrorMessage = 'The start date is invalid. ';
-      else
+      else {
         // Transform date to YYYY/MM/DD HH:MM:SS format
+      }
         $this->mStartDate =
           strftime('%Y/%m/%d %H:%M:%S', strtotime($this->mStartDate));
 
@@ -73,8 +75,9 @@ class AdminOrders
       if (($this->mEndDate == '') ||
           ($timestamp = strtotime($this->mEndDate)) == -1)
         $this->mErrorMessage .= 'The end date is invalid.';
-      else
+      else {
         // Transform date to YYYY/MM/DD HH:MM:SS format
+      }
         $this->mEndDate =
           strftime('%Y/%m/%d %H:%M:%S', strtotime($this->mEndDate));
 
@@ -85,8 +88,9 @@ class AdminOrders
           'The start date should be more recent than the end date.';
 
       // If there are no errors, get the orders between the two dates
-      if (empty($this->mErrorMessage))
+      if (empty($this->mErrorMessage)) {
         $this->mOrders = Orders::GetOrdersBetweenDates(
+      }
                            $this->mStartDate, $this->mEndDate);
     }
 
@@ -100,9 +104,9 @@ class AdminOrders
     // If the "Show orders by customer ID" filter is in action ...
     if (isset ($_GET['submitByCustomer']))
     {
-      if (empty ($_GET['customer_id']))
+      if (empty ($_GET['customer_id'])) {
         $this->mErrorMessage = 'No customer has been selected';
-      else
+      } else
       {
         $this->mCustomerId = $_GET['customer_id'];
         $this->mOrders = Orders::GetByCustomerId($this->mCustomerId);
@@ -112,9 +116,9 @@ class AdminOrders
     // If the "Get order by ID" filter is in action ...
     if (isset ($_GET['submitByOrderId']))
     {
-      if (empty ($_GET['orderId']))
+      if (empty ($_GET['orderId'])) {
         $this->mErrorMessage = 'You must enter an order ID.';
-      else
+      } else
       {
         $this->mOrderId = $_GET['orderId'];
         $this->mOrders = Orders::GetOrderShortDetails($this->mOrderId);

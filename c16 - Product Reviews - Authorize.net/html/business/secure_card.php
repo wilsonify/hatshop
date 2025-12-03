@@ -126,27 +126,29 @@ class SecureCard
   {
     if ($name == 'EncryptedData')
     {
-      if ($this->_mIsEncrypted)
+      if ($this->_mIsEncrypted) {
         return $this->_mEncryptedData;
-      else
+      } else
         throw new Exception('Data not encrypted');
     }
     elseif ($name == 'CardNumberX')
     {
-      if ($this->_mIsDecrypted)
+      if ($this->_mIsDecrypted) {
         return 'XXXX-XXXX-XXXX-' .
+      }
           substr($this->_mCardNumber, strlen($this->_mCardNumber) - 4, 4);
-      else
+      else {
         throw new Exception('Data not decrypted');
+      }
     }
     elseif (in_array($name, array ('CardHolder', 'CardNumber', 'IssueDate',
                                    'ExpiryDate', 'IssueNumber', 'CardType')))
     {
       $name = '_m' . $name;
 
-      if ($this->_mIsDecrypted)
+      if ($this->_mIsDecrypted) {
         return $this->$name;
-      else
+      } else
         throw new Exception('Data not decrypted');
     }
     else

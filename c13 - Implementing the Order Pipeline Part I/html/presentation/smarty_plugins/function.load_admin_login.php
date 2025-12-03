@@ -30,8 +30,9 @@ class AdminLogin
         header('Location: admin.php');
         exit;
       }
-      else
+      else {
         $this->mLoginMessage = 'Login failed. Please try again:';
+      }
     }
   }
 }

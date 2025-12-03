@@ -26,9 +26,9 @@ class Product
   public function __construct()
   {
     // Variable initialization
-    if (isset ($_GET['ProductID']))
+    if (isset ($_GET['ProductID'])) {
       $this->_mProductId = (int)$_GET['ProductID'];
-    else
+    } else
       trigger_error('ProductID required in product.php');
   }
 
@@ -37,8 +37,9 @@ class Product
     // Get product details from business tier
     $this->mProduct = Catalog::GetProductDetails($this->_mProductId);
 
-    if (isset ($_SESSION['page_link']))
+    if (isset ($_SESSION['page_link'])) {
       $this->mPageLink = $_SESSION['page_link'];
+    }
 
     $this->mAddToCartLink = 'index.php?ProductID=' . $this->_mProductId .
                             '&CartAction=' . ADD_PRODUCT;

@@ -31,9 +31,9 @@ class AdminCategories
   // Class constructor
   public function __construct()
   {
-    if (isset ($_GET['DepartmentID']))
+    if (isset ($_GET['DepartmentID'])) {
       $this->mDepartmentId = (int)$_GET['DepartmentID'];
-    else
+    } else
       trigger_error('DepartmentID not set');
 
     $department_details = Catalog::GetDepartmentDetails($this->mDepartmentId);
@@ -69,11 +69,13 @@ class AdminCategories
       $category_name = $_POST['category_name'];
       $category_description = $_POST['category_description'];
 
-      if ($category_name == null)
+      if ($category_name == null) {
         $this->mErrorMessage = 'Category name is empty';
+      }
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::AddCategory($this->mDepartmentId, $category_name,
+      }
                              $category_description);
     }
 
@@ -89,11 +91,13 @@ class AdminCategories
       $category_name = $_POST['name'];
       $category_description = $_POST['description'];
 
-      if ($category_name == null)
+      if ($category_name == null) {
         $this->mErrorMessage = 'Category name is empty';
+      }
 
-      if ($this->mErrorMessage == null)
+      if ($this->mErrorMessage == null) {
         Catalog::UpdateCategory($this->mActionedCategoryId, $category_name,
+      }
                                 $category_description);
     }
 
@@ -102,8 +106,9 @@ class AdminCategories
     {
       $status = Catalog::DeleteCategory($this->mActionedCategoryId);
 
-      if ($status < 0)
+      if ($status < 0) {
         $this->mErrorMessage = 'Category not empty';
+      }
     }
 
     // If editing category's products ...

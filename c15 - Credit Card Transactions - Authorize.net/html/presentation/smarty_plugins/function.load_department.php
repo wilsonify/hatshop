@@ -25,15 +25,16 @@ class Department
   public function __construct()
   {
     // We need to have DepartmentID in the query string
-    if (isset ($_GET['DepartmentID']))
+    if (isset ($_GET['DepartmentID'])) {
       $this->_mDepartmentId = (int)$_GET['DepartmentID'];
-    else
+    } else
       trigger_error('DepartmentID not set');
 
     /* If CategoryID is in the query string we save it 
        (casting it to integer to protect against invalid values) */
-    if (isset ($_GET['CategoryID']))
+    if (isset ($_GET['CategoryID'])) {
       $this->_mCategoryId = (int)$_GET['CategoryID'];
+    }
   }
 
   public function init()

@@ -26,8 +26,9 @@ class CustomerLogin
   public function __construct()
   {
     // Decide if we have submitted
-    if (isset ($_POST['Login']))
+    if (isset ($_POST['Login'])) {
       $this->_mHaveData = 1;
+    }
   }
 
   public function init()
@@ -40,11 +41,13 @@ class CustomerLogin
 
     $this->mCustomerLoginTarget = $url_base;
 
-    if (strpos($url_base, 'RegisterCustomer', 0) === false)
+    if (strpos($url_base, 'RegisterCustomer', 0) === false) {
       $this->mRegisterUser = $url_base . $url_parameter_prefix .
+    }
                              'RegisterCustomer';
-    else
+    else {
       $this->mRegisterUser = $url_base;
+    }
 
     if ($this->_mHaveData)
     {

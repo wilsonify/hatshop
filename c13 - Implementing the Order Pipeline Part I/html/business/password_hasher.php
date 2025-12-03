@@ -3,9 +3,9 @@ class PasswordHasher
 {
   public static function Hash($password, $withPrefix = true)
   {
-    if ($withPrefix)
+    if ($withPrefix) {
       $hashed_password = sha1(HASH_PREFIX . $password);
-    else
+    } else
       $hashed_password = sha1($password);
 
     return $hashed_password;

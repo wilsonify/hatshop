@@ -3,9 +3,9 @@
 require_once 'include/app_top.php';
 
 // Is the page being accessed through an HTTPS connection?
-if (getenv('HTTPS') != 'on')
+if (getenv('HTTPS') != 'on') {
   $is_https = false;
-else
+} else
   $is_https = true;
 
 // Visiting a sensitive page?
@@ -16,8 +16,9 @@ if (isset($_GET['RegisterCustomer']) ||
     isset($_GET['Checkout']) ||
     isset($_POST['Login']))
   $is_sensitive_page = true;
-else
+else {
   $is_sensitive_page = false;
+}
 
 // Use HTTPS when accessing sensitive pages
 if ($is_sensitive_page && $is_https == false && USE_SSL != 'no')
@@ -52,8 +53,9 @@ if (!$is_sensitive_page && $is_https == true)
    in the page_link session variable; it will be used to create the
    Continue Shopping link in the product details page and the links
    to product details pages */
-if (!isset ($_GET['ProductID']) && !isset ($_GET['CartAction']))
+if (!isset ($_GET['ProductID']) && !isset ($_GET['CartAction'])) {
   $_SESSION['page_link'] = substr(getenv('REQUEST_URI'),
+}
                                   strrpos(getenv('REQUEST_URI'), '/') + 1,
                                   strlen(getenv('REQUEST_URI')) - 1);
 
@@ -77,44 +79,49 @@ if (isset ($_GET['DepartmentID']))
 }
 
 // Load search result page if we're searching the catalog
-if (isset ($_GET['Search']))
+if (isset ($_GET['Search'])) {
   $pageContentsCell = 'search_results.tpl';
+}
 
 // Load product details page if visiting a product
-if (isset ($_GET['ProductID']))
+if (isset ($_GET['ProductID'])) {
   $pageContentsCell = 'product.tpl';
+}
 
 if (isset ($_GET['CartAction']))
 {
   $pageContentsCell = 'cart_details.tpl';
 }
-else
+else {
   $cartSummaryCell = 'cart_summary.tpl';
+}
 
 // Customer account functionality
 $customerLoginOrLogged = 'customer_login.tpl';
 
-if (Customer::IsAuthenticated())
+if (Customer::IsAuthenticated()) {
   $customerLoginOrLogged = 'customer_logged.tpl';
+}
 
 $hide_boxes = false;
 
 if (isset ($_GET['Checkout']))
 {
-  if (Customer::IsAuthenticated())
+  if (Customer::IsAuthenticated()) {
     $pageContentsCell = 'checkout_info.tpl';
-  else
+  } else
     $pageContentsCell = 'checkout_not_logged.tpl';
 
   $hide_boxes = true;
 }
 
-if (isset($_GET['RegisterCustomer']) || isset($_GET['UpdateAccountDetails']))
+if (isset($_GET['RegisterCustomer']) || isset($_GET['UpdateAccountDetails'])) {
   $pageContentsCell = 'customer_details.tpl';
-elseif (isset($_GET['UpdateAddressDetails'])) 
+} elseif (isset($_GET['UpdateAddressDetails']))
   $pageContentsCell = 'customer_address.tpl';
-elseif (isset($_GET['UpdateCreditCardDetails']))
+elseif (isset($_GET['UpdateCreditCardDetails'])) {
   $pageContentsCell = 'customer_credit_card.tpl';
+}
 
 $page->assign('hide_boxes', $hide_boxes);
 $page->assign('customerLoginOrLogged', $customerLoginOrLogged);

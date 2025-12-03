@@ -19,11 +19,13 @@ class SearchBox
   // Class constructor
   public function __construct()
   {
-    if (isset ($_GET['Search']))
+    if (isset ($_GET['Search'])) {
       $this->mSearchString = $_GET['Search'];
+    }
 
-    if (isset ($_GET['AllWords']))
+    if (isset ($_GET['AllWords'])) {
       $this->mAllWords = $_GET['AllWords'];
+    }
   }
 }
 

@@ -6,8 +6,9 @@ require_once 'include/app_top.php';
    in the page_link session variable; it will be used to create the
    Continue Shopping link in the product details page and the links
    to product details pages */
-if (!isset ($_GET['ProductID']) && !isset ($_GET['CartAction']))
+if (!isset ($_GET['ProductID']) && !isset ($_GET['CartAction'])) {
   $_SESSION['page_link'] = substr(getenv('REQUEST_URI'),
+}
                                   strrpos(getenv('REQUEST_URI'), '/') + 1,
                                   strlen(getenv('REQUEST_URI')) - 1);
 
@@ -31,19 +32,22 @@ if (isset ($_GET['DepartmentID']))
 }
 
 // Load search result page if we're searching the catalog
-if (isset ($_GET['Search']))
+if (isset ($_GET['Search'])) {
   $pageContentsCell = 'search_results.tpl';
+}
 
 // Load product details page if visiting a product
-if (isset ($_GET['ProductID']))
+if (isset ($_GET['ProductID'])) {
   $pageContentsCell = 'product.tpl';
+}
 
 if (isset ($_GET['CartAction']))
 {
   $pageContentsCell = 'cart_details.tpl';
 }
-else
+else {
   $cartSummaryCell = 'cart_summary.tpl';
+}
 
 // Assign a template file to the cart summary cell
 $page->assign('cartSummaryCell', $cartSummaryCell);

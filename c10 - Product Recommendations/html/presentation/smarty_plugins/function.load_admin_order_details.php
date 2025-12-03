@@ -28,9 +28,9 @@ class AdminOrderDetails
     $this->mAdminOrdersPageLink = $_SESSION['admin_orders_page_link'];
 
     // We receive the order ID in the query string
-    if (isset ($_GET['OrderId']))
+    if (isset ($_GET['OrderId'])) {
       $this->mOrderId = (int) $_GET['OrderId'];
-    else
+    } else
       trigger_error('OrderId paramater is required');
 
     $this->mOrderStatusOptions = Orders::$mOrderStatusOptions;
@@ -50,9 +50,9 @@ class AdminOrderDetails
     $this->mOrderDetails = Orders::GetOrderDetails($this->mOrderId);
 
     // Value which specifies whether to enable or disable edit mode
-    if (isset ($_GET['submitEdit']))
+    if (isset ($_GET['submitEdit'])) {
       $this->mEditEnabled = true;
-    else
+    } else
       $this->mEditEnabled = false;
   }
 }

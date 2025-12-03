@@ -39,9 +39,9 @@ class AdminCart
         $this->_mAction = substr($key, strlen('submit_'), strlen($key));
 
         // Get selected days number
-        if (isset ($_POST['days']))
+        if (isset ($_POST['days'])) {
           $this->mSelectedDaysNumber = (int) $_POST['days'];
-        else
+        } else
           trigger_error('days value not set');
       }
   }
@@ -54,8 +54,9 @@ class AdminCart
       $count_old_carts =
         ShoppingCart::CountOldShoppingCarts($this->mSelectedDaysNumber);
 
-      if ($count_old_carts == 0)
+      if ($count_old_carts == 0) {
         $count_old_carts = 'no';
+      }
 
       $this->mMessage = 'There are ' . $count_old_carts .
                         ' old shopping carts (selected option: ' .

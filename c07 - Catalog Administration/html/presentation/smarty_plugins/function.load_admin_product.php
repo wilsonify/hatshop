@@ -35,21 +35,21 @@ class AdminProduct
   public function __construct()
   {
     // Need to have DepartmentID in the query string
-    if (!isset ($_GET['DepartmentID']))
+    if (!isset ($_GET['DepartmentID'])) {
       trigger_error('DepartmentID not set');
-    else
+    } else
       $this->mDepartmentId = (int)$_GET['DepartmentID'];
 
     // Need to have CategoryID in the query string
-    if (!isset ($_GET['CategoryID']))
+    if (!isset ($_GET['CategoryID'])) {
       trigger_error('CategoryID not set');
-    else
+    } else
       $this->mCategoryId = (int)$_GET['CategoryID'];
 
     // Need to have ProductID in the query string
-    if (!isset ($_GET['ProductID']))
+    if (!isset ($_GET['ProductID'])) {
       trigger_error('ProductID not set');
-    else
+    } else
       $this->mProductId = (int)$_GET['ProductID'];
 
     $this->mProductDisplayOptions = Catalog::$mProductDisplayOptions;
@@ -161,8 +161,9 @@ class AdminProduct
     $this->mProductDisplay = $product_info['display'];
     $product_categories = Catalog::GetCategoriesForProduct($this->mProductId);
 
-    if (count($product_categories) == 1)
+    if (count($product_categories) == 1) {
       $this->mRemoveFromCategoryButtonDisabled = true;
+    }
 
     // Show the categories the product belongs to
     for ($i = 0; $i < count($product_categories); $i++)

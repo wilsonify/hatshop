@@ -67,8 +67,9 @@ class ShoppingCart
   public static function GetCartId()
   {
     // Ensure we have a cart id for the current visitor
-    if (!isset (self::$_mCartId))
+    if (!isset (self::$_mCartId)) {
       self::SetCartId();
+    }
 
     return self::$_mCartId;
   }
@@ -169,8 +170,9 @@ class ShoppingCart
       // Build SQL query
       $sql = 'SELECT * FROM shopping_cart_get_saved_products(:cart_id);';
     }
-    else
+    else {
       trigger_error($cartProductsType. ' value unknown', E_USER_ERROR);
+    }
 
     // Build the parameters array
     $params = array (':cart_id' => self::GetCartId());
