@@ -1,0 +1,27 @@
+# Cloudflare Tunnel Configuration for HatShop
+# Tunnel: hatshop-tunnel
+# ID: d9a5bcb5-05cd-4493-9fbc-62c854a4f728
+# Captured: 2025-12-03
+# cloudflared tunnel --config deploy/01_dev/cloudflare/config.yaml run
+
+tunnel: d9a5bcb5-05cd-4493-9fbc-62c854a4f728
+credentials-file: /home/thom/.cloudflared/d9a5bcb5-05cd-4493-9fbc-62c854a4f728.json
+
+ingress:
+  # Dev environment
+  - hostname: hatshop.renewed-renaissance.com
+    path: dev
+    service: http://192.168.1.128:10080
+
+  # Stage environment (placeholder)
+  - hostname: hatshop.renewed-renaissance.com
+    path: stage
+    service: http://192.168.1.128:10080
+
+  # Prod environment (placeholder)
+  - hostname: hatshop.renewed-renaissance.com
+    path: prod
+    service: http://192.168.1.128:10080
+
+  # Catch-all rule (required)
+  - service: http_status:404
