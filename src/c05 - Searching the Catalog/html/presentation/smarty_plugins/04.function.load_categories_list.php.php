@@ -1,4 +1,7 @@
 <?php
+
+use Hatshop\Business\Catalog;
+
 // Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_categories_list($params, $smarty)
 {
@@ -35,7 +38,7 @@ class CategoriesList
   public function init()
   {
     $this->mCategories =
-      Catalog::GetCategoriesInDepartment($this->mDepartmentSelected);
+      Catalog::getCategoriesInDepartment($this->mDepartmentSelected);
 
     // Building links for the category pages
     for ($i = 0; $i < count($this->mCategories); $i++) {

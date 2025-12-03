@@ -1,4 +1,7 @@
 <?php
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Load classes and constants via namespaces
 use Business\ErrorHandler;
 use Presentation\Page;

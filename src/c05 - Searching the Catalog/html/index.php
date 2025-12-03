@@ -2,6 +2,9 @@
 // Load Smarty library and config files
 require_once 'include/app_top.php';
 
+// Import namespaced classes
+use Hatshop\Presentation\Page;
+
 /* If not visiting a product page, save the link to the current page
    in the page_link session variable; it will be used to create the
    Continue Shopping link in the product details page and the links

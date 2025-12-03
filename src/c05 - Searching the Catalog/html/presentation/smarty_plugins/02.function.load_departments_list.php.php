@@ -1,4 +1,7 @@
 <?php
+
+use Hatshop\Business\Catalog;
+
 // Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_departments_list($params, $smarty)
 {
@@ -33,7 +36,7 @@ class DepartmentsList
   public function init()
   {
     // Get the list of departments from the business tier
-    $this->mDepartments = Catalog::GetDepartments();
+    $this->mDepartments = Catalog::getDepartments();
 
     // Create the department links
     for ($i = 0; $i < count($this->mDepartments); $i++) {

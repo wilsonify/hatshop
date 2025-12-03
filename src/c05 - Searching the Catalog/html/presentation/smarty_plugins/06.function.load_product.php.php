@@ -1,5 +1,8 @@
 <?php
-// Plugin function for the load_product function plugin
+
+use Hatshop\Business\Catalog;
+
+// Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_product($params, $smarty)
 {
   // Create Product object
@@ -26,14 +29,15 @@ class Product
     // Variable initialization
     if (isset ($_GET['ProductID'])) {
       $this->_mProductId = (int)$_GET['ProductID'];
-    } else
+    } else {
       trigger_error('ProductID required in product.php');
+    }
   }
 
   public function init()
   {
     // Get product details from business tier
-    $this->mProduct = Catalog::GetProductDetails($this->_mProductId);
+    $this->mProduct = Catalog::getProductDetails($this->_mProductId);
 
     if (isset ($_SESSION['page_link'])) {
       $this->mPageLink = $_SESSION['page_link'];

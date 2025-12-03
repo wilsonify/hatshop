@@ -1,5 +1,7 @@
 <?php
 
+namespace Hatshop\Business;
+
 class ErrorHandler
 {
 
@@ -16,27 +18,18 @@ class ErrorHandler
 
     private static function formatSingleArgument($arg): string
     {
-        if (is_null($arg)) {
-            return self::formatNull();
-        }
+        $typeFormatters = [
+            'NULL' => fn() => self::formatNull(),
+            'boolean' => fn() => self::formatBoolean($arg),
+            'array' => fn() => self::formatArray($arg),
+            'object' => fn() => self::formatObject($arg),
+            'string' => fn() => self::formatString($arg),
+        ];
 
-        if (is_bool($arg)) {
-            return self::formatBoolean($arg);
-        }
+        $type = gettype($arg);
+        $formatter = $typeFormatters[$type] ?? fn() => self::formatOther($arg);
 
-        if (is_array($arg)) {
-            return self::formatArray($arg);
-        }
-
-        if (is_object($arg)) {
-            return self::formatObject($arg);
-        }
-
-        if (is_string($arg)) {
-            return self::formatString($arg);
-        }
-
-        return self::formatOther($arg);
+        return $formatter();
     }
 
     private static function formatNull(): string

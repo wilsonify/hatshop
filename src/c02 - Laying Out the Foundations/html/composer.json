@@ -10,6 +10,9 @@
             "Business\\": "business/",
             "Presentation\\": "presentation/",
             "Include\\": "include/"
-        }
+        },
+        "files": [
+            "include/config.php"
+        ]
     }
 }

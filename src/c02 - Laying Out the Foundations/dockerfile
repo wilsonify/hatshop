@@ -5,16 +5,13 @@ WORKDIR /var/www/html
 RUN apt-get update && apt-get upgrade -y
 
 # Install necessary dependencies
-RUN apt-get update && apt-get install -y  \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    libc-client-dev \
-    libcurl3-dev \
     libcurl4-openssl-dev \
     libfreetype6-dev \
     libicu-dev \
     libjpeg62-turbo-dev \
     libkrb5-dev \
-    libmcrypt-dev \
     libmemcached-dev \
     libonig-dev \
     libpng-dev \
@@ -22,7 +19,8 @@ RUN apt-get update && apt-get install -y  \
     libxml2-dev \
     libzip-dev \
     unzip \
-    zlib1g-dev
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 
 # PHP extensions

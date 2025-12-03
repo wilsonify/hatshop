@@ -1,9 +1,12 @@
 <?php
+
+namespace Hatshop\Business;
+
 // Business tier class for reading product catalog information
 class Catalog
 {
   // Retrieves all departments
-  public static function GetDepartments()
+  public static function getDepartments()
   {
     // Build SQL query
     $sql = 'SELECT * FROM catalog_get_departments_list();';
@@ -16,7 +19,7 @@ class Catalog
   }
 
   // Retrieves complete details for the specified department
-  public static function GetDepartmentDetails($departmentId)
+  public static function getDepartmentDetails($departmentId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -31,7 +34,7 @@ class Catalog
   }
 
   // Retrieves list of categories that belong to a department
-  public static function GetCategoriesInDepartment($departmentId)
+  public static function getCategoriesInDepartment($departmentId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -46,7 +49,7 @@ class Catalog
   }
 
   // Retrieves complete details for the specified category
-  public static function GetCategoryDetails($categoryId)
+  public static function getCategoryDetails($categoryId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -62,7 +65,7 @@ class Catalog
 
   /* Calculates how many pages of products could be filled by the
      number of products returned by the $countSql query */
-  private static function HowManyPages($countSql, $countSqlParams)
+  private static function howManyPages($countSql, $countSqlParams)
   {
     // Create a hash for the sql query
     $queryHashCode = hash("sha512",$countSql . var_export($countSqlParams, true));
@@ -94,14 +97,14 @@ class Catalog
   }
 
   // Retrieves list of products that belong to a category
-  public static function GetProductsInCategory(
+  public static function getProductsInCategory(
                            $categoryId, $pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products in the category
     $sql = 'SELECT catalog_count_products_in_category(:category_id);';
     $params = array (':category_id' => $categoryId);
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+    $rHowManyPages = Catalog::howManyPages($sql, $params);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -122,14 +125,14 @@ class Catalog
   }
 
   // Retrieves the list of products for the department page
-  public static function GetProductsOnDepartmentDisplay(
+  public static function getProductsOnDepartmentDisplay(
                            $departmentId, $pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products in the department page
     $sql = 'SELECT catalog_count_products_on_department(:department_id);';
     $params = array (':department_id' => $departmentId);
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+    $rHowManyPages = Catalog::howManyPages($sql, $params);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -150,12 +153,12 @@ class Catalog
   }
 
   // Retrieves the list of products on catalog display
-  public static function GetProductsOnCatalogDisplay($pageNo, &$rHowManyPages)
+  public static function getProductsOnCatalogDisplay($pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products for the front catalog page
     $sql = 'SELECT catalog_count_products_on_catalog();';
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, null);
+    $rHowManyPages = Catalog::howManyPages($sql, null);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -175,7 +178,7 @@ class Catalog
   }
 
   // Retrieves complete product details
-  public static function GetProductDetails($productId)
+  public static function getProductDetails($productId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -190,7 +193,7 @@ class Catalog
   }
 
   // Flags stop words in search query
-  public static function FlagStopWords($words)
+  public static function flagStopWords($words)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -218,7 +221,7 @@ class Catalog
   }
 
   // Search the catalog
-  public static function Search($searchString, $allWords,
+  public static function search($searchString, $allWords,
                                $pageNo, &$rHowManyPages)
   {
     // The search results will be an array of this form
@@ -246,7 +249,7 @@ class Catalog
     }
 
     // Split the search words in two categories: accepted and ignored
-    $search_words = Catalog::FlagStopWords($words);
+    $search_words = Catalog::flagStopWords($words);
     $search_result['accepted_words'] = $search_words['accepted_words'];
     $search_result['ignored_words'] = $search_words['ignored_words'];
 
@@ -261,7 +264,7 @@ class Catalog
       ':words' => '{' . implode(', ', $search_result['accepted_words']) . '}',
       ':all_words' => $allWords);
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+    $rHowManyPages = Catalog::howManyPages($sql, $params);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
