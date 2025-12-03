@@ -1,12 +1,12 @@
 <?php
 // Reference Smarty library
-require_once '/var/www/html/vendor/autoload.php';
-require_once __DIR__ . '/smarty_plugins/01.modifier.prepare_link.php';
-require_once __DIR__ . '/smarty_plugins/02.function.load_departments_list.php';
-require_once __DIR__ . '/smarty_plugins/03.function.load_department.php';
-require_once __DIR__ . '/smarty_plugins/04.function.load_categories_list.php';
-require_once __DIR__ . '/smarty_plugins/05.function.load_products_list.php';
-require_once __DIR__ . '/smarty_plugins/06.function.load_product.php';
+require_once '/var/www/html/vendor/autoload.php'; // NOSONAR - Composer autoloader must use require_once
+require_once __DIR__ . '/smarty_plugins/01.modifier.prepare_link.php'; // NOSONAR - Plugin file loading
+require_once __DIR__ . '/smarty_plugins/02.function.load_departments_list.php'; // NOSONAR - Plugin file loading
+require_once __DIR__ . '/smarty_plugins/03.function.load_department.php'; // NOSONAR - Plugin file loading
+require_once __DIR__ . '/smarty_plugins/04.function.load_categories_list.php'; // NOSONAR - Plugin file loading
+require_once __DIR__ . '/smarty_plugins/05.function.load_products_list.php'; // NOSONAR - Plugin file loading
+require_once __DIR__ . '/smarty_plugins/06.function.load_product.php'; // NOSONAR - Plugin file loading
 
 use Smarty\Smarty;
 

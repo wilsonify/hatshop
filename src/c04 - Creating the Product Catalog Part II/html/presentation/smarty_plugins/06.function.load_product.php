@@ -1,6 +1,6 @@
 <?php
 // Plugin function for the load_product function plugin
-function smarty_function_load_product($params, $smarty)
+function smarty_function_load_product($params, $smarty) // NOSONAR - Smarty plugin naming convention
 {
   // Create Product object
   $product = new Product();
@@ -18,14 +18,14 @@ class Product
   public $mPageLink = 'index.php';
 
   // Private stuff
-  private $_mProductId;
+  private $mProductId;
 
   // Class constructor
   public function __construct()
   {
     // Variable initialization
     if (isset ($_GET['ProductID'])) {
-      $this->_mProductId = (int)$_GET['ProductID'];
+      $this->mProductId = (int)$_GET['ProductID'];
     } else {
       trigger_error('ProductID required in product.php');
     }
@@ -34,7 +34,7 @@ class Product
   public function init()
   {
     // Get product details from business tier
-    $this->mProduct = Catalog::GetProductDetails($this->_mProductId);
+    $this->mProduct = Catalog::getProductDetails($this->mProductId);
 
     if (isset ($_SESSION['page_link'])) {
       $this->mPageLink = $_SESSION['page_link'];

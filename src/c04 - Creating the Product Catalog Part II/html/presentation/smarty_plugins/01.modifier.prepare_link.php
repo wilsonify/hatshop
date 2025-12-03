@@ -11,7 +11,7 @@ function trimPath($path) {
 }
 
 // Function to generate the base link with HTTPS and the correct domain
-function generateBaseLink($string) {
+function generateBaseLink() {
     return 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 }
 
@@ -44,9 +44,10 @@ function escapeUrl($link) {
     return htmlspecialchars($link, ENT_QUOTES);
 }
 
-// Main function to prepare the link
-function smarty_modifier_prepare_link($string) {
-    $baseLink = generateBaseLink($string);
+// Main function to prepare the link - Smarty requires this naming convention
+function smarty_modifier_prepare_link($string) // NOSONAR - Smarty plugin naming convention
+{
+    $baseLink = generateBaseLink();
     $link = appendPathToLink($baseLink, $string);
     $link = appendIndexIfNeeded($link);
     return escapeUrl($link);

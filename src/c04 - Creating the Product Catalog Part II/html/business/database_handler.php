@@ -3,7 +3,7 @@
 class DatabaseHandler
 {
   // Hold an instance of the PDO class
-  private static $_mHandler;
+  private static $mHandler;
 
   // Private constructor to prevent direct creation of object
   private function __construct()
@@ -11,64 +11,63 @@ class DatabaseHandler
   }
 
   // Return an initialized database handler
-  private static function GetHandler()
+  private static function getHandler()
   {
     // Create a database connection only if one doesn't already exist
-    if (!isset(self::$_mHandler))
+    if (!isset(self::$mHandler))
     {
       // Execute code catching potential exceptions
       try
       {
         // Create a new PDO class instance
-        self::$_mHandler =
+        self::$mHandler =
           new PDO(PDO_DSN, DB_USERNAME, DB_PASSWORD,
                   array(PDO::ATTR_PERSISTENT => DB_PERSISTENCY));
 
         // Configure PDO to throw exceptions
-        self::$_mHandler->setAttribute(PDO::ATTR_ERRMODE,
+        self::$mHandler->setAttribute(PDO::ATTR_ERRMODE,
                                        PDO::ERRMODE_EXCEPTION);
       }
       catch (PDOException $e)
       {
         // Close the database handler and trigger an error
-        self::Close();
+        self::close();
         trigger_error($e->getMessage(), E_USER_ERROR);
       }
     }
 
     // Return the database handler
-    return self::$_mHandler;
+    return self::$mHandler;
   }
 
   // Clear the PDO class instance
-  public static function Close()
+  public static function close()
   {
-    self::$_mHandler = null;
+    self::$mHandler = null;
   }
 
   // Wrapper method for PDO::prepare
-  public static function Prepare($queryString)
+  public static function prepare($queryString)
   {
     // Execute code catching potential exceptions
     try
     {
       // Get the database handler and prepare the query
-      $database_handler = self::GetHandler();
-      $statement_handler = $database_handler->prepare($queryString);
+      $database_handler = self::getHandler();
 
       // Return the prepared statement
-      return $statement_handler;
+      return $database_handler->prepare($queryString);
     }
     catch (PDOException $e)
     {
       // Close the database handler and trigger an error
-      self::Close();
+      self::close();
       trigger_error($e->getMessage(), E_USER_ERROR);
     }
   }
 
   // Wrapper method for PDOStatement::execute
-  public static function Execute($statementHandler, $params = null)
+  public static function execute($statementHandler, $params = null)
   {
     try
     {
@@ -78,13 +77,13 @@ class DatabaseHandler
     catch(PDOException $e)
     {
       // Close the database handler and trigger an error
-      self::Close();
+      self::close();
       trigger_error($e->getMessage(), E_USER_ERROR);
     }
   }
 
   // Wrapper method for PDOStatement::fetchAll
-  public static function GetAll($statementHandler, $params = null,
+  public static function getAll($statementHandler, $params = null,
                                 $fetchStyle = PDO::FETCH_ASSOC)
   {
     // Initialize the return value to null
@@ -93,14 +92,14 @@ class DatabaseHandler
     // Try executing the prepared statement received as parameter
     try
     {
-      self::Execute($statementHandler, $params);
+      self::execute($statementHandler, $params);
 
       $result = $statementHandler->fetchAll($fetchStyle);
     }
     catch(PDOException $e)
     {
       // Close the database handler and trigger an error
-      self::Close();
+      self::close();
       trigger_error($e->getMessage(), E_USER_ERROR);
     }
 
@@ -109,7 +108,7 @@ class DatabaseHandler
   }
 
   // Wrapper method for PDOStatement::fetch
-  public static function GetRow($statementHandler, $params = null,
+  public static function getRow($statementHandler, $params = null,
                                 $fetchStyle = PDO::FETCH_ASSOC)
   {
     // Initialize the return value to null
@@ -118,14 +117,14 @@ class DatabaseHandler
     // Try executing the prepared statement received as parameter
     try
     {
-      self::Execute($statementHandler, $params);
+      self::execute($statementHandler, $params);
 
       $result = $statementHandler->fetch($fetchStyle);
     }
     catch(PDOException $e)
     {
       // Close the database handler and trigger an error
-      self::Close();
+      self::close();
       trigger_error($e->getMessage(), E_USER_ERROR);
     }
 
@@ -134,7 +133,7 @@ class DatabaseHandler
   }
 
   // Return the first column value from a row
-  public static function GetOne($statementHandler, $params = null)
+  public static function getOne($statementHandler, $params = null)
   {
     // Initialize the return value to null
     $result = null;
@@ -144,7 +143,7 @@ class DatabaseHandler
     {
       /* Execute the query, and save the first value of the result set
          (first column of the first row) to $result */
-      self::Execute($statementHandler, $params);
+      self::execute($statementHandler, $params);
 
       $result = $statementHandler->fetch(PDO::FETCH_NUM);
       $result = $result[0];
@@ -152,7 +151,7 @@ class DatabaseHandler
     catch(PDOException $e)
     {
       // Close the database handler and trigger an error
-      self::Close();
+      self::close();
       trigger_error($e->getMessage(), E_USER_ERROR);
     }
 

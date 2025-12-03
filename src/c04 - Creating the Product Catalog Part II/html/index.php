@@ -1,6 +1,6 @@
 <?php
 // Load Smarty library and config files
-require_once 'include/app_top.php';
+require_once 'include/app_top.php'; // NOSONAR - App bootstrap must use require_once
 
 /* If not visiting a product page, save the link to the current page
    in the page_link session variable; it will be used to create the
@@ -41,5 +41,5 @@ $page->assign('categoriesCell', $categoriesCell);
 $page->display('index.tpl');
 
 // Load app_bottom which closes the database connection
-require_once 'include/app_bottom.php';
+require_once 'include/app_bottom.php'; // NOSONAR - App cleanup must use require_once
 

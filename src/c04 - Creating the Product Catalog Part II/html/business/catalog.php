@@ -3,20 +3,20 @@
 class Catalog
 {
   // Retrieves all departments
-  public static function GetDepartments()
+  public static function getDepartments()
   {
     // Build SQL query
     $sql = 'SELECT * FROM catalog_get_departments_list();';
 
     // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetAll($result);
+    return DatabaseHandler::getAll($result);
   }
 
   // Retrieves complete details for the specified department
-  public static function GetDepartmentDetails($departmentId)
+  public static function getDepartmentDetails($departmentId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -24,14 +24,14 @@ class Catalog
     // Build the parameters array
     $params = array (':department_id' => $departmentId);
     // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetRow($result, $params);
+    return DatabaseHandler::getRow($result, $params);
   }
 
   // Retrieves list of categories that belong to a department
-  public static function GetCategoriesInDepartment($departmentId)
+  public static function getCategoriesInDepartment($departmentId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -39,14 +39,14 @@ class Catalog
     // Build the parameters array
     $params = array (':department_id' => $departmentId);
     // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetAll($result, $params);
+    return DatabaseHandler::getAll($result, $params);
   }
 
   // Retrieves complete details for the specified category
-  public static function GetCategoryDetails($categoryId)
+  public static function getCategoryDetails($categoryId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -54,15 +54,15 @@ class Catalog
     // Build the parameters array
     $params = array (':category_id' => $categoryId);
     // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetRow($result, $params);
+    return DatabaseHandler::getRow($result, $params);
   }
 
   /* Calculates how many pages of products could be filled by the
      number of products returned by the $countSql query */
-  private static function HowManyPages($countSql, $countSqlParams)
+  private static function howManyPages($countSql, $countSqlParams)
   {
     // Create a hash for the sql query
     $queryHashCode = hash("sha512",$countSql . var_export($countSqlParams, true));
@@ -78,8 +78,8 @@ class Catalog
     else
     {
       // Execute the query
-      $prepared = DatabaseHandler::Prepare($countSql);
-      $items_count = DatabaseHandler::GetOne($prepared, $countSqlParams);
+      $prepared = DatabaseHandler::prepare($countSql);
+      $items_count = DatabaseHandler::getOne($prepared, $countSqlParams);
 
       // Calculate the number of pages
       $how_many_pages = ceil($items_count / PRODUCTS_PER_PAGE);
@@ -94,14 +94,14 @@ class Catalog
   }
 
   // Retrieves list of products that belong to a category
-  public static function GetProductsInCategory(
+  public static function getProductsInCategory(
                            $categoryId, $pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products in the category
     $sql = 'SELECT catalog_count_products_in_category(:category_id);';
     $params = array (':category_id' => $categoryId);
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+    $rHowManyPages = Catalog::howManyPages($sql, $params);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -115,21 +115,21 @@ class Catalog
       ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
       ':products_per_page' => PRODUCTS_PER_PAGE,
       ':start_item' => $start_item);
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetAll($result, $params);
+    return DatabaseHandler::getAll($result, $params);
   }
 
   // Retrieves the list of products for the department page
-  public static function GetProductsOnDepartmentDisplay(
+  public static function getProductsOnDepartmentDisplay(
                            $departmentId, $pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products in the department page
     $sql = 'SELECT catalog_count_products_on_department(:department_id);';
     $params = array (':department_id' => $departmentId);
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+    $rHowManyPages = Catalog::howManyPages($sql, $params);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -143,19 +143,19 @@ class Catalog
       ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
       ':products_per_page' => PRODUCTS_PER_PAGE,
       ':start_item' => $start_item);
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetAll($result, $params);
+    return DatabaseHandler::getAll($result, $params);
   }
 
   // Retrieves the list of products on catalog display
-  public static function GetProductsOnCatalogDisplay($pageNo, &$rHowManyPages)
+  public static function getProductsOnCatalogDisplay($pageNo, &$rHowManyPages)
   {
     // Query that returns the number of products for the front catalog page
     $sql = 'SELECT catalog_count_products_on_catalog();';
     // Calculate the number of pages required to display the products
-    $rHowManyPages = Catalog::HowManyPages($sql, null);
+    $rHowManyPages = Catalog::howManyPages($sql, null);
     // Calculate the start item
     $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
 
@@ -168,14 +168,14 @@ class Catalog
       ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
       ':products_per_page' => PRODUCTS_PER_PAGE,
       ':start_item' => $start_item);
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetAll($result, $params);
+    return DatabaseHandler::getAll($result, $params);
   }
 
   // Retrieves complete product details
-  public static function GetProductDetails($productId)
+  public static function getProductDetails($productId)
   {
     // Build SQL query
     $sql = 'SELECT *
@@ -183,10 +183,10 @@ class Catalog
     // Build the parameters array
     $params = array (':product_id' => $productId);
     // Prepare the statement with PDO-specific functionality
-    $result = DatabaseHandler::Prepare($sql);
+    $result = DatabaseHandler::prepare($sql);
 
     // Execute the query and return the results
-    return DatabaseHandler::GetRow($result, $params);
+    return DatabaseHandler::getRow($result, $params);
   }
 }
 

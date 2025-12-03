@@ -1,6 +1,6 @@
 <?php
 // Plugin functions inside plugin files must be named: smarty_type_name
-function smarty_function_load_departments_list($params, $smarty)
+function smarty_function_load_departments_list($params, $smarty) // NOSONAR - Smarty plugin naming convention
 {
   // Create DepartmentsList object
   $departments_list = new DepartmentsList();

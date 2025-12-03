@@ -1,6 +1,6 @@
 <?php
 // Plugin functions inside plugin files must be named: smarty_type_name
-function smarty_function_load_categories_list($params, $smarty)
+function smarty_function_load_categories_list($params, $smarty) // NOSONAR - Smarty plugin naming convention
 {
     $categoriesList = new CategoriesList();
     $categoriesList->initialize();
