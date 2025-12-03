@@ -1,0 +1,38 @@
+baseURL = 'https://wilsonify.github.io/hatshop/'
+languageCode = 'en-us'
+title = 'HatShop Documentation'
+theme = 'hugo-book'
+
+# Book configuration
+enableGitInfo = true
+
+[params]
+  # (Optional, default light) Sets color theme: light, dark or auto.
+  BookTheme = 'auto'
+  # (Optional, default true) Controls table of contents visibility on right side of pages.
+  BookToC = true
+  # (Optional) Set the path to a logo for the book.
+  BookLogo = '/hatshop/images/logo.png'
+  # (Optional, default docs) Specify root page to render child pages as menu.
+  BookSection = 'docs'
+  # (Optional, default none) Set the path for the search index JSON file.
+  BookSearch = 'docs'
+  # (Optional, default true) Enables commits info on Footer.
+  BookDateFormat = 'January 2, 2006'
+  # Repository URL
+  BookRepo = 'https://github.com/wilsonify/hatshop'
+  # Enable "Edit this page" links
+  BookEditPath = 'edit/master/docs/content'
+
+[markup]
+  [markup.highlight]
+    style = 'monokai'
+    lineNos = false
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[menu]
+  [[menu.after]]
+    name = "GitHub"
+    url = "https://github.com/wilsonify/hatshop"
+    weight = 10
