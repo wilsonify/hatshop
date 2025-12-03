@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class d01_DatabaseIntegrationTest extends TestCase
+class DatabaseIntegrationTest extends TestCase
 {
     private $connection;
 

@@ -48,6 +48,7 @@ resource "aws_db_instance" "postgres" {
   instance_class       = "db.t3.micro"
   allocated_storage    = 20
   storage_type         = "gp3"
+  storage_encrypted    = true
   username             = "pgadmin"
   password             = "pgadmin123"
   multi_az             = false
@@ -58,6 +59,7 @@ resource "aws_db_instance" "postgres" {
   db_subnet_group_name = aws_db_subnet_group.default.name
   skip_final_snapshot  = true
   deletion_protection  = false
+  backup_retention_period = 7 # Set a reasonable backup retention period to avoid SonarQube warning.  # 7 days is adequate for testing; increase for production as needed.
 
   tags = {
     Name = "PostgreSQL Test DB"

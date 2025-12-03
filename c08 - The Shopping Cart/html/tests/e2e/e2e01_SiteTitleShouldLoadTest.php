@@ -6,7 +6,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 
-class e2e01_SiteTitleShouldLoadTest extends TestCase
+class SiteTitleShouldLoadTest extends TestCase
 {
     protected $driver;
 

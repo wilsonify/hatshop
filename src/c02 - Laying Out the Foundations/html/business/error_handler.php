@@ -1,5 +1,7 @@
 <?php
 
+namespace Business;
+
 class ErrorHandler
 {
 
@@ -16,27 +18,23 @@ class ErrorHandler
 
     private static function formatSingleArgument($arg): string
     {
+        $result = '';
+
         if (is_null($arg)) {
-            return self::formatNull();
+            $result = self::formatNull();
+        } elseif (is_bool($arg)) {
+            $result = self::formatBoolean($arg);
+        } elseif (is_array($arg)) {
+            $result = self::formatArray($arg);
+        } elseif (is_object($arg)) {
+            $result = self::formatObject($arg);
+        } elseif (is_string($arg)) {
+            $result = self::formatString($arg);
+        } else {
+            $result = self::formatOther($arg);
         }
 
-        if (is_bool($arg)) {
-            return self::formatBoolean($arg);
-        }
-
-        if (is_array($arg)) {
-            return self::formatArray($arg);
-        }
-
-        if (is_object($arg)) {
-            return self::formatObject($arg);
-        }
-
-        if (is_string($arg)) {
-            return self::formatString($arg);
-        }
-
-        return self::formatOther($arg);
+        return $result;
     }
 
     private static function formatNull(): string

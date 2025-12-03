@@ -1,12 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../business/error_handler.php';
-
 
 use PHPUnit\Framework\TestCase;
+use Business\ErrorHandler;
 
-class b01_BusinessErrorHandlerUnitTest extends TestCase
+class BusinessErrorHandlerUnitTest extends TestCase
 {
     public function testFormatErrorMessage()
     {

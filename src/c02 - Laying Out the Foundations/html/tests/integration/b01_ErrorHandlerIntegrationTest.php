@@ -1,11 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../business/error_handler.php';
 
+use Business\ErrorHandler;
 use PHPUnit\Framework\TestCase;
 
-class b01_ErrorHandlerIntegrationTest extends TestCase
+class BusinessErrorHandlerIntegrationTest extends TestCase
 {
     private $logFile;
 
