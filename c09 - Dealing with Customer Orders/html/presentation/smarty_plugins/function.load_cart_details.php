@@ -30,25 +30,28 @@ class CartDetails
   public function __construct()
   {
     // Setting the "Continue shopping" button target
-    if (isset ($_SESSION['page_link']))
+    if (isset($_SESSION['page_link'])) {
       $this->mCartReferrer = $_SESSION['page_link'];
+    }
 
-    if (isset ($_GET['CartAction']))
+    if (isset($_GET['CartAction'])) {
       $this->_mCartAction = $_GET['CartAction'];
-    else
+    } else {
       trigger_error('CartAction not set', E_USER_ERROR);
+    }
 
     // These cart operations require a valid product id
     if ($this->_mCartAction == ADD_PRODUCT ||
         $this->_mCartAction == REMOVE_PRODUCT ||
         $this->_mCartAction == SAVE_PRODUCT_FOR_LATER ||
-        $this->_mCartAction == MOVE_PRODUCT_TO_CART)
-
-    if (isset ($_GET['ProductID']))
-      $this->_mProductId = $_GET['ProductID'];
-    else
-      trigger_error('ProductID must be set for this type of request',
-                    E_USER_ERROR);
+        $this->_mCartAction == MOVE_PRODUCT_TO_CART) {
+      if (isset($_GET['ProductID'])) {
+        $this->_mProductId = $_GET['ProductID'];
+      } else {
+        trigger_error('ProductID must be set for this type of request',
+                      E_USER_ERROR);
+      }
+    }
 
     $this->mCartDetailsTarget = 'index.php?CartAction=' .
                                 UPDATE_PRODUCTS_QUANTITIES;

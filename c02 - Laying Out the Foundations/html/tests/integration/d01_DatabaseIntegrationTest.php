@@ -56,6 +56,6 @@ class d01_DatabaseIntegrationTest extends TestCase
         pg_close($this->connection);
 
         // Assert the connection is no longer valid
-        $this->assertFalse(@pg_connection_status($this->connection) === PGSQL_CONNECTION_OK, "Connection is still open.");
+        $this->assertNotSame(PGSQL_CONNECTION_OK, @pg_connection_status($this->connection), "Connection is still open.");
     }
 }

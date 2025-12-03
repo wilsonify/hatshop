@@ -6,10 +6,11 @@ require_once 'include/app_top.php';
    in the page_link session variable; it will be used to create the
    Continue Shopping link in the product details page and the links
    to product details pages */
-if (!isset ($_GET['ProductID']))
+if (!isset($_GET['ProductID'])) {
   $_SESSION['page_link'] = substr(getenv('REQUEST_URI'),
                                   strrpos(getenv('REQUEST_URI'), '/') + 1,
                                   strlen(getenv('REQUEST_URI')) - 1);
+}
 
 // Load Smarty template file
 $page = new Page();
@@ -28,8 +29,9 @@ if (isset ($_GET['DepartmentID']))
 }
 
 // Load product details page if visiting a product
-if (isset ($_GET['ProductID']))
+if (isset($_GET['ProductID'])) {
   $pageContentsCell = 'product.tpl';
+}
 
 // Assign a template file to the page contents cell
 $page->assign('pageContentsCell', $pageContentsCell);

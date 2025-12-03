@@ -1,6 +1,6 @@
 body
 {
-  font-family: tahoma, verdana, arial; sans-serif;
+  font-family: tahoma, verdana, arial, sans-serif;
   font-size: 11px;
   margin: 0px;
   padding: 5px;
@@ -44,7 +44,7 @@ img
 .left_box p
 {
   color: #ffffff;
-  font-family: arial, tahoma, verdana;
+  font-family: arial, tahoma, verdana, sans-serif;
   font-size: 12px;
   font-weight: bold;
   margin: 0px 0px 5px 0px;
@@ -62,7 +62,7 @@ img
 a
 {
   color: #a6a6a6;
-  font-family: verdana, arial, tahoma;
+  font-family: verdana, arial, tahoma, sans-serif;
   font-size: 10px;
   font-weight: bold;
   line-height: 20px;
@@ -86,7 +86,7 @@ ol
 .title
 {
   color: #ff0000;
-  font-family: arial, tahoma, verdana;
+  font-family: arial, tahoma, verdana, sans-serif;
   font-size: 18px;
   margin: 0px;
 }
@@ -149,13 +149,13 @@ p.left br
 a.product_name
 {
   color: #000000;
-  font-family: arial, tahoma, verdana;
+  font-family: arial, tahoma, verdana, sans-serif;
   font-size: 14px;
 }
 a.product_name:hover
 {
   color: #ff0000;
-  font-family: arial, tahoma, verdana;
+  font-family: arial, tahoma, verdana, sans-serif;
   font-size: 14px;
 }
 .price
@@ -189,7 +189,7 @@ form
 }
 input
 {
-  font-family: tahoma, verdana, arial; sans-serif;
+  font-family: tahoma, verdana, arial, sans-serif;
   font-size: 11px;
 }
 .words

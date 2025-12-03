@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../presentation/smarty_plugins/04.function.load_cate
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 
+const CATEGORY_101_NAME = 'Category 101';
+const CATEGORY_102_NAME = 'Category 102';
 
 class p03a_CategoriesListTest extends TestCase
 {
@@ -48,11 +50,11 @@ class p03a_CategoriesListTest extends TestCase
         $categoriesList = new CategoriesList();
         $categoriesList->mDepartmentSelected = 1;
         $categoriesList->mCategories = [
-                ['category_id' => 101, 'name' => 'Category 101'],
-                ['category_id' => 102, 'name' => 'Category 102']
+                ['category_id' => 101, 'name' => CATEGORY_101_NAME],
+                ['category_id' => 102, 'name' => CATEGORY_102_NAME]
             ];
         $this->assertCount(2, $categoriesList->mCategories);
-        $this->assertEquals('Category 101', $categoriesList->mCategories[0]['name']);
+        $this->assertEquals(CATEGORY_101_NAME, $categoriesList->mCategories[0]['name']);
     }
 
     public function testAddCategoryLinks()
@@ -60,8 +62,8 @@ class p03a_CategoriesListTest extends TestCase
         $_GET['DepartmentID'] = 1;
         $categoriesList = new CategoriesList();
         $categoriesList->mCategories = [
-            ['category_id' => 101, 'name' => 'Category 101'],
-            ['category_id' => 102, 'name' => 'Category 102']
+            ['category_id' => 101, 'name' => CATEGORY_101_NAME],
+            ['category_id' => 102, 'name' => CATEGORY_102_NAME]
         ];
         $categoriesList->addCategoryLinks();
         $this->assertEquals(
