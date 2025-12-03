@@ -11,3 +11,4 @@ vendor/
 .terraform/
 .terraform.lock.hcl
 .scannerwork/
+*clover.xml

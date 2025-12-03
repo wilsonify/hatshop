@@ -28,7 +28,7 @@ class LinkModifierTest extends TestCase {
 
     // Test generateBaseLink function
     public function testGenerateBaseLink() {
-        putenv('SERVER_NAME=example.com');
+        putenv('HATSHOP_HTTP_SERVER_HOST=example.com');
         $result = generateBaseLink();
         $this->assertEquals(self::BASE_LINK, $result);
     }
@@ -72,7 +72,7 @@ class LinkModifierTest extends TestCase {
 
     // Test smarty_modifier_prepare_link function
     public function testSmartyModifierPrepareLink() {
-        putenv('SERVER_NAME=example.com');
+        putenv('HATSHOP_HTTP_SERVER_HOST=example.com');
 
         // Case with path needing index.php
         $result = smarty_modifier_prepare_link(self::SOME_PATH);

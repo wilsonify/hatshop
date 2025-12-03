@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         bootstrap="c02 - Laying Out the Foundations/html/vendor/autoload.php"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="c02-unit">
+            <directory>c02 - Laying Out the Foundations/html/tests/unit</directory>
+        </testsuite>
+        <testsuite name="c02-integration">
+            <directory>c02 - Laying Out the Foundations/html/tests/integration</directory>
+        </testsuite>
+        <testsuite name="c03-unit">
+            <directory>c03 - Creating the Product Catalog Part I/html/tests</directory>
+            <exclude>c03 - Creating the Product Catalog Part I/html/tests/e2e</exclude>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">c02 - Laying Out the Foundations/html/business</directory>
+            <directory suffix=".php">c02 - Laying Out the Foundations/html/presentation</directory>
+            <directory suffix=".php">c03 - Creating the Product Catalog Part I/html/business</directory>
+            <directory suffix=".php">c03 - Creating the Product Catalog Part I/html/presentation</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">*/vendor/*</directory>
+            <directory suffix=".php">*/tests/*</directory>
+        </exclude>
+        <report>
+            <clover outputFile="../coverage/clover.xml"/>
+            <html outputDirectory="../coverage/html"/>
+        </report>
+    </coverage>
+</phpunit>

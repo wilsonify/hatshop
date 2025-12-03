@@ -8,7 +8,7 @@ class SmartyModifierPrepareLinkTest extends TestCase
 {
     protected function setUp(): void
     {
-        putenv('SERVER_NAME=testserver.com');
+        putenv('HATSHOP_HTTP_SERVER_HOST=testserver.com');
     }
 
     public function testPrepareLinkWithIndexPhp()
