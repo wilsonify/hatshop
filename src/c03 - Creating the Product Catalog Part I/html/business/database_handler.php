@@ -1,7 +1,7 @@
 <?php
 class DatabaseHandler
 {
-    private static ?PDO $_mHandler;
+    private static ?PDO $mHandler;
 
     private function __construct() {
         // Private constructor to prevent direct creation of object
@@ -10,21 +10,20 @@ class DatabaseHandler
     // Returns a database connection, creates one if it doesn't exist
     private static function getHandler(): PDO
     {
-        if (!isset(self::$_mHandler)) {
-            self::$_mHandler = self::createHandler();
+        if (!isset(self::$mHandler)) {
+            self::$mHandler = self::createHandler();
         }
-        return self::$_mHandler;
+        return self::$mHandler;
     }
 
     // Creates and configures a PDO handler
     private static function createHandler(): PDO
     {
         try {
-            $pdo = new PDO(PDO_DSN, DB_USERNAME, DB_PASSWORD, [
+            return new PDO(PDO_DSN, DB_USERNAME, DB_PASSWORD, [
                 PDO::ATTR_PERSISTENT => DB_PERSISTENCY,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]);
-            return $pdo;
         } catch (PDOException $e) {
             self::close();
             trigger_error($e->getMessage(), E_USER_ERROR);
@@ -34,7 +33,7 @@ class DatabaseHandler
     // Closes the database handler
     public static function close(): void
     {
-        self::$_mHandler = null;
+        self::$mHandler = null;
     }
 
     // Prepares a query

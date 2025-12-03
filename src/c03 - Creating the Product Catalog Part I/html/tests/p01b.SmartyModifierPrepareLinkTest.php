@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../presentation/smarty_plugins/01.modifier.prepare_link.php';
+require_once __DIR__ . '/../presentation/smarty_plugins/01.modifier.prepare_link.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
 use PHPUnit\Framework\TestCase;
 
 

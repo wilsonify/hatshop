@@ -1,8 +1,8 @@
 <?php
 // Reference Composer's autoload
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/smarty_plugins/02.function.load_departments_list.php';
-require_once __DIR__ . '/smarty_plugins/01.modifier.prepare_link.php';
+require_once __DIR__ . '/../vendor/autoload.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
+require_once __DIR__ . '/smarty_plugins/02.function.load_departments_list.php'; // NOSONAR
+require_once __DIR__ . '/smarty_plugins/01.modifier.prepare_link.php'; // NOSONAR
 
 use Smarty\Smarty;
 

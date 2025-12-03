@@ -3,7 +3,7 @@
 class Catalog
 {
   // Retrieves all departments
-  public static function GetDepartments()
+  public static function getDepartments()
   {
     // Build SQL query
     $sql = 'SELECT * FROM catalog_get_departments_list();';

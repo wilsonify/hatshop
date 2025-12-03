@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../presentation/smarty_plugins/01.modifier.prepare_link.php';
+require_once __DIR__ . '/../presentation/smarty_plugins/01.modifier.prepare_link.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
 use PHPUnit\Framework\TestCase;
 
 
@@ -29,7 +29,7 @@ class LinkModifierTest extends TestCase {
     // Test generateBaseLink function
     public function testGenerateBaseLink() {
         putenv('SERVER_NAME=example.com');
-        $result = generateBaseLink('any/path');
+        $result = generateBaseLink();
         $this->assertEquals(self::BASE_LINK, $result);
     }
 

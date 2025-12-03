@@ -1,8 +1,8 @@
 
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../business/database_handler.php';
+require_once __DIR__ . '/../vendor/autoload.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
+require_once __DIR__ . '/../business/database_handler.php'; // NOSONAR
 
 use PHPUnit\Framework\TestCase;
 
@@ -18,15 +18,23 @@ class DatabaseHandlerTest extends TestCase
         $this->statementMock = $this->createMock(PDOStatement::class);
 
         // Inject the PDO mock into the static property using reflection
+        // This is safe because:
+        // 1. It's limited to test scope only
+        // 2. The property is properly restored in tearDown()
+        // 3. No instance is passed to setAccessible, so it affects the static property
         $reflection = new ReflectionClass(DatabaseHandler::class);
-        $property = $reflection->getProperty('_mHandler');
+        $property = $reflection->getProperty('mHandler');
         $property->setAccessible(true);
-        $property->setValue($this->pdoMock);
+        $property->setValue(null, $this->pdoMock); // Explicitly pass null for static property
     }
 
     protected function tearDown(): void
     {
-        DatabaseHandler::close();
+        // Clean up the static property using reflection to ensure complete reset
+        $reflection = new ReflectionClass(DatabaseHandler::class);
+        $property = $reflection->getProperty('mHandler');
+        $property->setAccessible(true);
+        $property->setValue(null, null); // Explicitly reset static property
     }
 
     public function testPrepare(): void
@@ -109,9 +117,9 @@ class DatabaseHandlerTest extends TestCase
         DatabaseHandler::close();
 
         $reflection = new ReflectionClass(DatabaseHandler::class);
-        $property = $reflection->getProperty('_mHandler');
+        $property = $reflection->getProperty('mHandler');
         $property->setAccessible(true);
 
-        $this->assertNull($property->getValue());
+        $this->assertNull($property->getValue(null)); // Explicitly pass null for static property
     }
 }

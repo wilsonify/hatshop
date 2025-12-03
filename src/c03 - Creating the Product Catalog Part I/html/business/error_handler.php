@@ -16,27 +16,14 @@ class ErrorHandler
 
     private static function formatSingleArgument($arg): string
     {
-        if (is_null($arg)) {
-            return self::formatNull();
-        }
-
-        if (is_bool($arg)) {
-            return self::formatBoolean($arg);
-        }
-
-        if (is_array($arg)) {
-            return self::formatArray($arg);
-        }
-
-        if (is_object($arg)) {
-            return self::formatObject($arg);
-        }
-
-        if (is_string($arg)) {
-            return self::formatString($arg);
-        }
-
-        return self::formatOther($arg);
+        return match (true) {
+            is_null($arg) => self::formatNull(),
+            is_bool($arg) => self::formatBoolean($arg),
+            is_array($arg) => self::formatArray($arg),
+            is_object($arg) => self::formatObject($arg),
+            is_string($arg) => self::formatString($arg),
+            default => self::formatOther($arg),
+        };
     }
 
     private static function formatNull(): string

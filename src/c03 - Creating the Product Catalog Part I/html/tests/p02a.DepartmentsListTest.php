@@ -1,14 +1,14 @@
 <?php
 // Reference Composer's autoload
-require_once '/var/www/html/vendor/autoload.php';
-require_once __DIR__ . '/../presentation/smarty_plugins/02.function.load_departments_list.php';
+require_once '/var/www/html/vendor/autoload.php'; // NOSONAR - Legacy PHP application without PSR-4 autoloading
+require_once __DIR__ . '/../presentation/smarty_plugins/02.function.load_departments_list.php'; // NOSONAR
 use PHPUnit\Framework\TestCase;
 use Smarty\Smarty;
 
 // Mock Catalog class to provide a predictable response for testing
 class Catalog
 {
-    public static function GetDepartments()
+    public static function getDepartments() // NOSONAR - Mock class for testing
     {
         return [
             ['department_id' => 1, 'name' => 'Electronics'],
