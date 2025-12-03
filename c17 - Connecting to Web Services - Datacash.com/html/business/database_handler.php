@@ -10,7 +10,7 @@ class DatabaseHandler
   {
   }
 
-  // Return an initialized database handler 
+  // Return an initialized database handler
   private static function GetHandler()
   {
     // Create a database connection only if one doesn't already exist
@@ -112,7 +112,7 @@ class DatabaseHandler
   public static function GetRow($statementHandler, $params = null,
                                 $fetchStyle = PDO::FETCH_ASSOC)
   {
-    // Initialize the return value to null    
+    // Initialize the return value to null
     $result = null;
 
     // Try executing the prepared statement received as parameter
@@ -136,7 +136,7 @@ class DatabaseHandler
   // Return the first column value from a row
   public static function GetOne($statementHandler, $params = null)
   {
-    // Initialize the return value to null    
+    // Initialize the return value to null
     $result = null;
 
     // Try executing the prepared statement received as parameter

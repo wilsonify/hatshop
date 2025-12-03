@@ -30,7 +30,7 @@ class Department
     } else
       trigger_error('DepartmentID not set');
 
-    /* If CategoryID is in the query string we save it 
+    /* If CategoryID is in the query string we save it
        (casting it to integer to protect against invalid values) */
     if (isset ($_GET['CategoryID'])) {
       $this->_mCategoryId = (int)$_GET['CategoryID'];

@@ -1,11 +1,11 @@
 <?php
-/* Smarty plugin function that gets called when the 
+/* Smarty plugin function that gets called when the
    load_admin_departments function plugin is loaded from a template */
 function smarty_function_load_admin_departments($params, $smarty)
 {
   // Create AdminDepartments object
   $admin_departments = new AdminDepartments();
-  $admin_departments->init(); 
+  $admin_departments->init();
 
   // Assign template variable
   $smarty->assign($params['assign'], $admin_departments);

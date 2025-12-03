@@ -64,7 +64,7 @@ class Catalog
      number of products returned by the $countSql query */
   private static function HowManyPages($countSql, $countSqlParams)
   {
-    // Create a hash for the sql query 
+    // Create a hash for the sql query
     $queryHashCode = hash("sha512",$countSql . var_export($countSqlParams, true));
 
     // Verify if we have the query results in cache
@@ -89,7 +89,7 @@ class Catalog
       $_SESSION['how_many_pages'] = $how_many_pages;
     }
 
-    // Return the number of pages    
+    // Return the number of pages
     return $how_many_pages;
   }
 

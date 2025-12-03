@@ -64,7 +64,7 @@ class Catalog
      number of products returned by the $countSql query */
   private static function HowManyPages($countSql, $countSqlParams)
   {
-    // Create a hash for the sql query 
+    // Create a hash for the sql query
     $queryHashCode = hash("sha512",$countSql . var_export($countSqlParams, true));
 
     // Verify if we have the query results in cache
@@ -89,7 +89,7 @@ class Catalog
       $_SESSION['how_many_pages'] = $how_many_pages;
     }
 
-    // Return the number of pages    
+    // Return the number of pages
     return $how_many_pages;
   }
 
@@ -231,7 +231,7 @@ class Catalog
 
     // Search string delimiters
     $delimiters = ',.; ';
-    // Use strtok to get the first word of the search string 
+    // Use strtok to get the first word of the search string
     $word = strtok($searchString, $delimiters);
     $words = array ();
 
@@ -243,7 +243,7 @@ class Catalog
       $word = strtok($delimiters);
     }
 
-    // Split the search words in two categories: accepted and ignored 
+    // Split the search words in two categories: accepted and ignored
     $search_words = Catalog::FlagStopWords($words);
     $search_result['accepted_words'] = $search_words['accepted_words'];
     $search_result['ignored_words'] = $search_words['ignored_words'];
@@ -272,7 +272,7 @@ class Catalog
                                   :start_page);';
     $params = array (
       ':words' => '{' . implode(', ', $search_result['accepted_words']) . '}',
-      ':all_words' => $allWords, 
+      ':all_words' => $allWords,
       ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
       ':products_per_page' => PRODUCTS_PER_PAGE,
       ':start_page' => $start_item);

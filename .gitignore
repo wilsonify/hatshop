@@ -10,3 +10,4 @@ vendor/
 *.tfbackend
 .terraform/
 .terraform.lock.hcl
+.scannerwork/

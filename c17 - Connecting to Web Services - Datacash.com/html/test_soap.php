@@ -5,7 +5,7 @@ try
   $client = new SoapClient(
     'https://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl');
 
-  /* DON'T FORGET to replace the string '[Your Access Key ID]' with your 
+  /* DON'T FORGET to replace the string '[Your Access Key ID]' with your
      subscription ID in the following line */
   $request = array ('Service' => 'AWSECommerceService',
                     'AWSAccessKeyId' => '[Your Access Key ID]',

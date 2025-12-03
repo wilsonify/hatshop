@@ -62,10 +62,10 @@ class Amazon
          passed to the remote procedure */
       $request = array ('SubscriptionId' => AMAZON_ACCESS_KEY_ID,
                         'Request' => array ('Operation' => 'ItemSearchRequest',
-                                            'Keywords' => 
+                                            'Keywords' =>
                                               AMAZON_SEARCH_KEYWORDS,
                                             'SearchIndex' => AMAZON_SEARCH_NODE,
-                                            'ResponseGroup' => 
+                                            'ResponseGroup' =>
                                               AMAZON_RESPONSE_GROUPS,
                                             'Sort' => 'salesrank'));
 

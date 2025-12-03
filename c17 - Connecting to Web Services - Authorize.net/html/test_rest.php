@@ -2,7 +2,7 @@
 // Tell the browser it is going to receive an XML document.
 header('Content-type: text/xml');
 
-/* DON'T FORGET to replace the string '[Your Access Key ID]' with your 
+/* DON'T FORGET to replace the string '[Your Access Key ID]' with your
    Access Key ID in the following line */
 $url = 'https://webservices.amazon.com/onca/xml?Service=AWSECommerceService' .
        '&AWSAccessKeyId=[Your Access Key ID]' .

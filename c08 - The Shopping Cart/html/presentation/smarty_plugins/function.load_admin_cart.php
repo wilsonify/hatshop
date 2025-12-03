@@ -1,5 +1,5 @@
 <?php
-/* Smarty plugin function that gets called when the 
+/* Smarty plugin function that gets called when the
    load_admin_cart function plugin is loaded from a template */
 function smarty_function_load_admin_cart($params, $smarty)
 {

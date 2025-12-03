@@ -64,7 +64,7 @@ class AdminProducts
            e.g '1' from 'submit_edit_prod_1' */
         $this->mActionedProductId = (int)substr($key, $last_underscore + 1);
 
-        break; 
+        break;
       }
   }
 

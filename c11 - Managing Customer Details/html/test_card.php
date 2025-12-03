@@ -6,7 +6,7 @@ require_once BUSINESS_DIR . 'secure_card.php';
 $card_holder = 'Mihai Bucica';
 $card_number = '1234567890123456';
 $expiry_date = '01/09';
-$issue_date = '01/01'; 
+$issue_date = '01/01';
 $issue_number = 100;
 $card_type = 'Mastercard';
 

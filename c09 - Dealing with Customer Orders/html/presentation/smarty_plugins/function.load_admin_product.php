@@ -60,7 +60,7 @@ class AdminProduct
     // If uploading a product picture ...
     if (isset ($_POST['Upload']))
     {
-      /* Check whether we have write permission on the 
+      /* Check whether we have write permission on the
           product_images folder */
       if (!is_writeable(SITE_ROOT . '/product_images/'))
       {

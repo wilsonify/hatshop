@@ -175,7 +175,7 @@ class ProductsList
         'https://www.paypal.com/cgi-bin/webscr?' .
         'cmd=_cart&amp;business=' . rawurlencode(PAYPAL_EMAIL) .
         '&amp;item_name=' . rawurlencode($this->mProducts[$i]['name']) .
-        '&amp;amount=' . 
+        '&amp;amount=' .
         (($this->mProducts[$i]['discounted_price'] == 0) ?
          $this->mProducts[$i]['price'] :
          $this->mProducts[$i]['discounted_price']) .
