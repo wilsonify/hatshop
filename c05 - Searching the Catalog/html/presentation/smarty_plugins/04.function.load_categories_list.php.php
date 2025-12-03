@@ -23,8 +23,9 @@ class CategoriesList
   {
     if (isset ($_GET['DepartmentID'])) {
       $this->mDepartmentSelected = (int)$_GET['DepartmentID'];
-    } else
+    } else {
       trigger_error('DepartmentID not set');
+    }
 
     if (isset ($_GET['CategoryID'])) {
       $this->mCategorySelected = (int)$_GET['CategoryID'];
@@ -37,10 +38,10 @@ class CategoriesList
       Catalog::GetCategoriesInDepartment($this->mDepartmentSelected);
 
     // Building links for the category pages
-    for ($i = 0; $i < count($this->mCategories); $i++)
+    for ($i = 0; $i < count($this->mCategories); $i++) {
       $this->mCategories[$i]['link'] =
         'index.php?DepartmentID=' . $this->mDepartmentSelected .
         '&CategoryID=' . $this->mCategories[$i]['category_id'];
+    }
   }
 }
-

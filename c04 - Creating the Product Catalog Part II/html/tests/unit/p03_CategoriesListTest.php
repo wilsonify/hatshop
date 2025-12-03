@@ -8,6 +8,8 @@ use Smarty\Smarty;
 
 class p03_CategoriesListTest extends TestCase
 {
+    const CATEGORY_101_NAME = 'Category 101';
+
     protected function setUp(): void
     {
         /*
@@ -48,11 +50,11 @@ class p03_CategoriesListTest extends TestCase
         $categoriesList = new CategoriesList();
         $categoriesList->mDepartmentSelected = 1;
         $categoriesList->mCategories = [
-                ['category_id' => 101, 'name' => 'Category 101'],
+                ['category_id' => 101, 'name' => self::CATEGORY_101_NAME],
                 ['category_id' => 102, 'name' => 'Category 102']
             ];
         $this->assertCount(2, $categoriesList->mCategories);
-        $this->assertEquals('Category 101', $categoriesList->mCategories[0]['name']);
+        $this->assertEquals(self::CATEGORY_101_NAME, $categoriesList->mCategories[0]['name']);
     }
 
     public function testAddCategoryLinks()
@@ -60,7 +62,7 @@ class p03_CategoriesListTest extends TestCase
         $_GET['DepartmentID'] = 1;
         $categoriesList = new CategoriesList();
         $categoriesList->mCategories = [
-            ['category_id' => 101, 'name' => 'Category 101'],
+            ['category_id' => 101, 'name' => self::CATEGORY_101_NAME],
             ['category_id' => 102, 'name' => 'Category 102']
         ];
         $categoriesList->addCategoryLinks();

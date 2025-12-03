@@ -36,10 +36,10 @@ class DepartmentsList
     $this->mDepartments = Catalog::GetDepartments();
 
     // Create the department links
-    for ($i = 0; $i < count($this->mDepartments); $i++)
+    for ($i = 0; $i < count($this->mDepartments); $i++) {
       $this->mDepartments[$i]['link'] =
         'index.php?DepartmentID=' .
         $this->mDepartments[$i]['department_id'];
+    }
   }
 }
-

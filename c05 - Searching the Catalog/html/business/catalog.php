@@ -206,11 +206,13 @@ class Catalog
     $search_words = array ('accepted_words' => array (),
                            'ignored_words' => array ());
 
-    for ($i = 0; $i < count($flags); $i++)
+    for ($i = 0; $i < count($flags); $i++) {
       if ($flags[$i]['catalog_flag_stop_words']) {
         $search_words['ignored_words'][] = $words[$i];
-      } else
+      } else {
         $search_words['accepted_words'][] = $words[$i];
+      }
+    }
 
     return $search_words;
   }
@@ -283,4 +285,3 @@ class Catalog
     return $search_result;
   }
 }
-

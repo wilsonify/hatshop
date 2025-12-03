@@ -27,8 +27,9 @@ class Department
     // We need to have DepartmentID in the query string
     if (isset ($_GET['DepartmentID'])) {
       $this->_mDepartmentId = (int)$_GET['DepartmentID'];
-    } else
+    } else {
       trigger_error('DepartmentID not set');
+    }
 
     /* If CategoryID is in the query string we save it
        (casting it to integer to protect against invalid values) */
@@ -54,4 +55,3 @@ class Department
     }
   }
 }
-

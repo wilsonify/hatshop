@@ -26,8 +26,9 @@ class Product
     // Variable initialization
     if (isset ($_GET['ProductID'])) {
       $this->_mProductId = (int)$_GET['ProductID'];
-    } else
+    } else {
       trigger_error('ProductID required in product.php');
+    }
   }
 
   public function init()
@@ -40,4 +41,3 @@ class Product
     }
   }
 }
-
