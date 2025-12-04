@@ -211,6 +211,108 @@ docker-compose logs -f app
 tail -f /var/log/apache2/error.log
 ```
 
+## Deployment Environments
+
+HatShop uses a three-environment deployment model with a promotion workflow.
+
+### Environment Overview
+
+| Environment | Technology | Port | URL Path | Purpose |
+|-------------|------------|------|----------|---------|
+| Dev | Docker Compose | 10080 | `/dev` | Local development and testing |
+| Stage | KIND (Kubernetes) | 10081 | `/stage` | Pre-production validation |
+| Prod | KIND (Kubernetes) | 10082 | `/prod` | Production |
+
+### Directory Structure
+
+```
+deploy/
+├── 01_dev/
+│   ├── hatshop/
+│   │   ├── .env              # Source of truth for secrets
+│   │   ├── docker-compose.yaml
+│   │   ├── Makefile          # Includes promote-* targets
+│   │   └── nginx.conf
+│   └── cloudflare/
+│       └── config.yaml
+├── 02_stage/
+│   ├── .env                  # Promoted from dev
+│   ├── kind-config.yaml
+│   ├── Makefile
+│   └── base/                 # Kustomize manifests
+└── 03_prod/
+    └── (similar to stage)
+```
+
+### Promotion Workflow
+
+Changes flow from dev to stage to prod. Environment secrets are explicitly promoted to ensure only tested configurations reach higher environments.
+
+```
+┌─────────┐    promote-stage    ┌─────────┐    promote-prod    ┌─────────┐
+│   Dev   │ ─────────────────►  │  Stage  │ ─────────────────► │  Prod   │
+└─────────┘                     └─────────┘                    └─────────┘
+Docker Compose                  KIND Cluster                   KIND Cluster
+Port 10080                      Port 10081                     Port 10082
+```
+
+### Working with Dev Environment
+
+```bash
+cd deploy/01_dev/hatshop
+
+# Start the environment
+make up
+
+# View logs
+make logs
+
+# Check status
+make status
+
+# Stop the environment
+make down
+```
+
+### Promoting to Stage
+
+After testing in dev, promote the configuration to stage:
+
+```bash
+# From dev directory
+cd deploy/01_dev/hatshop
+
+# Promote .env to stage
+make promote-stage
+
+# Then deploy stage
+cd ../../02_stage
+make all
+```
+
+### Promoting to Prod
+
+After validation in stage:
+
+```bash
+# From dev directory
+cd deploy/01_dev/hatshop
+
+# Promote .env to prod
+make promote-prod
+
+# Then deploy prod
+cd ../../03_prod
+make all
+```
+
+### Testing Your Changes
+
+1. **Local development**: Use the chapter-specific `docker-compose.yaml` in `src/`
+2. **Integration testing**: Deploy to dev environment
+3. **Pre-production validation**: Promote to stage
+4. **Release**: Promote to prod
+
 ## Next Steps
 
 - Read the [Chapter Guides]({{< relref "/docs/chapters" >}}) to understand each feature

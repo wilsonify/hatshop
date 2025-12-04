@@ -11,7 +11,7 @@ This guide covers deploying, configuring, and maintaining HatShop in production.
 ## Deployment Guides
 
 - [Deploy to Dev Environment]({{< relref "deploy-dev" >}}) - Docker Compose with Cloudflare Tunnel
-- Deploy to Staging (coming soon)
+- [Deploy to Stage Environment]({{< relref "deploy-stage" >}}) - KIND (Kubernetes) with Cloudflare Tunnel
 - Deploy to Production (coming soon)
 
 ## Deployment Options
