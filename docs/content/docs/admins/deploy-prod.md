@@ -16,13 +16,13 @@ This guide covers deploying HatShop to a production environment.
 
 ## Deployment Checklist
 
-{{< callout type="warning" >}}
+{{< hint warning >}}
 Ensure all security measures are in place before deploying to production.
-{{< /callout >}}
+{{< /hint >}}
 
-{{< callout type="info" >}}
+{{< hint info >}}
 Documentation for production deployment is coming soon.
-{{< /callout >}}
+{{< /hint >}}
 
 ## Related Documentation
 

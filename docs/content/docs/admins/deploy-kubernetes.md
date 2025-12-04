@@ -16,9 +16,9 @@ This guide covers deploying HatShop to a Kubernetes cluster.
 
 ## Deployment Steps
 
-{{< callout type="info" >}}
+{{< hint info >}}
 Documentation for Kubernetes deployment is coming soon.
-{{< /callout >}}
+{{< /hint >}}
 
 ## Related Documentation
 
