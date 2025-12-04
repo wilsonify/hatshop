@@ -8,12 +8,12 @@ tunnel: d9a5bcb5-05cd-4493-9fbc-62c854a4f728
 credentials-file: /home/thom/.cloudflared/d9a5bcb5-05cd-4493-9fbc-62c854a4f728.json
 
 ingress:
-  # Dev environment
+  # Dev environment (Docker Compose on port 10080)
   - hostname: hatshop.renewed-renaissance.com
     path: dev
     service: http://192.168.1.128:10080
 
-  # Stage environment (placeholder)
+  # Stage environment (KIND/Kubernetes on port 10080)
   - hostname: hatshop.renewed-renaissance.com
     path: stage
     service: http://192.168.1.128:10080
