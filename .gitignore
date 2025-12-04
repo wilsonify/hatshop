@@ -12,3 +12,4 @@ vendor/
 .terraform.lock.hcl
 .scannerwork/
 *clover.xml
+copilot-instructions.md
