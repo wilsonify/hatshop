@@ -28,7 +28,7 @@ secret:
 		kubectl --context $(CONTEXT) -n $(NAMESPACE) create secret generic cloudflared-secret \
 			--from-env-file=.env; \
 	else \
-		echo "ERROR: .env file not found. Create it with CLOUD_FLARE_TOKEN=<your-token>"; \
+		echo "ERROR: .env file not found. Run 'make promote' from deploy/01_dev/hatshop first."; \
 		exit 1; \
 	fi
 
