@@ -8,5 +8,5 @@ nodes:
     extraPortMappings:
       # Nginx ingress port for stage environment
       - containerPort: 30081
-        hostPort: 10080
+        hostPort: 10081
         protocol: TCP
