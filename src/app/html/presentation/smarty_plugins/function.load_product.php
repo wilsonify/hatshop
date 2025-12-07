@@ -1,6 +1,8 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\Config;
+use Hatshop\Core\FeatureFlags;
 
 // Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_product($params, $smarty)
@@ -11,6 +13,15 @@ function smarty_function_load_product($params, $smarty)
 
     // Assign template variable
     $smarty->assign($params['assign'], $product);
+
+    // Assign PayPal configuration if feature is enabled
+    if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL)) {
+        $smarty->assign('paypal_url', Config::get('paypal_url'));
+        $smarty->assign('paypal_email', Config::get('paypal_email'));
+        $smarty->assign('paypal_return_url', Config::get('paypal_return_url'));
+        $smarty->assign('paypal_cancel_url', Config::get('paypal_cancel_url'));
+        $smarty->assign('paypal_currency_code', Config::get('paypal_currency_code'));
+    }
 }
 
 // Handles product details

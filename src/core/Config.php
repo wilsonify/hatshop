@@ -101,6 +101,14 @@ class Config
             // Product display settings
             'short_product_description_length' => 150,
             'products_per_page' => 4,
+
+            // PayPal settings (Chapter 6)
+            'paypal_url' => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+            'paypal_email' => '',
+            'paypal_return_url' => '',
+            'paypal_cancel_url' => '',
+            'paypal_ipn_url' => '',
+            'paypal_currency_code' => 'USD',
         ];
     }
 
@@ -126,6 +134,13 @@ class Config
             'use_ssl' => 'HATSHOP_USE_SSL',
             'short_product_description_length' => 'HATSHOP_SHORT_PRODUCT_DESCRIPTION_LENGTH',
             'products_per_page' => 'HATSHOP_PRODUCTS_PER_PAGE',
+            // PayPal settings
+            'paypal_url' => 'HATSHOP_PAYPAL_URL',
+            'paypal_email' => 'HATSHOP_PAYPAL_EMAIL',
+            'paypal_return_url' => 'HATSHOP_PAYPAL_RETURN_URL',
+            'paypal_cancel_url' => 'HATSHOP_PAYPAL_CANCEL_URL',
+            'paypal_ipn_url' => 'HATSHOP_PAYPAL_IPN_URL',
+            'paypal_currency_code' => 'HATSHOP_PAYPAL_CURRENCY_CODE',
         ];
 
         $booleanKeys = ['is_warning_fatal', 'debugging', 'log_errors', 'send_error_mail',
@@ -217,6 +232,13 @@ class Config
             'USE_SSL' => $instance->config['use_ssl'],
             'SHORT_PRODUCT_DESCRIPTION_LENGTH' => $instance->config['short_product_description_length'],
             'PRODUCTS_PER_PAGE' => $instance->config['products_per_page'],
+            // PayPal constants
+            'PAYPAL_URL' => $instance->config['paypal_url'],
+            'PAYPAL_EMAIL' => $instance->config['paypal_email'],
+            'PAYPAL_RETURN_URL' => $instance->config['paypal_return_url'],
+            'PAYPAL_CANCEL_URL' => $instance->config['paypal_cancel_url'],
+            'PAYPAL_IPN_URL' => $instance->config['paypal_ipn_url'],
+            'PAYPAL_CURRENCY_CODE' => $instance->config['paypal_currency_code'],
         ];
 
         foreach ($constants as $name => $value) {

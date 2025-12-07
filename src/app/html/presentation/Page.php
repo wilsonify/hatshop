@@ -7,6 +7,8 @@ foreach (glob(__DIR__ . '/../smarty_plugins/*.php') as $pluginFile) {
     require_once $pluginFile;
 }
 
+use Hatshop\Core\Config;
+use Hatshop\Core\FeatureFlags;
 use Smarty\Smarty;
 
 /**
@@ -33,5 +35,14 @@ class Page extends Smarty
         $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
         $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
         $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
+
+        // Assign global PayPal configuration if feature is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL)) {
+            $this->assign('paypal_url', Config::get('paypal_url'));
+            $this->assign('paypal_email', Config::get('paypal_email'));
+            $this->assign('paypal_return_url', Config::get('paypal_return_url'));
+            $this->assign('paypal_cancel_url', Config::get('paypal_cancel_url'));
+            $this->assign('paypal_currency_code', Config::get('paypal_currency_code'));
+        }
     }
 }

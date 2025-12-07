@@ -24,6 +24,9 @@ class FeatureFlags
     // Chapter 5: Search
     public const FEATURE_SEARCH = 'search';
 
+    // Chapter 6: PayPal Payments
+    public const FEATURE_PAYPAL = 'paypal';
+
     // Future chapters
     public const FEATURE_SHOPPING_CART = 'shopping_cart';
     public const FEATURE_CUSTOMER_ORDERS = 'customer_orders';
@@ -44,6 +47,7 @@ class FeatureFlags
         self::FEATURE_PRODUCT_DETAILS => true,
         self::FEATURE_PAGINATION => true,
         self::FEATURE_SEARCH => true,
+        self::FEATURE_PAYPAL => false,
         self::FEATURE_SHOPPING_CART => false,
         self::FEATURE_CUSTOMER_ORDERS => false,
         self::FEATURE_PRODUCT_RECOMMENDATIONS => false,
@@ -145,6 +149,9 @@ class FeatureFlags
                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION],
             5 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH],
+            6 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                  self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                  self::FEATURE_PAYPAL],
         ];
 
         // Disable all features first

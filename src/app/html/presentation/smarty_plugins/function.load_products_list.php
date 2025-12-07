@@ -1,6 +1,8 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\Config;
+use Hatshop\Core\FeatureFlags;
 
 // Plugin functions inside plugin files must be named: smarty_type_name
 function smarty_function_load_products_list($params, $smarty)
@@ -186,9 +188,34 @@ class ProductsList
         } else {
             $url = $url . '?ProductID=';
         }
+
+        $paypalEnabled = FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL);
+        $paypalEmail = Config::get('paypal_email');
+        $paypalUrl = Config::get('paypal_url');
+        $paypalReturnUrl = Config::get('paypal_return_url');
+        $paypalCancelUrl = Config::get('paypal_cancel_url');
+        $paypalCurrency = Config::get('paypal_currency_code');
+
         for ($i = 0; $i < count($this->mProducts); $i++) {
             $this->mProducts[$i]['link'] =
                 $url . $this->mProducts[$i]['product_id'];
+
+            // Create the PayPal link if feature is enabled
+            if ($paypalEnabled) {
+                $productPrice = ($this->mProducts[$i]['discounted_price'] == 0)
+                    ? $this->mProducts[$i]['price']
+                    : $this->mProducts[$i]['discounted_price'];
+
+                $this->mProducts[$i]['paypal'] =
+                    'JavaScript:OpenPayPalWindow(&quot;' .
+                    $paypalUrl . '?' .
+                    'cmd=_cart&amp;business=' . rawurlencode($paypalEmail) .
+                    '&amp;item_name=' . rawurlencode($this->mProducts[$i]['name']) .
+                    '&amp;amount=' . $productPrice .
+                    '&amp;currency=' . $paypalCurrency .
+                    '&amp;add=1&amp;return=' . rawurlencode($paypalReturnUrl) .
+                    '&amp;cancel_return=' . rawurlencode($paypalCancelUrl) . '&quot;)';
+            }
         }
     }
 }
