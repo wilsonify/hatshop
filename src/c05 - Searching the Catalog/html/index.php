@@ -11,9 +11,9 @@ use Hatshop\Presentation\Page;
    to product details pages */
 if (!isset ($_GET['ProductID'])) {
   $_SESSION['page_link'] = substr(getenv('REQUEST_URI'),
-}
                                   strrpos(getenv('REQUEST_URI'), '/') + 1,
                                   strlen(getenv('REQUEST_URI')) - 1);
+}
 
 // Load Smarty template file
 $page = new Page();

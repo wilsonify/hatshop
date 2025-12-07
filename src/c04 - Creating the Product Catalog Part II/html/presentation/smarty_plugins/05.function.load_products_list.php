@@ -1,5 +1,9 @@
 <?php
 // Plugin functions inside plugin files must be named: smarty_type_name
+
+// Define constant for repeated string literal
+const PAGE_NO_PARAM = 'PageNo=';
+
 function smarty_function_load_products_list($params, $smarty)
 {
   // Create ProductsList object
@@ -39,8 +43,9 @@ class ProductsList
     // Get PageNo from query string casting it to int
     if (isset ($_GET['PageNo'])) {
       $this->mPageNo = (int)$_GET['PageNo'];
-    } else
+    } else {
       $this->mPageNo = 1;
+    }
   }
 
   public function init()
@@ -49,21 +54,21 @@ class ProductsList
        the GetProductsInCategory business tier method */
     if (isset ($this->_mCategoryId)) {
       $this->mProducts = Catalog::GetProductsInCategory(
-    }
         $this->_mCategoryId, $this->mPageNo, $this->mrHowManyPages);
+    }
     /* If browsing a department, get the list of products by calling
        the GetProductsOnDepartmentDisplay business tier method */
     elseif (isset ($this->_mDepartmentId)) {
       $this->mProducts = Catalog::GetProductsOnDepartmentDisplay(
-    }
         $this->_mDepartmentId, $this->mPageNo, $this->mrHowManyPages);
+    }
     /* If browsing the first page, get the list of products by
        calling the GetProductsOnCatalogDisplay business
        tier method */
     else {
       $this->mProducts = Catalog::GetProductsOnCatalogDisplay(
-    }
                            $this->mPageNo, $this->mrHowManyPages);
+    }
 
     /* If there are subpages of products, display navigation
        controls */
@@ -73,27 +78,26 @@ class ProductsList
       $query_string = getenv('QUERY_STRING');
 
       // Find if we have PageNo in the query string
-      $pos = stripos($query_string, 'PageNo=');
+      $pos = stripos($query_string, PAGE_NO_PARAM);
 
       /* If there is no PageNo in the query string
          then we're on the first page */
-      if ($pos == false)
+      if ($pos === false)
       {
-        $query_string .= '&PageNo=1';
-        $pos = stripos($query_string, 'PageNo=');
+        $query_string .= '&' . PAGE_NO_PARAM . '1';
+        $pos = stripos($query_string, PAGE_NO_PARAM);
       }
 
       // Read the current page number from the query string
       $temp = substr($query_string, $pos);
-      sscanf($temp, 'PageNo=%d', $this->mPageNo);
+      sscanf($temp, PAGE_NO_PARAM . '%d', $this->mPageNo);
 
       // Build the Next link
       if ($this->mPageNo >= $this->mrHowManyPages) {
         $this->mNextLink = '';
-      } else
-      {
-        $new_query_string = str_replace('PageNo=' . $this->mPageNo,
-                                        'PageNo=' . ($this->mPageNo + 1),
+      } else {
+        $new_query_string = str_replace(PAGE_NO_PARAM . $this->mPageNo,
+                                        PAGE_NO_PARAM . ($this->mPageNo + 1),
                                         $query_string);
         $this->mNextLink = 'index.php?' . $new_query_string;
       }
@@ -101,10 +105,9 @@ class ProductsList
       // Build the Previous link
       if ($this->mPageNo == 1) {
         $this->mPreviousLink = '';
-      } else
-      {
-        $new_query_string = str_replace('PageNo=' . $this->mPageNo,
-                                        'PageNo=' . ($this->mPageNo - 1),
+      } else {
+        $new_query_string = str_replace(PAGE_NO_PARAM . $this->mPageNo,
+                                        PAGE_NO_PARAM . ($this->mPageNo - 1),
                                         $query_string);
         $this->mPreviousLink = 'index.php?' . $new_query_string;
       }
@@ -113,10 +116,11 @@ class ProductsList
     // Build links for product details pages
     $url = $_SESSION['page_link'];
 
-    if (count($_GET) > 0) {
+    if (!empty($_GET)) {
       $url = $url . '&ProductID=';
-    } else
+    } else {
       $url = $url . '?ProductID=';
+    }
 
     for ($i = 0; $i < count($this->mProducts); $i++)
     {

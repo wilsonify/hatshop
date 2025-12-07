@@ -3,6 +3,7 @@
 namespace Hatshop\Business;
 
 use PDO;
+use PDOException;
 
 // Class providing generic data access functionality
 class DatabaseHandler
