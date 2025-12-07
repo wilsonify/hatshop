@@ -19,6 +19,16 @@ use Hatshop\Core\FeatureFlags;
 Config::initPaths(SITE_ROOT);
 Config::defineLegacyConstants();
 
+// Define Smarty directories
+define('TEMPLATE_DIR', SITE_ROOT . '/presentation/templates');
+define('COMPILE_DIR', SITE_ROOT . '/presentation/templates_c');
+define('CONFIG_DIR', SITE_ROOT . '/include/configs');
+
+// Create compile directory if it doesn't exist
+if (!is_dir(COMPILE_DIR)) {
+    mkdir(COMPILE_DIR, 0777, true);
+}
+
 // Initialize error handler
 ErrorHandler::init();
 

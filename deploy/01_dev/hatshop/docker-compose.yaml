@@ -1,8 +1,8 @@
 services:
   php:
     build:
-      context: "../../../src/c02 - Laying Out the Foundations"
-      dockerfile: dockerfile
+      context: "../../../src"
+      dockerfile: app/dockerfile
     user: www-data:www-data
     restart: unless-stopped
     env_file: .env

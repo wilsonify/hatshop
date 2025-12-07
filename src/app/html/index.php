@@ -10,7 +10,7 @@
 require_once __DIR__ . '/include/app_top.php';
 
 use Hatshop\Core\FeatureFlags;
-use Hatshop\Core\Presentation\Page;
+use Hatshop\App\Presentation\Page;
 
 // Save current page link for navigation
 if (!isset($_GET['ProductID'])) {

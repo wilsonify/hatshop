@@ -5,13 +5,14 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Hatshop\\App\\": "src/"
+            "Hatshop\\App\\": "src/",
+            "Hatshop\\App\\Presentation\\": "presentation/"
         }
     },
     "repositories": [
         {
             "type": "path",
-            "url": "../../core"
+            "url": "../core"
         }
     ],
     "require": {

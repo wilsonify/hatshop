@@ -1,6 +1,0 @@
-services:
-  php:
-    env_file: [ .env ]
-    image: ghcr.io/wilsonify/c04-creating-the-product-catalog-part-ii:latest
-    restart: unless-stopped
-    ports: [ "8080:80" ]
