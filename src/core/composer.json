@@ -1,0 +1,22 @@
+{
+    "name": "hatshop/core",
+    "description": "Core library for HatShop e-commerce application",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hatshop\\Core\\": ""
+        },
+        "files": [
+            "bootstrap.php"
+        ]
+    },
+    "require": {
+        "php": ">=8.1",
+        "smarty/smarty": "^5.0",
+        "ext-pdo": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    }
+}
