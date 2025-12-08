@@ -109,6 +109,10 @@ class Config
             'paypal_cancel_url' => '',
             'paypal_ipn_url' => '',
             'paypal_currency_code' => 'USD',
+
+            // Admin settings (Chapter 7)
+            'admin_username' => 'hatshopadmin',
+            'admin_password' => 'hatshopadmin',
         ];
     }
 
@@ -141,6 +145,9 @@ class Config
             'paypal_cancel_url' => 'HATSHOP_PAYPAL_CANCEL_URL',
             'paypal_ipn_url' => 'HATSHOP_PAYPAL_IPN_URL',
             'paypal_currency_code' => 'HATSHOP_PAYPAL_CURRENCY_CODE',
+            // Admin settings
+            'admin_username' => 'HATSHOP_ADMIN_USERNAME',
+            'admin_password' => 'HATSHOP_ADMIN_PASSWORD',
         ];
 
         $booleanKeys = ['is_warning_fatal', 'debugging', 'log_errors', 'send_error_mail',
@@ -239,6 +246,9 @@ class Config
             'PAYPAL_CANCEL_URL' => $instance->config['paypal_cancel_url'],
             'PAYPAL_IPN_URL' => $instance->config['paypal_ipn_url'],
             'PAYPAL_CURRENCY_CODE' => $instance->config['paypal_currency_code'],
+            // Admin constants
+            'ADMIN_USERNAME' => $instance->config['admin_username'],
+            'ADMIN_PASSWORD' => $instance->config['admin_password'],
         ];
 
         foreach ($constants as $name => $value) {

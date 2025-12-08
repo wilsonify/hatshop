@@ -43,7 +43,9 @@ export HATSHOP_FEATURE_SEARCH=false
 | Product Details | `HATSHOP_FEATURE_PRODUCT_DETAILS` | `true` | 4 |
 | Pagination | `HATSHOP_FEATURE_PAGINATION` | `true` | 4 |
 | Search | `HATSHOP_FEATURE_SEARCH` | `true` | 5 |
-| Shopping Cart | `HATSHOP_FEATURE_SHOPPING_CART` | `false` | 6-8 |
+| PayPal | `HATSHOP_FEATURE_PAYPAL` | `false` | 6 |
+| Catalog Admin | `HATSHOP_FEATURE_CATALOG_ADMIN` | `false` | 7 |
+| Shopping Cart | `HATSHOP_FEATURE_SHOPPING_CART` | `false` | 8 |
 | Customer Orders | `HATSHOP_FEATURE_CUSTOMER_ORDERS` | `false` | 9 |
 | Product Recommendations | `HATSHOP_FEATURE_PRODUCT_RECOMMENDATIONS` | `false` | 10 |
 | Customer Details | `HATSHOP_FEATURE_CUSTOMER_DETAILS` | `false` | 11 |
@@ -61,6 +63,8 @@ When you set `HATSHOP_CHAPTER_LEVEL`, the following features are enabled:
 | 3 | departments, categories |
 | 4 | departments, categories, products, product_details, pagination |
 | 5 | departments, categories, products, product_details, pagination, search |
+| 6 | departments, categories, products, product_details, pagination, search, paypal |
+| 7 | departments, categories, products, product_details, pagination, search, paypal, catalog_admin |
 
 ## Using Feature Flags in Code
 

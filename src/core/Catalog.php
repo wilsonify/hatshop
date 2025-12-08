@@ -355,4 +355,211 @@ class Catalog
         $result = DatabaseHandler::prepare($sql);
         return DatabaseHandler::getAll($result, $params) ?? [];
     }
+
+    // ========== Admin Methods (Chapter 7) - Delegated to CatalogAdmin ==========
+
+    /** @var array Product display options */
+    public static array $mProductDisplayOptions = [
+        'Default',       // 0
+        'On Catalog',    // 1
+        'On Department', // 2
+        'On Both'        // 3
+    ];
+
+    /**
+     * Retrieves all departments with their descriptions.
+     * @deprecated Use CatalogAdmin::getDepartmentsWithDescriptions() instead
+     */
+    public static function getDepartmentsWithDescriptions(): array
+    {
+        return CatalogAdmin::getDepartmentsWithDescriptions();
+    }
+
+    /**
+     * Updates department details.
+     * @deprecated Use CatalogAdmin::updateDepartment() instead
+     */
+    public static function updateDepartment(int $departmentId, string $departmentName,
+                                            string $departmentDescription): void
+    {
+        CatalogAdmin::updateDepartment($departmentId, $departmentName, $departmentDescription);
+    }
+
+    /**
+     * Deletes a department.
+     * @deprecated Use CatalogAdmin::deleteDepartment() instead
+     */
+    public static function deleteDepartment(int $departmentId): int
+    {
+        return CatalogAdmin::deleteDepartment($departmentId);
+    }
+
+    /**
+     * Adds a new department.
+     * @deprecated Use CatalogAdmin::addDepartment() instead
+     */
+    public static function addDepartment(string $departmentName, string $departmentDescription): void
+    {
+        CatalogAdmin::addDepartment($departmentName, $departmentDescription);
+    }
+
+    /**
+     * Gets all categories in a department.
+     * @deprecated Use CatalogAdmin::getDepartmentCategories() instead
+     */
+    public static function getDepartmentCategories(int $departmentId): array
+    {
+        return CatalogAdmin::getDepartmentCategories($departmentId);
+    }
+
+    /**
+     * Adds a new category to a department.
+     * @deprecated Use CatalogAdmin::addCategory() instead
+     */
+    public static function addCategory(int $departmentId, string $categoryName,
+                                        string $categoryDescription): void
+    {
+        CatalogAdmin::addCategory($departmentId, $categoryName, $categoryDescription);
+    }
+
+    /**
+     * Deletes a category.
+     * @deprecated Use CatalogAdmin::deleteCategory() instead
+     */
+    public static function deleteCategory(int $categoryId): int
+    {
+        return CatalogAdmin::deleteCategory($categoryId);
+    }
+
+    /**
+     * Updates a category.
+     * @deprecated Use CatalogAdmin::updateCategory() instead
+     */
+    public static function updateCategory(int $categoryId, string $categoryName,
+                                          string $categoryDescription): void
+    {
+        CatalogAdmin::updateCategory($categoryId, $categoryName, $categoryDescription);
+    }
+
+    /**
+     * Gets all products in a category (for admin purposes).
+     * @deprecated Use CatalogAdmin::getCategoryProducts() instead
+     */
+    public static function getCategoryProducts(int $categoryId): array
+    {
+        return CatalogAdmin::getCategoryProducts($categoryId);
+    }
+
+    /**
+     * Creates a product and assigns it to a category.
+     * @deprecated Use CatalogAdmin::addProductToCategory() instead
+     */
+    public static function addProductToCategory(int $categoryId, string $productName,
+                                                string $productDescription, float $productPrice): void
+    {
+        CatalogAdmin::addProductToCategory($categoryId, $productName, $productDescription, $productPrice);
+    }
+
+    /**
+     * Updates a product.
+     * @deprecated Use CatalogAdmin::updateProduct() instead
+     */
+    public static function updateProduct(int $productId, string $productName,
+                                         string $productDescription, float $productPrice,
+                                         float $productDiscountedPrice): void
+    {
+        CatalogAdmin::updateProduct($productId, $productName, $productDescription,
+                                    $productPrice, $productDiscountedPrice);
+    }
+
+    /**
+     * Removes a product from the catalog.
+     * @deprecated Use CatalogAdmin::deleteProduct() instead
+     */
+    public static function deleteProduct(int $productId): void
+    {
+        CatalogAdmin::deleteProduct($productId);
+    }
+
+    /**
+     * Removes a product from a category.
+     * @deprecated Use CatalogAdmin::removeProductFromCategory() instead
+     */
+    public static function removeProductFromCategory(int $productId, int $categoryId): int
+    {
+        return CatalogAdmin::removeProductFromCategory($productId, $categoryId);
+    }
+
+    /**
+     * Gets all categories.
+     * @deprecated Use CatalogAdmin::getCategories() instead
+     */
+    public static function getCategories(): array
+    {
+        return CatalogAdmin::getCategories();
+    }
+
+    /**
+     * Gets product info for admin editing.
+     * @deprecated Use CatalogAdmin::getProductInfo() instead
+     */
+    public static function getProductInfo(int $productId): ?array
+    {
+        return CatalogAdmin::getProductInfo($productId);
+    }
+
+    /**
+     * Gets all categories a product belongs to.
+     * @deprecated Use CatalogAdmin::getCategoriesForProduct() instead
+     */
+    public static function getCategoriesForProduct(int $productId): array
+    {
+        return CatalogAdmin::getCategoriesForProduct($productId);
+    }
+
+    /**
+     * Sets product display option.
+     * @deprecated Use CatalogAdmin::setProductDisplayOption() instead
+     */
+    public static function setProductDisplayOption(int $productId, int $display): void
+    {
+        CatalogAdmin::setProductDisplayOption($productId, $display);
+    }
+
+    /**
+     * Assigns a product to a category.
+     * @deprecated Use CatalogAdmin::assignProductToCategory() instead
+     */
+    public static function assignProductToCategory(int $productId, int $categoryId): void
+    {
+        CatalogAdmin::assignProductToCategory($productId, $categoryId);
+    }
+
+    /**
+     * Moves a product from one category to another.
+     * @deprecated Use CatalogAdmin::moveProductToCategory() instead
+     */
+    public static function moveProductToCategory(int $productId, int $sourceCategoryId,
+                                                 int $targetCategoryId): void
+    {
+        CatalogAdmin::moveProductToCategory($productId, $sourceCategoryId, $targetCategoryId);
+    }
+
+    /**
+     * Sets product image filename.
+     * @deprecated Use CatalogAdmin::setImage() instead
+     */
+    public static function setImage(int $productId, string $imageName): void
+    {
+        CatalogAdmin::setImage($productId, $imageName);
+    }
+
+    /**
+     * Sets product thumbnail filename.
+     * @deprecated Use CatalogAdmin::setThumbnail() instead
+     */
+    public static function setThumbnail(int $productId, string $thumbnailName): void
+    {
+        CatalogAdmin::setThumbnail($productId, $thumbnailName);
+    }
 }

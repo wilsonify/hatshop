@@ -27,6 +27,9 @@ class FeatureFlags
     // Chapter 6: PayPal Payments
     public const FEATURE_PAYPAL = 'paypal';
 
+    // Chapter 7: Catalog Administration
+    public const FEATURE_CATALOG_ADMIN = 'catalog_admin';
+
     // Future chapters
     public const FEATURE_SHOPPING_CART = 'shopping_cart';
     public const FEATURE_CUSTOMER_ORDERS = 'customer_orders';
@@ -48,6 +51,7 @@ class FeatureFlags
         self::FEATURE_PAGINATION => true,
         self::FEATURE_SEARCH => true,
         self::FEATURE_PAYPAL => false,
+        self::FEATURE_CATALOG_ADMIN => false,
         self::FEATURE_SHOPPING_CART => false,
         self::FEATURE_CUSTOMER_ORDERS => false,
         self::FEATURE_PRODUCT_RECOMMENDATIONS => false,
@@ -152,6 +156,9 @@ class FeatureFlags
             6 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
                   self::FEATURE_PAYPAL],
+            7 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                  self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                  self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN],
         ];
 
         // Disable all features first

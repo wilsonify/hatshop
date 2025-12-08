@@ -36,6 +36,15 @@ class Page extends Smarty
         $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
         $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
 
+        // Register admin plugins if catalog admin feature is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CATALOG_ADMIN)) {
+            $this->registerPlugin('function', 'load_admin_login', 'smarty_function_load_admin_login');
+            $this->registerPlugin('function', 'load_admin_departments', 'smarty_function_load_admin_departments');
+            $this->registerPlugin('function', 'load_admin_categories', 'smarty_function_load_admin_categories');
+            $this->registerPlugin('function', 'load_admin_products', 'smarty_function_load_admin_products');
+            $this->registerPlugin('function', 'load_admin_product', 'smarty_function_load_admin_product');
+        }
+
         // Assign global PayPal configuration if feature is enabled
         if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL)) {
             $this->assign('paypal_url', Config::get('paypal_url'));

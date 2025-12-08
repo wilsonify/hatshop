@@ -33,6 +33,8 @@ export HATSHOP_CHAPTER_LEVEL=5
 | 3 | + Category navigation |
 | 4 | + Product listing, details, pagination |
 | 5 | + Search functionality |
+| 6 | + PayPal checkout integration |
+| 7 | + Catalog administration interface |
 
 ### Method 2: Individual Feature Flags
 
@@ -67,7 +69,19 @@ export HATSHOP_FEATURE_SEARCH=false  # Disable only search
 | `HATSHOP_FEATURE_PAGINATION` | Multi-page product listings | `true` |
 | `HATSHOP_FEATURE_SEARCH` | Catalog search functionality | `true` |
 
-### E-commerce Features (Chapters 6+)
+### Payment Features (Chapter 6)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HATSHOP_FEATURE_PAYPAL` | PayPal checkout integration | `false` |
+
+### Administration Features (Chapter 7)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HATSHOP_FEATURE_CATALOG_ADMIN` | Catalog administration interface | `false` |
+
+### E-commerce Features (Chapters 8+)
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -92,10 +106,18 @@ services:
     image: hatshop-php:latest
     environment:
       # Feature configuration
-      HATSHOP_CHAPTER_LEVEL: "5"
+      HATSHOP_CHAPTER_LEVEL: "6"
       
       # Optional: Override specific features
       HATSHOP_FEATURE_SEARCH: "true"
+      HATSHOP_FEATURE_PAYPAL: "true"
+      
+      # PayPal configuration (required when PayPal is enabled)
+      HATSHOP_PAYPAL_URL: "https://www.sandbox.paypal.com/cgi-bin/webscr"
+      HATSHOP_PAYPAL_EMAIL: "seller@example.com"
+      HATSHOP_PAYPAL_RETURN_URL: "http://shop.example.com/paypal_return.php"
+      HATSHOP_PAYPAL_CANCEL_URL: "http://shop.example.com/paypal_cancel.php"
+      HATSHOP_PAYPAL_CURRENCY_CODE: "USD"
       
       # Other configuration
       HATSHOP_DB_SERVER: db
@@ -109,10 +131,15 @@ Or use an `.env` file:
 
 ```bash
 # .env
-HATSHOP_CHAPTER_LEVEL=5
+HATSHOP_CHAPTER_LEVEL=6
 HATSHOP_FEATURE_SHOPPING_CART=false
 HATSHOP_DB_PASSWORD=supersecret
 PUBLIC_HOSTNAME=shop.example.com
+
+# PayPal Configuration
+HATSHOP_PAYPAL_EMAIL=seller@example.com
+HATSHOP_PAYPAL_RETURN_URL=http://shop.example.com/paypal_return.php
+HATSHOP_PAYPAL_CANCEL_URL=http://shop.example.com/paypal_cancel.php
 ```
 
 ### Kubernetes
