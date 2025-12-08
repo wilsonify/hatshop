@@ -139,8 +139,8 @@ class Config
             // Amazon settings (Chapter 17)
             'amazon_method' => 'REST',
             'amazon_access_key_id' => '',
-            'amazon_wsdl' => 'http://soap.amazon.com/schemas3/AmazonWebServices.wsdl',
-            'amazon_rest_base_url' => 'http://xml.amazon.com/onca/xml3?t=webservices-20&dev-t=',
+            'amazon_wsdl' => 'https://soap.amazon.com/schemas3/AmazonWebServices.wsdl',
+            'amazon_rest_base_url' => 'https://xml.amazon.com/onca/xml3?t=webservices-20&dev-t=',
             'amazon_search_keywords' => 'hat',
             'amazon_search_node' => 'Apparel',
             'amazon_response_groups' => 'Request,Small,Images,SalesRank,OfferSummary',
