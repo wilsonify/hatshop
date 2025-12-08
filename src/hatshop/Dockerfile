@@ -1,11 +1,9 @@
 FROM php:8.2-apache AS shared_base
 WORKDIR /var/www
 
-# Update base system
-RUN apt-get update && apt-get upgrade -y
-
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Update base system, install dependencies, PHP extensions and Composer
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
     git \
     libcurl4-openssl-dev \
     libfreetype6-dev \
@@ -20,23 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     unzip \
     zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# PHP extensions
-RUN docker-php-ext-install -j$(nproc) bcmath
-RUN docker-php-ext-install -j$(nproc) curl
-RUN docker-php-ext-install -j$(nproc) iconv
-RUN docker-php-ext-install -j$(nproc) intl
-RUN docker-php-ext-install -j$(nproc) mbstring
-RUN docker-php-ext-install -j$(nproc) pdo
-RUN docker-php-ext-install -j$(nproc) pdo_pgsql
-RUN docker-php-ext-install -j$(nproc) pgsql
-RUN docker-php-ext-install -j$(nproc) soap
-RUN docker-php-ext-install -j$(nproc) xml
-RUN docker-php-ext-install -j$(nproc) zip
-
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install -j$(nproc) bcmath curl iconv intl mbstring pdo pdo_pgsql pgsql soap xml zip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy core library first (for composer path repository)
 COPY --chown=www-data:www-data core/ /var/www/core/
@@ -53,8 +37,9 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progre
 COPY app/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite && a2ensite 000-default.conf
 
-EXPOSE 80
+# Set default environment variables for Apache config
+ENV APACHE_SERVER=localhost
 
-# Change to non-root user
+EXPOSE 80
 USER www-data
 CMD ["apache2-foreground"]

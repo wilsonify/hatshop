@@ -3,6 +3,8 @@
     "description": "HatShop unified e-commerce application",
     "type": "project",
     "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Hatshop\\App\\": "src/",

@@ -1,12 +1,13 @@
-.PHONY: cluster-create cluster-delete deploy undeploy logs status secret port-forward clean all sops-operator sops-age-secret
+.PHONY: cluster-create cluster-delete deploy undeploy logs status secret port-forward clean all sops-operator sops-age-secret load-image
 
 CLUSTER_NAME := hatshop-stage
 NAMESPACE := hatshop-stage
 CONTEXT := kind-$(CLUSTER_NAME)
 AGE_PUBLIC_KEY := age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
+HATSHOP_IMAGE := ghcr.io/wilsonify/hatshop:latest
 
 # Default target
-all: cluster-create sops-operator sops-age-secret secret deploy status
+all: cluster-create load-image sops-operator sops-age-secret secret deploy status
 
 # Create KIND cluster
 cluster-create:
@@ -14,6 +15,16 @@ cluster-create:
 	@kind get clusters | grep -q $(CLUSTER_NAME) || kind create cluster --config kind-config.yaml
 	@kubectl config use-context $(CONTEXT)
 	@echo "Cluster $(CLUSTER_NAME) is ready"
+
+# Load Docker image into KIND cluster
+load-image:
+	@echo "Loading $(HATSHOP_IMAGE) into KIND cluster..."
+	@if docker image inspect $(HATSHOP_IMAGE) >/dev/null 2>&1; then \
+		kind load docker-image $(HATSHOP_IMAGE) --name $(CLUSTER_NAME); \
+	else \
+		echo "WARNING: Image $(HATSHOP_IMAGE) not found locally. Build it first with:"; \
+		echo "  cd ../../src/hatshop && docker build -t $(HATSHOP_IMAGE) ."; \
+	fi
 
 # Install SOPS Secrets Operator
 sops-operator:
@@ -46,7 +57,7 @@ sops-age-secret:
 # Delete KIND cluster
 cluster-delete:
 	@echo "Deleting KIND cluster: $(CLUSTER_NAME)"
-	@kind delete cluster --name $(CLUSTER_NAME)
+	@kind delete cluster --name $(CLUSTER_NAME) 2>/dev/null || true
 
 # Create secret from .env file (run this before deploy)
 secret:
@@ -73,7 +84,7 @@ deploy:
 # Remove deployment
 undeploy:
 	@echo "Removing deployment from $(NAMESPACE)..."
-	@kubectl --context $(CONTEXT) delete -k base/ --ignore-not-found
+	@kubectl --context $(CONTEXT) delete -k base/ --ignore-not-found 2>/dev/null || true
 
 # View logs
 logs:
@@ -121,7 +132,7 @@ restart:
 	@kubectl --context $(CONTEXT) -n $(NAMESPACE) rollout restart deployment/cloudflared
 
 # Clean up everything
-clean: undeploy cluster-delete
+clean: cluster-delete
 	@echo "Cleanup complete"
 
 # Help
@@ -131,9 +142,10 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  all              - Create cluster, SOPS operator, secrets, and deploy (default)"
+	@echo "  all              - Create cluster, load image, SOPS operator, secrets, and deploy (default)"
 	@echo "  cluster-create   - Create KIND cluster"
 	@echo "  cluster-delete   - Delete KIND cluster"
+	@echo "  load-image       - Load Docker image into KIND cluster"
 	@echo "  sops-operator    - Install SOPS Secrets Operator"
 	@echo "  sops-age-secret  - Create age key secret (requires AGE_SECRET_KEY env)"
 	@echo "  secret           - Create cloudflared secret from .env"
@@ -147,11 +159,14 @@ help:
 	@echo "  port-forward     - Forward localhost:8080 to nginx"
 	@echo "  test             - Test endpoints"
 	@echo "  restart          - Restart all deployments"
-	@echo "  clean            - Remove deployment and cluster"
+	@echo "  clean            - Delete KIND cluster"
 	@echo "  help             - Show this help"
+	@echo ""
+	@echo "Prerequisites:"
+	@echo "  1. Build the image: cd ../../src/hatshop && docker build -t $(HATSHOP_IMAGE) ."
+	@echo "  2. Set AGE_SECRET_KEY: export AGE_SECRET_KEY=\$$(cat ~/.config/sops/age/keys.txt)"
 	@echo ""
 	@echo "SOPS Secrets:"
 	@echo "  Secrets are encrypted with age key: $(AGE_PUBLIC_KEY)"
 	@echo "  To decrypt: sops decrypt base/hatshop-secrets.enc.yaml"
 	@echo "  To edit:    sops base/hatshop-secrets.enc.yaml"
-	@echo "  Set AGE_SECRET_KEY before deploying: export AGE_SECRET_KEY=\$$(cat ~/.sops/age/keys.txt)"
