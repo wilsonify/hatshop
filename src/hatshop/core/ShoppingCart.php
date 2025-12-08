@@ -362,7 +362,7 @@ class ShoppingCart
         // Build the parameters array
         $params = [
             ':cart_id' => $cartId,
-            ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
+            ':short_product_description_length' => Config::get('short_product_description_length'),
         ];
 
         // Prepare and execute the query
