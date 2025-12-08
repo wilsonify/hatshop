@@ -22,10 +22,10 @@ class PasswordHasher
     public static function hash(string $password, bool $withPrefix = true): string
     {
         if ($withPrefix && self::$hashPrefix !== '') {
-            return sha1(self::$hashPrefix . $password);
+            return hash('sha256', self::$hashPrefix . $password);
         }
 
-        return sha1($password);
+        return hash('sha256', $password);
     }
 
     /**
