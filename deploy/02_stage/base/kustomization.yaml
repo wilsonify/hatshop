@@ -5,6 +5,8 @@ namespace: hatshop-stage
 
 resources:
   - namespace.yaml
+  - hatshop-configmap.yaml
+  - hatshop-secrets.enc.yaml
   - php-deployment.yaml
   - nginx-configmap.yaml
   - nginx-deployment.yaml

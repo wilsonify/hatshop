@@ -1,11 +1,12 @@
-.PHONY: cluster-create cluster-delete deploy undeploy logs status secret port-forward clean all
+.PHONY: cluster-create cluster-delete deploy undeploy logs status secret port-forward clean all sops-operator sops-age-secret
 
 CLUSTER_NAME := hatshop-stage
 NAMESPACE := hatshop-stage
 CONTEXT := kind-$(CLUSTER_NAME)
+AGE_PUBLIC_KEY := age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
 
 # Default target
-all: cluster-create secret deploy status
+all: cluster-create sops-operator sops-age-secret secret deploy status
 
 # Create KIND cluster
 cluster-create:
@@ -13,6 +14,34 @@ cluster-create:
 	@kind get clusters | grep -q $(CLUSTER_NAME) || kind create cluster --config kind-config.yaml
 	@kubectl config use-context $(CONTEXT)
 	@echo "Cluster $(CLUSTER_NAME) is ready"
+
+# Install SOPS Secrets Operator
+sops-operator:
+	@echo "Installing SOPS Secrets Operator..."
+	@kubectl --context $(CONTEXT) apply -f https://raw.githubusercontent.com/isindir/sops-secrets-operator/master/config/crd/bases/isindir.github.com_sopssecrets.yaml || true
+	@helm repo add sops-secrets-operator https://isindir.github.io/sops-secrets-operator/ 2>/dev/null || true
+	@helm repo update
+	@helm upgrade --install sops-secrets-operator sops-secrets-operator/sops-secrets-operator \
+		--namespace sops --create-namespace \
+		--set secretsAsFiles[0].name=sops-age \
+		--set secretsAsFiles[0].mountPath=/etc/sops-age \
+		--set secretsAsFiles[0].secretName=sops-age \
+		--set envVars[0].name=SOPS_AGE_KEY_FILE \
+		--set envVars[0].value=/etc/sops-age/keys.txt \
+		--wait --timeout=120s || echo "Helm not available, install operator manually"
+
+# Create age key secret for SOPS operator (requires AGE_SECRET_KEY env var)
+sops-age-secret:
+	@echo "Creating SOPS age key secret..."
+	@if [ -n "$$AGE_SECRET_KEY" ]; then \
+		kubectl --context $(CONTEXT) create namespace sops --dry-run=client -o yaml | kubectl apply -f -; \
+		kubectl --context $(CONTEXT) -n sops delete secret sops-age --ignore-not-found; \
+		echo "$$AGE_SECRET_KEY" | kubectl --context $(CONTEXT) -n sops create secret generic sops-age \
+			--from-file=keys.txt=/dev/stdin; \
+		echo "SOPS age secret created"; \
+	else \
+		echo "WARNING: AGE_SECRET_KEY not set. Set it with: export AGE_SECRET_KEY=\$$(cat ~/.sops/age/keys.txt)"; \
+	fi
 
 # Delete KIND cluster
 cluster-delete:
@@ -102,19 +131,27 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  all             - Create cluster, secret, and deploy (default)"
-	@echo "  cluster-create  - Create KIND cluster"
-	@echo "  cluster-delete  - Delete KIND cluster"
-	@echo "  secret          - Create cloudflared secret from .env"
-	@echo "  deploy          - Deploy application with kustomize"
-	@echo "  undeploy        - Remove application"
-	@echo "  logs            - View recent logs from all pods"
-	@echo "  logs-php        - Follow PHP logs"
-	@echo "  logs-nginx      - Follow Nginx logs"
+	@echo "  all              - Create cluster, SOPS operator, secrets, and deploy (default)"
+	@echo "  cluster-create   - Create KIND cluster"
+	@echo "  cluster-delete   - Delete KIND cluster"
+	@echo "  sops-operator    - Install SOPS Secrets Operator"
+	@echo "  sops-age-secret  - Create age key secret (requires AGE_SECRET_KEY env)"
+	@echo "  secret           - Create cloudflared secret from .env"
+	@echo "  deploy           - Deploy application with kustomize"
+	@echo "  undeploy         - Remove application"
+	@echo "  logs             - View recent logs from all pods"
+	@echo "  logs-php         - Follow PHP logs"
+	@echo "  logs-nginx       - Follow Nginx logs"
 	@echo "  logs-cloudflared - Follow Cloudflared logs"
-	@echo "  status          - Show cluster and pod status"
-	@echo "  port-forward    - Forward localhost:8080 to nginx"
-	@echo "  test            - Test endpoints"
-	@echo "  restart         - Restart all deployments"
-	@echo "  clean           - Remove deployment and cluster"
-	@echo "  help            - Show this help"
+	@echo "  status           - Show cluster and pod status"
+	@echo "  port-forward     - Forward localhost:8080 to nginx"
+	@echo "  test             - Test endpoints"
+	@echo "  restart          - Restart all deployments"
+	@echo "  clean            - Remove deployment and cluster"
+	@echo "  help             - Show this help"
+	@echo ""
+	@echo "SOPS Secrets:"
+	@echo "  Secrets are encrypted with age key: $(AGE_PUBLIC_KEY)"
+	@echo "  To decrypt: sops decrypt base/hatshop-secrets.enc.yaml"
+	@echo "  To edit:    sops base/hatshop-secrets.enc.yaml"
+	@echo "  Set AGE_SECRET_KEY before deploying: export AGE_SECRET_KEY=\$$(cat ~/.sops/age/keys.txt)"

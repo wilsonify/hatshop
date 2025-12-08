@@ -13,3 +13,5 @@ vendor/
 .scannerwork/
 *clover.xml
 copilot-instructions.md
+*.dec
+*.dec.yaml

@@ -4,10 +4,26 @@ Kubernetes deployment for HatShop staging environment using KIND (Kubernetes in 
 
 ## Overview
 
-This deployment runs on a local KIND cluster with:
-- **PHP Application** - HatShop c02 application
+This deployment runs on a local KIND cluster with **Chapter 12 features**:
+- **PHP Application** - HatShop application with all features up to Chapter 12
 - **Nginx** - Reverse proxy for `/stage` path routing
 - **Cloudflared** - Cloudflare Tunnel for public access
+
+## Features Enabled (Chapter 12)
+
+| Chapter | Feature |
+|---------|---------|
+| 2 | Departments |
+| 3 | Categories |
+| 4 | Products, Product Details, Pagination |
+| 5 | Search |
+| 6 | PayPal Payments |
+| 7 | Catalog Administration |
+| 8 | Shopping Cart |
+| 9 | Customer Orders |
+| 10 | Product Recommendations |
+| 11 | Customer Details |
+| 12 | Order Storage |
 
 ### Architecture
 
@@ -24,6 +40,8 @@ Nginx Service (NodePort :30081 → host :10080)
             │
             ▼
       PHP Service (:80)
+        ├── ConfigMap (hatshop-config)
+        └── Secret (hatshop-secrets)
 ```
 
 ### Access URLs
@@ -51,13 +69,46 @@ cp ../01_dev/hatshop/.env .env
 # Or decrypt from encrypted source:
 # sops decrypt ../01_dev/hatshop/.env.enc > .env
 
-# 2. Deploy everything (cluster + secret + app)
+# 2. Set age secret key for SOPS decryption
+export AGE_SECRET_KEY=$(cat ~/.sops/age/keys.txt)
+
+# 3. Deploy everything (cluster + SOPS operator + secrets + app)
 make all
 
-# 3. Verify deployment
+# 4. Verify deployment
 make status
 make test
 ```
+
+## Secrets Management with SOPS
+
+Secrets are encrypted using [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption.
+
+### Age Key
+- **Public Key**: `age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek`
+- **Private Key Location**: `~/.sops/age/keys.txt`
+
+### Encrypted Files
+- `base/hatshop-secrets.enc.yaml` - SOPS-encrypted SopsSecret resource
+- `base/hatshop-secrets.dec.yaml` - Decrypted source (in .gitignore, never commit)
+
+### Working with Secrets
+
+```bash
+# View decrypted secrets
+sops decrypt base/hatshop-secrets.enc.yaml
+
+# Edit secrets in place
+sops base/hatshop-secrets.enc.yaml
+
+# Re-encrypt after editing decrypted file
+sops encrypt --age age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek \
+  --encrypted-regex "PASSWORD|EMAIL" \
+  base/hatshop-secrets.dec.yaml > base/hatshop-secrets.enc.yaml
+```
+
+### SOPS Operator
+The [SOPS Secrets Operator](https://github.com/isindir/sops-secrets-operator) runs in the cluster and automatically decrypts `SopsSecret` resources into Kubernetes `Secret` resources.
 
 ## Directory Structure
 
@@ -70,6 +121,10 @@ deploy/02_stage/
 └── base/
     ├── kustomization.yaml
     ├── namespace.yaml
+    ├── hatshop-configmap.yaml    # Non-sensitive config
+    ├── hatshop-secrets.enc.yaml  # SOPS-encrypted secrets
+    ├── hatshop-secrets.dec.yaml  # Decrypted source (gitignored)
+    ├── .gitignore
     ├── php-deployment.yaml
     ├── nginx-configmap.yaml
     ├── nginx-deployment.yaml

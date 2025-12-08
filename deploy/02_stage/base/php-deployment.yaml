@@ -25,6 +25,12 @@ spec:
           ports:
             - containerPort: 80
               name: http
+          envFrom:
+            - configMapRef:
+                name: hatshop-config
+            - secretRef:
+                name: hatshop-secrets
+                optional: true
           resources:
             requests:
               memory: "128Mi"
