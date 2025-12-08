@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: php
-          image: ghcr.io/wilsonify/c02-laying-out-the-foundations:latest
+          image: ghcr.io/wilsonify/hatshop:latest
           ports:
             - containerPort: 80
               name: http
