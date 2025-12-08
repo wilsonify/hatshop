@@ -11,26 +11,46 @@ This guide covers deploying, configuring, and maintaining HatShop in production.
 ## Deployment Guides
 
 - [Deploy to Dev Environment]({{< relref "deploy-dev" >}}) - Docker Compose with Cloudflare Tunnel
-- [Deploy to Stage Environment]({{< relref "deploy-stage" >}}) - KIND (Kubernetes) with Cloudflare Tunnel
-- Deploy to Production (coming soon)
+- [Deploy to Stage Environment]({{< relref "deploy-stage" >}}) - KIND (Kubernetes) with SOPS secrets
+- [Deploy to Kubernetes]({{< relref "deploy-kubernetes" >}}) - Production Kubernetes deployment
+- [Feature Flags]({{< relref "feature-flags" >}}) - Controlling features by chapter level
+
+## Secrets Management
+
+Stage and production environments use [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption:
+
+| Environment | Secrets Storage |
+|-------------|-----------------|
+| Dev | `.env.enc` (SOPS-encrypted dotenv) |
+| Stage | `hatshop-secrets.enc.yaml` (SopsSecret CRD) |
+| Prod | External secrets manager |
+
+### Age Public Key
+
+```
+age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
+```
 
 ## Deployment Options
 
-### Docker Compose (Recommended for Small Deployments)
+### Docker Compose (Dev Environment)
 
 ```bash
-cd "src/c03 - Creating the Product Catalog Part I"
+cd deploy/01_dev/hatshop
+sops decrypt .env.enc > .env
 docker-compose up -d
+```
+
+### Kubernetes with KIND (Stage Environment)
+
+```bash
+cd deploy/02_stage
+make all
 ```
 
 ### Kubernetes (Production)
 
-See [Chapter 18: Kubernetes]({{< relref "/docs/chapters/c18-kubernetes" >}}) for KIND deployment.
-
-```bash
-cd deploy/
-kubectl apply -f hatshop-deployment.yaml
-```
+See [Deploy to Kubernetes]({{< relref "deploy-kubernetes" >}}) for production setup.
 
 ## Configuration
 

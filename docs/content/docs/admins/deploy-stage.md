@@ -10,7 +10,7 @@ This guide covers deploying HatShop to the staging environment using KIND (Kuber
 
 ## Overview
 
-The stage deployment runs on a local Kubernetes cluster using KIND, providing a production-like environment for testing before release.
+The stage deployment runs on a local Kubernetes cluster using KIND, providing a production-like environment for testing before release. Configuration is managed via ConfigMaps and SOPS-encrypted Secrets.
 
 ### Architecture
 
@@ -22,7 +22,9 @@ Cloudflare Tunnel (cloudflared pod)
     │
     ▼
 Nginx Service (:30081) ──────► PHP Service (:80)
-    │                          (hatshop c02)
+    │                          (hatshop application)
+    │                          ├── ConfigMap (hatshop-config)
+    │                          └── SopsSecret → Secret (hatshop-secrets)
     │
     └── /stage path routing
 ```
@@ -32,7 +34,10 @@ Nginx Service (:30081) ──────► PHP Service (:80)
 | Component | Description |
 |-----------|-------------|
 | **KIND Cluster** | Single-node Kubernetes cluster in Docker |
-| **PHP Deployment** | HatShop c02 application on Apache |
+| **PHP Deployment** | HatShop application with chapter-level features |
+| **ConfigMap** | Non-sensitive configuration (chapter level, feature flags) |
+| **SopsSecret** | SOPS-encrypted secrets (passwords, tokens) |
+| **SOPS Operator** | Decrypts SopsSecrets into Kubernetes Secrets |
 | **Nginx Deployment** | Reverse proxy with `/stage` path routing |
 | **Cloudflared Deployment** | Cloudflare Tunnel connector |
 | **NodePort Service** | Exposes nginx on port 30081 (mapped to host 10081) |
@@ -49,7 +54,8 @@ Nginx Service (:30081) ──────► PHP Service (:80)
 - Docker installed and running
 - KIND (Kubernetes in Docker) installed
 - kubectl installed
-- Access to the Cloudflare tunnel token (via dev `.env`)
+- SOPS and age installed (for secrets management)
+- Access to the age private key for decryption
 
 ### Install KIND
 
@@ -63,56 +69,180 @@ sudo mv ./kind /usr/local/bin/kind
 kind --version
 ```
 
+### Install SOPS and age
+
+```bash
+# Install SOPS
+curl -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
+chmod +x sops-v3.8.1.linux.amd64
+sudo mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
+
+# Install age
+curl -LO https://github.com/FiloSottile/age/releases/download/v1.1.1/age-v1.1.1-linux-amd64.tar.gz
+tar xzf age-v1.1.1-linux-amd64.tar.gz
+sudo mv age/age /usr/local/bin/
+sudo mv age/age-keygen /usr/local/bin/
+
+# Verify
+sops --version
+age --version
+```
+
+## SOPS Secrets Management
+
+Secrets are encrypted using [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption and decrypted in-cluster by the SOPS Secrets Operator.
+
+### Age Encryption Key
+
+| Key Type | Value |
+|----------|-------|
+| **Public Key** | `age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek` |
+| **Private Key Location** | `~/.sops/age/keys.txt` (never commit) |
+
+### Encrypted Files
+
+| File | Purpose |
+|------|---------|
+| `base/hatshop-secrets.enc.yaml` | SOPS-encrypted SopsSecret CRD |
+| `base/hatshop-secrets.dec.yaml` | Decrypted template (gitignored) |
+| `base/hatshop-configmap.yaml` | Non-sensitive configuration |
+
+### Working with Secrets
+
+```bash
+cd deploy/02_stage
+
+# Decrypt secrets for editing
+make sops-decrypt
+# or manually:
+sops decrypt base/hatshop-secrets.enc.yaml > base/hatshop-secrets.dec.yaml
+
+# Edit the decrypted file
+$EDITOR base/hatshop-secrets.dec.yaml
+
+# Re-encrypt after changes
+make secrets-encrypt
+# or manually:
+sops encrypt \
+  --age age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek \
+  --encrypted-regex "PASSWORD|EMAIL" \
+  base/hatshop-secrets.dec.yaml > base/hatshop-secrets.enc.yaml
+```
+
 ## Directory Structure
 
 ```
 deploy/02_stage/
-├── .env                  # Environment variables (promoted from dev)
-├── kind-config.yaml      # KIND cluster configuration
-├── Makefile              # Deployment automation
+├── .env                          # Cloudflare token (not in git)
+├── kind-config.yaml              # KIND cluster configuration
+├── Makefile                      # Deployment automation
 ├── README.md
 └── base/
     ├── kustomization.yaml
     ├── namespace.yaml
-    ├── php-deployment.yaml
+    ├── hatshop-configmap.yaml    # Non-sensitive config (chapter level, features)
+    ├── hatshop-secrets.enc.yaml  # SOPS-encrypted secrets
+    ├── hatshop-secrets.dec.yaml  # Decrypted template (gitignored)
+    ├── .gitignore                # Excludes decrypted secrets
+    ├── php-deployment.yaml       # App deployment with envFrom
     ├── nginx-deployment.yaml
     ├── nginx-configmap.yaml
     ├── cloudflared-deployment.yaml
     └── cloudflared-secret.yaml
 ```
 
+## Feature Levels and Configuration
+
+The stage environment uses `HATSHOP_CHAPTER_LEVEL` to control which features are enabled.
+
+### Available Feature Levels
+
+| Chapter | Features Enabled |
+|---------|-----------------|
+| 2 | Departments layout |
+| 3 | Categories display |
+| 4 | Products, product details, pagination |
+| 5 | Search functionality |
+| 6 | PayPal payments |
+| 7 | Catalog administration |
+| 8 | Shopping cart |
+| 9 | Customer orders |
+| 10 | Product recommendations |
+| 11 | Customer details management |
+| 12 | Order storage |
+
+### Configuration Files
+
+**ConfigMap** (`base/hatshop-configmap.yaml`):
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hatshop-config
+data:
+  HATSHOP_CHAPTER_LEVEL: "12"
+  HATSHOP_FEATURE_SHOPPING_CART: "true"
+  HATSHOP_FEATURE_CUSTOMER_ORDERS: "true"
+  # ... additional feature flags
+```
+
+**SopsSecret** (`base/hatshop-secrets.enc.yaml`):
+```yaml
+apiVersion: isindir.github.com/v1alpha3
+kind: SopsSecret
+metadata:
+  name: hatshop-secrets
+spec:
+  secretTemplates:
+    - name: hatshop-secrets
+      stringData:
+        HATSHOP_DB_PASSWORD: ENC[AES256_GCM,...]
+        HATSHOP_ADMIN_PASSWORD: ENC[AES256_GCM,...]
+```
+
 ## Deployment Workflow
 
-### 1. Promote secrets from dev
+### 1. Initial Setup (First Time Only)
 
-The stage environment requires a `.env` file with the Cloudflare tunnel token. This file is promoted from the dev environment after testing.
+```bash
+cd deploy/02_stage
+
+# Ensure age private key is available
+export SOPS_AGE_KEY_FILE=~/.sops/age/keys.txt
+
+# Install SOPS operator in cluster
+make sops-install
+```
+
+### 2. Promote Configuration from Dev
+
+After testing features in dev, promote configuration to stage:
 
 ```bash
 # From the dev directory
 cd deploy/01_dev/hatshop
 
-# Promote .env to stage
+# Promote .env to stage (for Cloudflare token)
 make promote-stage
 ```
 
-This copies the tested `.env` file to `deploy/02_stage/.env`.
-
-### 2. Deploy to stage
+### 3. Deploy to Stage
 
 ```bash
 cd deploy/02_stage
 
-# Full deployment (creates cluster, secret, and deploys)
+# Full deployment (creates cluster, installs SOPS operator, deploys app)
 make all
 ```
 
 The `make all` target executes:
 1. `cluster-create` - Creates the KIND cluster
-2. `secret` - Creates the Kubernetes secret from `.env`
-3. `deploy` - Applies Kustomize manifests
-4. `status` - Shows deployment status
+2. `sops-install` - Installs SOPS Secrets Operator
+3. `secret` - Creates the Cloudflare secret from `.env`
+4. `deploy` - Applies Kustomize manifests (ConfigMap + SopsSecret + Deployments)
+5. `status` - Shows deployment status
 
-### 3. Verify the deployment
+### 4. Verify the Deployment
 
 ```bash
 # Check all resources
@@ -121,19 +251,20 @@ make status
 # View logs from all pods
 make logs
 
-# Or view specific service logs
-make logs-php
-make logs-nginx
-make logs-cloudflared
+# Test the application
+curl http://localhost:10081/stage
 ```
 
 ## Makefile Reference
 
 | Target | Description |
 |--------|-------------|
-| `make all` | Full deployment (cluster + secret + deploy + status) |
+| `make all` | Full deployment (cluster + SOPS + secret + deploy + status) |
 | `make cluster-create` | Create KIND cluster only |
 | `make cluster-delete` | Delete the KIND cluster |
+| `make sops-install` | Install SOPS Secrets Operator |
+| `make sops-decrypt` | Decrypt secrets for local editing |
+| `make secrets-encrypt` | Re-encrypt secrets after editing |
 | `make secret` | Create cloudflared secret from `.env` |
 | `make deploy` | Apply Kustomize manifests |
 | `make undeploy` | Remove all Kubernetes resources |
@@ -143,6 +274,65 @@ make logs-cloudflared
 | `make logs-cloudflared` | View cloudflared pod logs |
 | `make status` | Show cluster and pod status |
 | `make clean` | Delete cluster and clean up |
+| `make help` | Show all available targets |
+
+## Upgrading Feature Level
+
+To upgrade the stage environment to a new chapter level:
+
+### Step 1: Update ConfigMap
+
+Edit `base/hatshop-configmap.yaml`:
+
+```yaml
+data:
+  HATSHOP_CHAPTER_LEVEL: "12"  # Change to desired level
+  # Add new feature flags as needed
+  HATSHOP_FEATURE_NEW_FEATURE: "true"
+```
+
+### Step 2: Update Secrets (If Needed)
+
+If the new features require additional secrets:
+
+```bash
+# Decrypt current secrets
+make sops-decrypt
+
+# Edit decrypted file
+$EDITOR base/hatshop-secrets.dec.yaml
+
+# Add new secrets under stringData:
+#   NEW_API_KEY: "your-secret-value"
+
+# Re-encrypt
+make secrets-encrypt
+```
+
+### Step 3: Apply Changes
+
+```bash
+# Apply updated configuration
+make deploy
+
+# Restart pods to pick up new config
+kubectl rollout restart deployment/php -n hatshop-stage
+
+# Verify
+make status
+make logs-php
+```
+
+### Step 4: Validate Features
+
+```bash
+# Test application
+curl http://localhost:10081/stage
+
+# Check specific features
+curl http://localhost:10081/stage/cart.php
+curl http://localhost:10081/stage/admin/
+```
 
 ## Troubleshooting
 
@@ -243,14 +433,79 @@ docker port hatshop-stage-control-plane
 
 ## Updating the deployment
 
-### Update application code
+### Upgrade from Dev Environment
 
-After changes to `src/c02 - Laying Out the Foundations/`:
+When promoting a tested configuration from dev to stage:
 
 ```bash
-# Rebuild and push image (if using remote registry)
-# Or for local development, delete and recreate pod
+# 1. Review dev configuration
+cat deploy/01_dev/hatshop/.env
 
+# 2. Update stage ConfigMap to match dev chapter level
+# Edit deploy/02_stage/base/hatshop-configmap.yaml
+
+# 3. Update secrets if needed
+cd deploy/02_stage
+make sops-decrypt
+# Edit base/hatshop-secrets.dec.yaml
+make secrets-encrypt
+
+# 4. Apply and restart
+make deploy
+kubectl rollout restart deployment/php -n hatshop-stage
+```
+
+### Update Application Code
+
+After changes to source code in `src/hatshop/`:
+
+```bash
+# Rebuild the container image
+cd src/hatshop
+docker build -t ghcr.io/wilsonify/hatshop:latest .
+
+# Load into KIND cluster
+kind load docker-image ghcr.io/wilsonify/hatshop:latest --name hatshop-stage
+
+# Restart deployment
+kubectl rollout restart deployment/php -n hatshop-stage
+```
+
+### Update Configuration Only
+
+To change feature flags without rebuilding:
+
+```bash
+# Edit ConfigMap
+$EDITOR deploy/02_stage/base/hatshop-configmap.yaml
+
+# Apply changes
+kubectl apply -f deploy/02_stage/base/hatshop-configmap.yaml
+
+# Restart to pick up changes
+kubectl rollout restart deployment/php -n hatshop-stage
+```
+
+### Update Secrets
+
+To rotate or add secrets:
+
+```bash
+cd deploy/02_stage
+
+# Decrypt
+make sops-decrypt
+
+# Edit
+$EDITOR base/hatshop-secrets.dec.yaml
+
+# Re-encrypt
+make secrets-encrypt
+
+# Apply (SOPS operator will auto-decrypt)
+kubectl apply -f base/hatshop-secrets.enc.yaml
+
+# Restart pods
 kubectl rollout restart deployment/php -n hatshop-stage
 ```
 
@@ -292,7 +547,39 @@ make undeploy
 
 ## Security Notes
 
-- The `.env` file contains sensitive tokens and should never be committed to git
-- The `cloudflared-secret.yaml` in `base/` contains a placeholder value
-- Actual secrets are created at deployment time via `make secret`
-- Consider using SOPS for encrypting `.env` files (see dev documentation)
+### Secrets Management
+
+- **Never commit** unencrypted secrets (`hatshop-secrets.dec.yaml` is gitignored)
+- **SOPS encryption** protects secrets at rest in version control
+- **SOPS Operator** decrypts secrets in-cluster automatically
+- **age private key** must be kept secure and never committed
+
+### Key Rotation
+
+To rotate the age encryption key:
+
+```bash
+# Generate new key pair
+age-keygen -o new-keys.txt
+
+# Re-encrypt all secrets with new public key
+sops rotate --age <new-public-key> base/hatshop-secrets.enc.yaml
+
+# Update key references in documentation and CI/CD
+```
+
+### Access Control
+
+- The `.env` file contains the Cloudflare tunnel token (not SOPS-encrypted)
+- ConfigMap values are non-sensitive and can be committed
+- Database and admin passwords are SOPS-encrypted
+
+### Encrypted Fields
+
+The following fields are encrypted in `hatshop-secrets.enc.yaml`:
+
+| Field | Purpose |
+|-------|---------|
+| `HATSHOP_DB_PASSWORD` | PostgreSQL database password |
+| `HATSHOP_ADMIN_PASSWORD` | Admin interface password |
+| `HATSHOP_PAYPAL_EMAIL` | PayPal business email |

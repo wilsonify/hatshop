@@ -8,6 +8,12 @@ bookToc: true
 
 This guide covers setting up a development environment and understanding the HatShop architecture.
 
+## Guides
+
+- [Feature Flags]({{< relref "feature-flags" >}}) - How feature flags control functionality
+- [Shopping Cart]({{< relref "shopping-cart" >}}) - Shopping cart implementation
+- [Stage Deployment Upgrades]({{< relref "deploy-stage-upgrades" >}}) - Deploying features to stage
+
 ## Prerequisites
 
 - **Docker** and **Docker Compose**
@@ -15,6 +21,7 @@ This guide covers setting up a development environment and understanding the Hat
 - **PHP 8.x** (for local development without Docker)
 - **Composer** (PHP package manager)
 - **PostgreSQL 15+** (for local development)
+- **SOPS** and **age** (for secrets management)
 
 ## Quick Start
 
@@ -45,6 +52,9 @@ hatshop/
 │   └── ...
 ├── docs/                         # This documentation (Hugo)
 ├── deploy/                       # Deployment configurations
+│   ├── 01_dev/                   # Docker Compose (local dev)
+│   ├── 02_stage/                 # Kubernetes (KIND)
+│   └── 03_prod/                  # Production Kubernetes
 ├── coverage/                     # Test coverage reports
 └── Database Complete/            # Full database schema
 ```
