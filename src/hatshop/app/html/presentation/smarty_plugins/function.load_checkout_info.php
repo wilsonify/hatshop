@@ -122,7 +122,7 @@ class CheckoutInfo
         $redirectLink = 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 
         // Add port if not standard
-        $httpPort = defined('HTTP_SERVER_PORT') ? HTTP_SERVER_PORT : '80';
+        $httpPort = defined('HTTP_SERVER_PORT') ? constant('HTTP_SERVER_PORT') : '80';
         if ($httpPort !== '80') {
             $redirectLink .= ':' . $httpPort;
         }
@@ -141,7 +141,7 @@ class CheckoutInfo
         $this->mCheckoutInfoLink = $this->extractUrlBase();
 
         // Load cart items and total
-        $this->mCartItems = \Hatshop\Core\ShoppingCart::getCartProducts(GET_CART_PRODUCTS);
+        $this->mCartItems = \Hatshop\Core\ShoppingCart::getCartProducts();
         $this->mTotalAmountLabel = \Hatshop\Core\ShoppingCart::getTotalAmount();
 
         // Continue shopping link

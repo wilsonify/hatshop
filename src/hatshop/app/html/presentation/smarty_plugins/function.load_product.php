@@ -40,7 +40,7 @@ class Product
     {
         // Variable initialization
         if (isset($_GET['ProductID'])) {
-            $this->_mProductId = (int)$_GET['ProductID'];
+            $this->productId = (int)$_GET['ProductID'];
         } else {
             trigger_error('ProductID required in product.php');
         }

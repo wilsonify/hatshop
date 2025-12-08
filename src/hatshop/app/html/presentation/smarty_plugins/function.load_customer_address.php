@@ -63,7 +63,7 @@ class CustomerAddress
         $this->mCustomerAddressTarget = $urlBase;
         $this->mReturnLink = str_replace($urlParameterPrefix . 'UpdateAddressDetails', '', $urlBase);
 
-        if (isset($_GET['Checkout']) && defined('USE_SSL') && USE_SSL !== 'no') {
+        if (isset($_GET['Checkout']) && defined('USE_SSL') && constant('USE_SSL') !== 'no') {
             $this->mReturnLinkProtocol = 'https';
         }
 
@@ -196,7 +196,7 @@ class CustomerAddress
         $redirectLink = 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 
         // Add port if not standard
-        $httpPort = defined('HTTP_SERVER_PORT') ? HTTP_SERVER_PORT : '80';
+        $httpPort = defined('HTTP_SERVER_PORT') ? constant('HTTP_SERVER_PORT') : '80';
         if ($httpPort !== '80') {
             $redirectLink .= ':' . $httpPort;
         }

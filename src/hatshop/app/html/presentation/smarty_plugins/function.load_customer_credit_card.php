@@ -73,7 +73,7 @@ class CustomerCreditCard
         $this->mCustomerCreditCardTarget = $urlBase;
         $this->mReturnLink = str_replace($urlParameterPrefix . 'UpdateCreditCardDetails', '', $urlBase);
 
-        if (isset($_GET['Checkout']) && defined('USE_SSL') && USE_SSL !== 'no') {
+        if (isset($_GET['Checkout']) && defined('USE_SSL') && constant('USE_SSL') !== 'no') {
             $this->mReturnLinkProtocol = 'https';
         }
 
@@ -179,7 +179,7 @@ class CustomerCreditCard
         $redirectLink = 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
 
         // Add port if not standard
-        $httpPort = defined('HTTP_SERVER_PORT') ? HTTP_SERVER_PORT : '80';
+        $httpPort = defined('HTTP_SERVER_PORT') ? constant('HTTP_SERVER_PORT') : '80';
         if ($httpPort !== '80') {
             $redirectLink .= ':' . $httpPort;
         }

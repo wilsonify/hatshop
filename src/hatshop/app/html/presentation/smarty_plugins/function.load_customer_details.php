@@ -55,7 +55,7 @@ class CustomerDetails
             $this->mReturnLink = str_replace($urlParameterPrefix . 'UpdateAccountDetails', '', $urlBase);
         }
 
-        if (isset($_GET['Checkout']) && defined('USE_SSL') && USE_SSL !== 'no') {
+        if (isset($_GET['Checkout']) && defined('USE_SSL') && constant('USE_SSL') !== 'no') {
             $this->mReturnLinkProtocol = 'https';
         }
 
@@ -167,8 +167,8 @@ class CustomerDetails
         $host = getenv('HATSHOP_HTTP_SERVER_HOST') ?: 'localhost';
         $redirectLink = 'https://' . $host;
 
-        if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT !== '80') {
-            $redirectLink .= ':' . HTTP_SERVER_PORT;
+        if (defined('HTTP_SERVER_PORT') && constant('HTTP_SERVER_PORT') !== '80') {
+            $redirectLink .= ':' . constant('HTTP_SERVER_PORT');
         }
 
         $redirectLink .= $this->mReturnLink;

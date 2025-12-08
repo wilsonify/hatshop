@@ -85,8 +85,9 @@ class CustomerLogin
         $host = getenv('HATSHOP_HTTP_SERVER_HOST') ?: 'localhost';
         $redirectLink = 'https://' . $host;
 
-        if (defined('HTTP_SERVER_PORT') && HTTP_SERVER_PORT !== '80') {
-            $redirectLink .= ':' . HTTP_SERVER_PORT;
+        $port = getenv('HATSHOP_HTTP_SERVER_PORT') ?: '443';
+        if ($port !== '443' && $port !== '80') {
+            $redirectLink .= ':' . $port;
         }
 
         $redirectLink .= $this->mCustomerLoginTarget;
