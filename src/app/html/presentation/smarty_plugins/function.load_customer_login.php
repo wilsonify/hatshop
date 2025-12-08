@@ -35,7 +35,7 @@ class CustomerLogin
     public function init(): void
     {
         $urlBase = $this->getUrlBase();
-        $urlParameterPrefix = count($_GET) === 0 ? '?' : '&';
+        $urlParameterPrefix = empty($_GET) ? '?' : '&';
 
         $this->mCustomerLoginTarget = $urlBase;
 

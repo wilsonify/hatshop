@@ -33,7 +33,7 @@ class Product
     public $mAddToCartLink = '';
 
     // Private stuff
-    private $_mProductId;
+    private $productId;
 
     // Class constructor
     public function __construct()
@@ -49,7 +49,7 @@ class Product
     public function init()
     {
         // Get product details from business tier
-        $this->mProduct = Catalog::getProductDetails($this->_mProductId);
+        $this->mProduct = Catalog::getProductDetails($this->productId);
 
         if (isset($_SESSION['page_link'])) {
             $this->mPageLink = $_SESSION['page_link'];
@@ -58,7 +58,7 @@ class Product
         // Build add to cart link if shopping cart is enabled
         if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
             $this->mAddToCartLink = 'index.php?CartAction=' . Config::get('cart_action_add') .
-                                    '&ProductID=' . $this->_mProductId;
+                                    '&ProductID=' . $this->productId;
         }
     }
 }
