@@ -1,3 +1,0 @@
-<?php
-DatabaseHandler::Close();
-

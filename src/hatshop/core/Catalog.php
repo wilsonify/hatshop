@@ -585,4 +585,57 @@ class Catalog
         $result = DatabaseHandler::prepare($sql);
         return DatabaseHandler::getAll($result, $params) ?? [];
     }
+
+    /**
+     * Get reviews for a product (Chapter 16).
+     *
+     * @param int $productId Product ID
+     * @return array Product reviews
+     */
+    public static function getProductReviews(int $productId): array
+    {
+        if (!FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_REVIEWS)) {
+            return [];
+        }
+
+        $sql = 'SELECT * FROM catalog_get_product_reviews(:product_id);';
+        $params = [':product_id' => $productId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
+
+    /**
+     * Create a product review (Chapter 16).
+     *
+     * @param int $customerId Customer ID
+     * @param int $productId Product ID
+     * @param string $review Review text
+     * @param int $rating Rating (1-5)
+     */
+    public static function createProductReview(
+        int $customerId,
+        int $productId,
+        string $review,
+        int $rating
+    ): void {
+        if (!FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_REVIEWS)) {
+            return;
+        }
+
+        // Validate rating
+        $rating = max(1, min(5, $rating));
+
+        $sql = 'SELECT catalog_create_product_review(
+                    :customer_id, :product_id, :review, :rating);';
+        $params = [
+            ':customer_id' => $customerId,
+            ':product_id' => $productId,
+            ':review' => $review,
+            ':rating' => $rating,
+        ];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
 }

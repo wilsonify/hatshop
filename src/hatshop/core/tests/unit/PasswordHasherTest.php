@@ -131,8 +131,8 @@ class PasswordHasherTest extends TestCase
     {
         $password = 'testpassword123';
         $hash = PasswordHasher::hash($password, false);
-        
-        // SHA1 produces 40 character hex string
-        $this->assertEquals(40, strlen($hash));
+
+        // SHA256 produces 64 character hex string
+        $this->assertEquals(64, strlen($hash));
     }
 }

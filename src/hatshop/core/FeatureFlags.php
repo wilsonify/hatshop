@@ -45,10 +45,17 @@ class FeatureFlags
     // Chapter 12: Storing Customer Orders
     public const FEATURE_ORDER_STORAGE = 'order_storage';
 
-    // Future chapters
+    // Chapter 13-14: Order Pipeline
     public const FEATURE_ORDER_PIPELINE = 'order_pipeline';
+
+    // Chapter 15: Credit Card Transactions
     public const FEATURE_CREDIT_CARD = 'credit_card';
+
+    // Chapter 16: Product Reviews
     public const FEATURE_PRODUCT_REVIEWS = 'product_reviews';
+
+    // Chapter 17: Amazon Web Services
+    public const FEATURE_AMAZON_WS = 'amazon_ws';
 
     /** @var array<string, bool> Cache of feature flag states */
     private static array $flags = [];
@@ -71,6 +78,7 @@ class FeatureFlags
         self::FEATURE_ORDER_PIPELINE => false,
         self::FEATURE_CREDIT_CARD => false,
         self::FEATURE_PRODUCT_REVIEWS => false,
+        self::FEATURE_AMAZON_WS => false,
     ];
 
     /**
@@ -192,6 +200,38 @@ class FeatureFlags
                    self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
                    self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
                    self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE],
+            13 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE,
+                   self::FEATURE_ORDER_PIPELINE],
+            14 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE,
+                   self::FEATURE_ORDER_PIPELINE],
+            15 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE,
+                   self::FEATURE_ORDER_PIPELINE, self::FEATURE_CREDIT_CARD],
+            16 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE,
+                   self::FEATURE_ORDER_PIPELINE, self::FEATURE_CREDIT_CARD,
+                   self::FEATURE_PRODUCT_REVIEWS],
+            17 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE,
+                   self::FEATURE_ORDER_PIPELINE, self::FEATURE_CREDIT_CARD,
+                   self::FEATURE_PRODUCT_REVIEWS, self::FEATURE_AMAZON_WS],
         ];
 
         // Disable all features first

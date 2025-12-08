@@ -182,4 +182,109 @@ class Orders
 
         return DatabaseHandler::getAll($result, $params) ?? [];
     }
+
+    /**
+     * Create an audit record for order processing (Chapter 13).
+     *
+     * @param int $orderId Order ID
+     * @param string $message Audit message
+     * @param int $messageNumber Message number code
+     */
+    public static function createAudit(int $orderId, string $message, int $messageNumber): void
+    {
+        $sql = 'SELECT orders_create_audit(:order_id, :message, :code);';
+        $params = [
+            ':order_id' => $orderId,
+            ':message' => $message,
+            ':code' => $messageNumber,
+        ];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
+
+    /**
+     * Update order status (Chapter 13).
+     *
+     * @param int $orderId Order ID
+     * @param int $status New status code
+     */
+    public static function updateOrderStatus(int $orderId, int $status): void
+    {
+        $sql = 'SELECT orders_update_status(:order_id, :status);';
+        $params = [
+            ':order_id' => $orderId,
+            ':status' => $status,
+        ];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
+
+    /**
+     * Set the authorization code and reference for an order (Chapter 13).
+     *
+     * @param int $orderId Order ID
+     * @param string $authCode Authorization code from payment processor
+     * @param string $reference Reference number
+     */
+    public static function setOrderAuthCodeAndReference(
+        int $orderId,
+        string $authCode,
+        string $reference
+    ): void {
+        $sql = 'SELECT orders_set_auth_code(:order_id, :auth_code, :reference);';
+        $params = [
+            ':order_id' => $orderId,
+            ':auth_code' => $authCode,
+            ':reference' => $reference,
+        ];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
+
+    /**
+     * Set the date when an order was shipped (Chapter 14).
+     *
+     * @param int $orderId Order ID
+     */
+    public static function setDateShipped(int $orderId): void
+    {
+        $sql = 'SELECT orders_set_date_shipped(:order_id);';
+        $params = [':order_id' => $orderId];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
+
+    /**
+     * Get orders awaiting processing at specific pipeline stage (Chapter 13).
+     *
+     * @param int $status Status code to filter by
+     * @return array Orders awaiting processing
+     */
+    public static function getOrdersToProcess(int $status): array
+    {
+        $sql = 'SELECT * FROM orders_get_orders_to_process(:status);';
+        $params = [':status' => $status];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
+
+    /**
+     * Get audit trail for an order (Chapter 13).
+     *
+     * @param int $orderId Order ID
+     * @return array Audit records
+     */
+    public static function getAuditTrail(int $orderId): array
+    {
+        $sql = 'SELECT * FROM orders_get_audit_trail(:order_id);';
+        $params = [':order_id' => $orderId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
 }

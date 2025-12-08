@@ -124,6 +124,27 @@ class Config
             'cart_action_update' => 3,         // UPDATE_PRODUCTS_QUANTITIES
             'cart_action_save_for_later' => 4, // SAVE_PRODUCT_FOR_LATER
             'cart_action_move_to_cart' => 5,   // MOVE_PRODUCT_TO_CART
+
+            // Order Pipeline settings (Chapter 13-14)
+            'admin_email' => 'admin@example.com',
+            'customer_service_email' => 'customerservice@example.com',
+            'order_processor_email' => 'orderprocessor@example.com',
+            'supplier_email' => 'supplier@example.com',
+
+            // Credit Card settings (Chapter 15) - Authorize.net
+            'authorize_net_url' => 'https://test.authorize.net/gateway/transact.dll',
+            'authorize_net_login_id' => '',
+            'authorize_net_transaction_key' => '',
+
+            // Amazon settings (Chapter 17)
+            'amazon_method' => 'REST',
+            'amazon_access_key_id' => '',
+            'amazon_wsdl' => 'http://soap.amazon.com/schemas3/AmazonWebServices.wsdl',
+            'amazon_rest_base_url' => 'http://xml.amazon.com/onca/xml3?t=webservices-20&dev-t=',
+            'amazon_search_keywords' => 'hat',
+            'amazon_search_node' => 'Apparel',
+            'amazon_response_groups' => 'Request,Small,Images,SalesRank,OfferSummary',
+            'amazon_no_image_url' => '/images/not_available.jpg',
         ];
     }
 
@@ -159,6 +180,24 @@ class Config
             // Admin settings
             'admin_username' => 'HATSHOP_ADMIN_USERNAME',
             'admin_password' => 'HATSHOP_ADMIN_PASSWORD',
+            // Order Pipeline email settings (Chapter 13-14)
+            'admin_email' => 'HATSHOP_ADMIN_EMAIL',
+            'customer_service_email' => 'HATSHOP_CUSTOMER_SERVICE_EMAIL',
+            'order_processor_email' => 'HATSHOP_ORDER_PROCESSOR_EMAIL',
+            'supplier_email' => 'HATSHOP_SUPPLIER_EMAIL',
+            // Authorize.net settings (Chapter 15)
+            'authorize_net_url' => 'HATSHOP_AUTHORIZE_NET_URL',
+            'authorize_net_login_id' => 'HATSHOP_AUTHORIZE_NET_LOGIN_ID',
+            'authorize_net_transaction_key' => 'HATSHOP_AUTHORIZE_NET_TRANSACTION_KEY',
+            // Amazon settings (Chapter 17)
+            'amazon_method' => 'HATSHOP_AMAZON_METHOD',
+            'amazon_access_key_id' => 'HATSHOP_AMAZON_ACCESS_KEY_ID',
+            'amazon_wsdl' => 'HATSHOP_AMAZON_WSDL',
+            'amazon_rest_base_url' => 'HATSHOP_AMAZON_REST_BASE_URL',
+            'amazon_search_keywords' => 'HATSHOP_AMAZON_SEARCH_KEYWORDS',
+            'amazon_search_node' => 'HATSHOP_AMAZON_SEARCH_NODE',
+            'amazon_response_groups' => 'HATSHOP_AMAZON_RESPONSE_GROUPS',
+            'amazon_no_image_url' => 'HATSHOP_AMAZON_NO_IMAGE_URL',
         ];
 
         $booleanKeys = ['is_warning_fatal', 'debugging', 'log_errors', 'send_error_mail',
@@ -268,6 +307,23 @@ class Config
             'UPDATE_PRODUCTS_QUANTITIES' => $instance->config['cart_action_update'],
             'SAVE_PRODUCT_FOR_LATER' => $instance->config['cart_action_save_for_later'],
             'MOVE_PRODUCT_TO_CART' => $instance->config['cart_action_move_to_cart'],
+            // Order Pipeline constants (Chapter 13-14)
+            'ADMIN_EMAIL' => $instance->config['admin_email'],
+            'CUSTOMER_SERVICE_EMAIL' => $instance->config['customer_service_email'],
+            'ORDER_PROCESSOR_EMAIL' => $instance->config['order_processor_email'],
+            'SUPPLIER_EMAIL' => $instance->config['supplier_email'],
+            // Authorize.net constants (Chapter 15)
+            'AUTHORIZE_NET_URL' => $instance->config['authorize_net_url'],
+            'AUTHORIZE_NET_LOGIN_ID' => $instance->config['authorize_net_login_id'],
+            'AUTHORIZE_NET_TRANSACTION_KEY' => $instance->config['authorize_net_transaction_key'],
+            // Amazon constants (Chapter 17)
+            'AMAZON_METHOD' => $instance->config['amazon_method'],
+            'AMAZON_ACCESS_KEY_ID' => $instance->config['amazon_access_key_id'],
+            'AMAZON_WSDL' => $instance->config['amazon_wsdl'],
+            'AMAZON_REST_BASE_URL' => $instance->config['amazon_rest_base_url'],
+            'AMAZON_SEARCH_KEYWORDS' => $instance->config['amazon_search_keywords'],
+            'AMAZON_SEARCH_NODE' => $instance->config['amazon_search_node'],
+            'AMAZON_RESPONSE_GROUPS' => $instance->config['amazon_response_groups'],
         ];
 
         foreach ($constants as $name => $value) {

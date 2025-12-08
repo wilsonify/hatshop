@@ -1,7 +1,0 @@
-services:
-  php:
-    env_file: [ .env ]
-    image: ghcr.io/wilsonify/c15-credit-card-transactions-datacash-com:latest
-    user: www-data:www-data
-    ports: [ "8080:80" ]
-    restart: unless-stopped

@@ -159,5 +159,49 @@ class FeatureFlagsTest extends TestCase
         $this->assertEquals('product_recommendations', FeatureFlags::FEATURE_PRODUCT_RECOMMENDATIONS);
         $this->assertEquals('customer_details', FeatureFlags::FEATURE_CUSTOMER_DETAILS);
         $this->assertEquals('order_storage', FeatureFlags::FEATURE_ORDER_STORAGE);
+        // Chapter 13-17 features
+        $this->assertEquals('order_pipeline', FeatureFlags::FEATURE_ORDER_PIPELINE);
+        $this->assertEquals('credit_card', FeatureFlags::FEATURE_CREDIT_CARD);
+        $this->assertEquals('product_reviews', FeatureFlags::FEATURE_PRODUCT_REVIEWS);
+        $this->assertEquals('amazon_ws', FeatureFlags::FEATURE_AMAZON_WS);
+    }
+
+    public function testSetChapterLevelThirteen(): void
+    {
+        FeatureFlags::setChapterLevel(13);
+
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_STORAGE));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_PIPELINE));
+        $this->assertFalse(FeatureFlags::isEnabled(FeatureFlags::FEATURE_CREDIT_CARD));
+    }
+
+    public function testSetChapterLevelFifteen(): void
+    {
+        FeatureFlags::setChapterLevel(15);
+
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_PIPELINE));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_CREDIT_CARD));
+        $this->assertFalse(FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_REVIEWS));
+    }
+
+    public function testSetChapterLevelSixteen(): void
+    {
+        FeatureFlags::setChapterLevel(16);
+
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_PIPELINE));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_CREDIT_CARD));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_REVIEWS));
+        $this->assertFalse(FeatureFlags::isEnabled(FeatureFlags::FEATURE_AMAZON_WS));
+    }
+
+    public function testSetChapterLevelSeventeen(): void
+    {
+        FeatureFlags::setChapterLevel(17);
+
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_DEPARTMENTS));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_PIPELINE));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_CREDIT_CARD));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_REVIEWS));
+        $this->assertTrue(FeatureFlags::isEnabled(FeatureFlags::FEATURE_AMAZON_WS));
     }
 }
