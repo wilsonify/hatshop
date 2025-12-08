@@ -30,11 +30,22 @@ class FeatureFlags
     // Chapter 7: Catalog Administration
     public const FEATURE_CATALOG_ADMIN = 'catalog_admin';
 
-    // Future chapters
+    // Chapter 8: Shopping Cart
     public const FEATURE_SHOPPING_CART = 'shopping_cart';
+
+    // Chapter 9: Customer Orders
     public const FEATURE_CUSTOMER_ORDERS = 'customer_orders';
+
+    // Chapter 10: Product Recommendations
     public const FEATURE_PRODUCT_RECOMMENDATIONS = 'product_recommendations';
+
+    // Chapter 11: Customer Details
     public const FEATURE_CUSTOMER_DETAILS = 'customer_details';
+
+    // Chapter 12: Storing Customer Orders
+    public const FEATURE_ORDER_STORAGE = 'order_storage';
+
+    // Future chapters
     public const FEATURE_ORDER_PIPELINE = 'order_pipeline';
     public const FEATURE_CREDIT_CARD = 'credit_card';
     public const FEATURE_PRODUCT_REVIEWS = 'product_reviews';
@@ -56,6 +67,7 @@ class FeatureFlags
         self::FEATURE_CUSTOMER_ORDERS => false,
         self::FEATURE_PRODUCT_RECOMMENDATIONS => false,
         self::FEATURE_CUSTOMER_DETAILS => false,
+        self::FEATURE_ORDER_STORAGE => false,
         self::FEATURE_ORDER_PIPELINE => false,
         self::FEATURE_CREDIT_CARD => false,
         self::FEATURE_PRODUCT_REVIEWS => false,
@@ -166,6 +178,20 @@ class FeatureFlags
                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
                   self::FEATURE_CUSTOMER_ORDERS],
+            10 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS],
+            11 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS],
+            12 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART,
+                   self::FEATURE_CUSTOMER_ORDERS, self::FEATURE_PRODUCT_RECOMMENDATIONS,
+                   self::FEATURE_CUSTOMER_DETAILS, self::FEATURE_ORDER_STORAGE],
         ];
 
         // Disable all features first

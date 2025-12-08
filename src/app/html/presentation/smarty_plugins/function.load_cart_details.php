@@ -8,6 +8,7 @@
  */
 
 use Hatshop\Core\Config;
+use Hatshop\Core\FeatureFlags;
 use Hatshop\Core\ShoppingCart;
 
 /**
@@ -41,6 +42,12 @@ class CartDetails
 
     /** @var string Link to continue shopping */
     public string $mContinueShoppingLink = '';
+
+    /** @var string Link to checkout page */
+    public string $mCheckoutLink = 'index.php?Checkout';
+
+    /** @var array<int, array<string, mixed>> Product recommendations */
+    public array $mRecommendations = [];
 
     /** @var int|null The current cart action */
     private ?int $cartAction = null;
@@ -89,6 +96,11 @@ class CartDetails
 
         // Set continue shopping link
         $this->mContinueShoppingLink = $_SESSION['page_link'] ?? 'index.php';
+
+        // Load product recommendations if feature is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_RECOMMENDATIONS)) {
+            $this->loadRecommendations();
+        }
     }
 
     /**
@@ -181,6 +193,19 @@ class CartDetails
                                      self::PRODUCT_ID_PARAM . $productId;
             $product[$actionLink2] = self::CART_URL_BASE . $actionConfig[$actionLink2] .
                                      self::PRODUCT_ID_PARAM . $productId;
+        }
+    }
+
+    /**
+     * Load product recommendations based on cart contents.
+     */
+    private function loadRecommendations(): void
+    {
+        $recommendations = ShoppingCart::getRecommendations();
+
+        foreach ($recommendations as $recommendation) {
+            $recommendation['link'] = 'index.php?ProductID=' . $recommendation['product_id'];
+            $this->mRecommendations[] = $recommendation;
         }
     }
 }

@@ -36,6 +36,9 @@
       {if $features.search}
         {include file="search_box.tpl"}
       {/if}
+      {if $features.customer_details && !$hide_boxes}
+        {include file="$customerLoginOrLogged"}
+      {/if}
       {if $features.shopping_cart}
         {include file="$cartSummaryCell"}
       {/if}

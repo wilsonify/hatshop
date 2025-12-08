@@ -42,6 +42,11 @@
     </table>
     <p>
       <input type="submit" name="update" value="Update" />
+      {if $features.order_storage}
+      <input type="button" name="Checkout" value="Checkout"
+        {if $cart->mTotalAmount eq 0}disabled="disabled"{/if}
+        onclick="window.location='{$cart->mCheckoutLink|prepare_link:"https"}';" />
+      {/if}
     </p>
   </form>
 {/if}
@@ -77,3 +82,16 @@
 <p>
   <a href="{$cart->mContinueShoppingLink|prepare_link:'http'}">Continue Shopping</a>
 </p>
+
+{if $features.product_recommendations && $cart->mRecommendations}
+<h2>Customers who bought this also bought:</h2>
+  {section name=m loop=$cart->mRecommendations}
+    <p>
+      <a class="product_recommendation"
+         href="{$cart->mRecommendations[m].link|prepare_link:"http"}">
+        {$cart->mRecommendations[m].name}
+      </a>
+      - {$cart->mRecommendations[m].description}
+    </p>
+  {/section}
+{/if}

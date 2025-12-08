@@ -11,6 +11,7 @@ require_once __DIR__ . '/include/app_top.php';
 
 use Hatshop\Core\FeatureFlags;
 use Hatshop\Core\ShoppingCart;
+use Hatshop\Core\Customer;
 use Hatshop\App\Presentation\Page;
 
 // Set cart ID at start if shopping cart feature is enabled
@@ -34,6 +35,8 @@ $page = new Page();
 $pageContentsCell = 'first_page_contents.tpl';
 $categoriesCell = 'blank.tpl';
 $cartSummaryCell = 'blank.tpl';
+$customerLoginOrLogged = 'blank.tpl';
+$hideBoxes = false;
 
 // Chapter 3+: Department navigation
 if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_DEPARTMENTS) && isset($_GET['DepartmentID'])) {
@@ -66,10 +69,47 @@ if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
     }
 }
 
+// Chapter 11+: Customer Details
+if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CUSTOMER_DETAILS)) {
+    // Set customer login/logged template based on authentication status
+    $customerLoginOrLogged = Customer::isAuthenticated() ? 'customer_logged.tpl' : 'customer_login.tpl';
+
+    // Handle customer registration
+    if (isset($_GET['RegisterCustomer'])) {
+        $pageContentsCell = 'customer_details.tpl';
+    }
+
+    // Handle account updates
+    if (isset($_GET['UpdateAccountDetails'])) {
+        $pageContentsCell = 'customer_details.tpl';
+    }
+
+    // Handle address updates
+    if (isset($_GET['UpdateAddressDetails'])) {
+        $pageContentsCell = 'customer_address.tpl';
+    }
+
+    // Chapter 12: Checkout and credit card
+    if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_STORAGE)) {
+        // Handle credit card updates
+        if (isset($_GET['UpdateCreditCardDetails'])) {
+            $pageContentsCell = 'customer_credit_card.tpl';
+        }
+
+        // Handle checkout
+        if (isset($_GET['Checkout'])) {
+            $pageContentsCell = Customer::isAuthenticated() ? 'checkout_info.tpl' : 'checkout_not_logged.tpl';
+            $hideBoxes = true;
+        }
+    }
+}
+
 // Assign templates
 $page->assign('pageContentsCell', $pageContentsCell);
 $page->assign('categoriesCell', $categoriesCell);
 $page->assign('cartSummaryCell', $cartSummaryCell);
+$page->assign('customerLoginOrLogged', $customerLoginOrLogged);
+$page->assign('hide_boxes', $hideBoxes);
 
 // Pass feature flags to templates for conditional rendering
 $page->assign('features', FeatureFlags::getAllFlags());

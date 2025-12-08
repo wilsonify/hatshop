@@ -137,4 +137,49 @@ class Orders
     {
         return self::ORDER_STATUS_OPTIONS;
     }
+
+    /**
+     * Get orders by customer ID (Chapter 12).
+     *
+     * @param int $customerId Customer ID
+     * @return array Orders for the customer
+     */
+    public static function getByCustomerId(int $customerId): array
+    {
+        $sql = 'SELECT * FROM orders_get_by_customer_id(:customer_id);';
+        $params = [':customer_id' => $customerId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
+
+    /**
+     * Get short order details (Chapter 12).
+     *
+     * @param int $orderId Order ID
+     * @return array Short order details
+     */
+    public static function getOrderShortDetails(int $orderId): array
+    {
+        $sql = 'SELECT * FROM orders_get_order_short_details(:order_id);';
+        $params = [':order_id' => $orderId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
+
+    /**
+     * Get shipping info for a region (Chapter 12).
+     *
+     * @param int $shippingRegionId Shipping region ID
+     * @return array Shipping options
+     */
+    public static function getShippingInfo(int $shippingRegionId): array
+    {
+        $sql = 'SELECT * FROM orders_get_shipping_info(:shipping_region_id);';
+        $params = [':shipping_region_id' => $shippingRegionId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
 }

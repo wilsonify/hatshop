@@ -300,4 +300,77 @@ class ShoppingCart
             DatabaseHandler::execute($stmt, $params);
         }
     }
+
+    /**
+     * Create a new order from the shopping cart.
+     *
+     * Chapter 12: Storing Customer Orders - converts cart to order.
+     *
+     * @param int $customerId Customer ID
+     * @param int $shippingId Shipping option ID
+     * @param int $taxId Tax ID
+     * @return int|null Order ID or null on failure
+     */
+    public static function createOrder(int $customerId, int $shippingId, int $taxId): ?int
+    {
+        if (!FeatureFlags::isEnabled(FeatureFlags::FEATURE_ORDER_STORAGE)) {
+            return null;
+        }
+
+        $cartId = self::getCartId();
+
+        // Create the SQL query
+        $sql = 'SELECT shopping_cart_create_order(:cart_id, :customer_id, :shipping_id, :tax_id);';
+
+        // Build the parameters array
+        $params = [
+            ':cart_id' => $cartId,
+            ':customer_id' => $customerId,
+            ':shipping_id' => $shippingId,
+            ':tax_id' => $taxId,
+        ];
+
+        // Prepare and execute the query
+        $stmt = DatabaseHandler::prepare($sql);
+        if ($stmt === false) {
+            return null;
+        }
+
+        $result = DatabaseHandler::getOne($stmt, $params);
+
+        return $result !== null ? (int) $result : null;
+    }
+
+    /**
+     * Get product recommendations based on current shopping cart.
+     *
+     * Chapter 10: Product Recommendations - "customers who bought X also bought Y".
+     *
+     * @return array<int, array<string, mixed>> Array of recommended products
+     */
+    public static function getRecommendations(): array
+    {
+        if (!FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_RECOMMENDATIONS)) {
+            return [];
+        }
+
+        $cartId = self::getCartId();
+
+        // Create the SQL query
+        $sql = 'SELECT * FROM shopping_cart_get_recommendations(:cart_id, :short_product_description_length);';
+
+        // Build the parameters array
+        $params = [
+            ':cart_id' => $cartId,
+            ':short_product_description_length' => SHORT_PRODUCT_DESCRIPTION_LENGTH,
+        ];
+
+        // Prepare and execute the query
+        $stmt = DatabaseHandler::prepare($sql);
+        if ($stmt === false) {
+            return [];
+        }
+
+        return DatabaseHandler::getAll($stmt, $params) ?: [];
+    }
 }

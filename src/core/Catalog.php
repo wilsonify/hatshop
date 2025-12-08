@@ -562,4 +562,27 @@ class Catalog
     {
         CatalogAdmin::setThumbnail($productId, $thumbnailName);
     }
+
+    /**
+     * Get product recommendations (Chapter 10).
+     *
+     * @param int $productId Product ID to get recommendations for
+     * @return array Recommended products
+     */
+    public static function getRecommendations(int $productId): array
+    {
+        if (!FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_RECOMMENDATIONS)) {
+            return [];
+        }
+
+        $sql = 'SELECT * FROM catalog_get_recommendations(
+                    :product_id, :short_product_description_length);';
+        $params = [
+            ':product_id' => $productId,
+            ':short_product_description_length' => Config::get('short_product_description_length', 150),
+        ];
+
+        $result = DatabaseHandler::prepare($sql);
+        return DatabaseHandler::getAll($result, $params) ?? [];
+    }
 }
