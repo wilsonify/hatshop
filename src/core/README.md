@@ -12,6 +12,7 @@ core/
 ├── Catalog.php            # Business logic for product catalog
 ├── CatalogAdmin.php       # Admin operations for catalog
 ├── ShoppingCart.php       # Shopping cart business logic
+├── Orders.php             # Customer order management
 ├── DatabaseHandler.php    # PDO database wrapper
 ├── ErrorHandler.php       # Custom error handling
 ├── FeatureFlags.php       # Feature flag system
@@ -143,8 +144,9 @@ The core library consolidates code from:
 - `c06/html/` - PayPal integration
 - `c07/html/business/catalog.php` - Admin functions (CatalogAdmin)
 - `c08/html/business/shopping_cart.php` - Shopping cart (ShoppingCart)
-- `c02-c08/html/include/config.php` - Configuration
-- `c02-c08/html/presentation/` - Smarty templates and plugins
+- `c09/html/business/orders.php` - Customer orders (Orders)
+- `c02-c09/html/include/config.php` - Configuration
+- `c02-c09/html/presentation/` - Smarty templates and plugins
 
 Benefits:
 1. Single source of truth for business logic

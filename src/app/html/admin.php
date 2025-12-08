@@ -59,6 +59,22 @@ if (isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'] === true) {
             $page->assign('pageContentsCell', 'admin_product.tpl');
             break;
 
+        case 'Orders':
+            if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CUSTOMER_ORDERS)) {
+                $page->assign('pageContentsCell', 'admin_orders.tpl');
+            } else {
+                $page->assign('pageContentsCell', 'admin_departments.tpl');
+            }
+            break;
+
+        case 'OrderDetails':
+            if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CUSTOMER_ORDERS)) {
+                $page->assign('pageContentsCell', 'admin_order_details.tpl');
+            } else {
+                $page->assign('pageContentsCell', 'admin_departments.tpl');
+            }
+            break;
+
         default:
             $page->assign('pageContentsCell', 'admin_departments.tpl');
             break;

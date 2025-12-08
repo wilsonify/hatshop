@@ -1,0 +1,140 @@
+<?php
+
+namespace Hatshop\Core;
+
+/**
+ * Business tier class for order management (Chapter 9).
+ *
+ * Provides methods for retrieving and updating customer orders.
+ */
+class Orders
+{
+    /**
+     * Order status options array indexed by status code.
+     */
+    public const ORDER_STATUS_OPTIONS = [
+        0 => 'placed',
+        1 => 'verified',
+        2 => 'completed',
+        3 => 'canceled',
+    ];
+
+    /**
+     * Get the most recent orders.
+     *
+     * @param int $howMany Number of orders to retrieve
+     * @return array Order records
+     */
+    public static function getMostRecentOrders(int $howMany): array
+    {
+        $sql = 'SELECT * FROM orders_get_most_recent_orders(:how_many);';
+        $params = [':how_many' => $howMany];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params);
+    }
+
+    /**
+     * Get orders between two dates.
+     *
+     * @param string $startDate Start date in YYYY/MM/DD HH:MM:SS format
+     * @param string $endDate End date in YYYY/MM/DD HH:MM:SS format
+     * @return array Order records
+     */
+    public static function getOrdersBetweenDates(string $startDate, string $endDate): array
+    {
+        $sql = 'SELECT * FROM orders_get_orders_between_dates(:start_date, :end_date);';
+        $params = [':start_date' => $startDate, ':end_date' => $endDate];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params);
+    }
+
+    /**
+     * Get orders by status.
+     *
+     * @param int $status Status code (0=placed, 1=verified, 2=completed, 3=canceled)
+     * @return array Order records
+     */
+    public static function getOrdersByStatus(int $status): array
+    {
+        $sql = 'SELECT * FROM orders_get_orders_by_status(:status);';
+        $params = [':status' => $status];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params);
+    }
+
+    /**
+     * Get details of a specific order.
+     *
+     * @param int $orderId Order ID
+     * @return array|null Order info or null if not found
+     */
+    public static function getOrderInfo(int $orderId): ?array
+    {
+        $sql = 'SELECT * FROM orders_get_order_info(:order_id);';
+        $params = [':order_id' => $orderId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getRow($result, $params);
+    }
+
+    /**
+     * Get products that belong to a specific order.
+     *
+     * @param int $orderId Order ID
+     * @return array Order detail records (product_id, product_name, quantity, unit_cost, subtotal)
+     */
+    public static function getOrderDetails(int $orderId): array
+    {
+        $sql = 'SELECT * FROM orders_get_order_details(:order_id);';
+        $params = [':order_id' => $orderId];
+        $result = DatabaseHandler::prepare($sql);
+
+        return DatabaseHandler::getAll($result, $params);
+    }
+
+    /**
+     * Update order details.
+     *
+     * @param int $orderId Order ID
+     * @param int $status New status code
+     * @param string $comments Order comments
+     * @param string $customerName Customer name
+     * @param string $shippingAddress Shipping address
+     * @param string $customerEmail Customer email
+     */
+    public static function updateOrder(
+        int $orderId,
+        int $status,
+        string $comments,
+        string $customerName,
+        string $shippingAddress,
+        string $customerEmail
+    ): void {
+        $sql = 'SELECT orders_update_order(:order_id, :status, :comments,
+                     :customer_name, :shipping_address, :customer_email);';
+        $params = [
+            ':order_id' => $orderId,
+            ':status' => $status,
+            ':comments' => $comments,
+            ':customer_name' => $customerName,
+            ':shipping_address' => $shippingAddress,
+            ':customer_email' => $customerEmail,
+        ];
+        $result = DatabaseHandler::prepare($sql);
+
+        DatabaseHandler::execute($result, $params);
+    }
+
+    /**
+     * Get status options array for use in templates.
+     *
+     * @return array Status options indexed by status code
+     */
+    public static function getStatusOptions(): array
+    {
+        return self::ORDER_STATUS_OPTIONS;
+    }
+}
