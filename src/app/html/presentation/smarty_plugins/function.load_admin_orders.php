@@ -48,7 +48,7 @@ class AdminOrders
     public function __construct()
     {
         // Save the link to the current page for back navigation
-        $virtualLocation = defined('VIRTUAL_LOCATION') ? VIRTUAL_LOCATION : '';
+        $virtualLocation = defined('VIRTUAL_LOCATION') ? constant('VIRTUAL_LOCATION') : '';
         $_SESSION['admin_orders_page_link'] =
             str_replace($virtualLocation, '', getenv('REQUEST_URI') ?: '');
 
