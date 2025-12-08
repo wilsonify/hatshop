@@ -55,3 +55,10 @@ docs/
 ## Theme
 
 This site uses the [Hugo Book](https://github.com/alex-shpak/hugo-book) theme.
+
+## Recent updates (developer notes)
+
+- 2025-12-07: Integrated chapter features through C08 (Shopping Cart). The shopping cart business logic now exists in the repository and is feature-flag guarded. See the developer guide for implementation details and how to enable the cart in your environment.
+- All newly introduced C08 code was scanned and fixed for SonarQube critical issues; code quality checks were run and no new CRITICAL/BLOCKER issues remain from that integration.
+
+For developer-facing documentation about the Shopping Cart implementation, see `docs/content/docs/developers/shopping-cart.md`.
