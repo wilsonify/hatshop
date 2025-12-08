@@ -10,10 +10,16 @@
 require_once __DIR__ . '/include/app_top.php';
 
 use Hatshop\Core\FeatureFlags;
+use Hatshop\Core\ShoppingCart;
 use Hatshop\App\Presentation\Page;
 
-// Save current page link for navigation
-if (!isset($_GET['ProductID'])) {
+// Set cart ID at start if shopping cart feature is enabled
+if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
+    ShoppingCart::setCartId();
+}
+
+// Save current page link for navigation (skip if CartAction is set)
+if (!isset($_GET['ProductID']) && !isset($_GET['CartAction'])) {
     $requestUri = getenv('REQUEST_URI') ?: '';
     $lastSlash = strrpos($requestUri, '/');
     if ($lastSlash !== false) {
@@ -27,6 +33,7 @@ $page = new Page();
 // Default template selections
 $pageContentsCell = 'first_page_contents.tpl';
 $categoriesCell = 'blank.tpl';
+$cartSummaryCell = 'blank.tpl';
 
 // Chapter 3+: Department navigation
 if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_DEPARTMENTS) && isset($_GET['DepartmentID'])) {
@@ -48,9 +55,21 @@ if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PRODUCT_DETAILS) && isset($_GE
     $pageContentsCell = 'product.tpl';
 }
 
+// Chapter 8+: Shopping Cart
+if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
+    // If CartAction is set, show cart details page
+    if (isset($_GET['CartAction'])) {
+        $pageContentsCell = 'cart_details.tpl';
+    } else {
+        // Otherwise, show cart summary in sidebar
+        $cartSummaryCell = 'cart_summary.tpl';
+    }
+}
+
 // Assign templates
 $page->assign('pageContentsCell', $pageContentsCell);
 $page->assign('categoriesCell', $categoriesCell);
+$page->assign('cartSummaryCell', $cartSummaryCell);
 
 // Pass feature flags to templates for conditional rendering
 $page->assign('features', FeatureFlags::getAllFlags());

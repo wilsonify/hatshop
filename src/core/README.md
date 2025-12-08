@@ -10,6 +10,8 @@ core/
 ├── composer.json          # Package definition
 ├── Config.php             # Centralized configuration management
 ├── Catalog.php            # Business logic for product catalog
+├── CatalogAdmin.php       # Admin operations for catalog
+├── ShoppingCart.php       # Shopping cart business logic
 ├── DatabaseHandler.php    # PDO database wrapper
 ├── ErrorHandler.php       # Custom error handling
 ├── FeatureFlags.php       # Feature flag system
@@ -36,7 +38,9 @@ The feature flag system allows enabling/disabling chapter-specific functionality
 | `product_details` | `HATSHOP_FEATURE_PRODUCT_DETAILS` | true | 4 |
 | `pagination` | `HATSHOP_FEATURE_PAGINATION` | true | 4 |
 | `search` | `HATSHOP_FEATURE_SEARCH` | true | 5 |
-| `shopping_cart` | `HATSHOP_FEATURE_SHOPPING_CART` | false | 6-8 |
+| `paypal` | `HATSHOP_FEATURE_PAYPAL` | false | 6 |
+| `catalog_admin` | `HATSHOP_FEATURE_CATALOG_ADMIN` | false | 7 |
+| `shopping_cart` | `HATSHOP_FEATURE_SHOPPING_CART` | false | 8 |
 | `customer_orders` | `HATSHOP_FEATURE_CUSTOMER_ORDERS` | false | 9 |
 | `product_recommendations` | `HATSHOP_FEATURE_PRODUCT_RECOMMENDATIONS` | false | 10 |
 | `customer_details` | `HATSHOP_FEATURE_CUSTOMER_DETAILS` | false | 11 |
@@ -54,6 +58,9 @@ export HATSHOP_CHAPTER_LEVEL=3
 
 # Enable features for chapter 5 (all catalog features + search)
 export HATSHOP_CHAPTER_LEVEL=5
+
+# Enable features for chapter 8 (catalog + paypal + admin + shopping cart)
+export HATSHOP_CHAPTER_LEVEL=8
 ```
 
 ### Individual Feature Control
@@ -133,8 +140,11 @@ The core library consolidates code from:
 - `c03/html/business/catalog.php` - Department functions
 - `c04/html/business/catalog.php` - Products and pagination
 - `c05/html/business/catalog.php` - Search functionality
-- `c02-c05/html/include/config.php` - Configuration
-- `c02-c05/html/presentation/` - Smarty templates and plugins
+- `c06/html/` - PayPal integration
+- `c07/html/business/catalog.php` - Admin functions (CatalogAdmin)
+- `c08/html/business/shopping_cart.php` - Shopping cart (ShoppingCart)
+- `c02-c08/html/include/config.php` - Configuration
+- `c02-c08/html/presentation/` - Smarty templates and plugins
 
 Benefits:
 1. Single source of truth for business logic

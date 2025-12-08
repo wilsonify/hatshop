@@ -26,6 +26,11 @@
 <input type="button" name="add_to_cart" value="Add to Cart"
  onclick="JavaScript:OpenPayPalWindow(&quot;{$paypal_url}?cmd=_cart&amp;business={$paypal_email|escape:'url'}&amp;item_name={$product->mProduct.name|escape:'url'}&amp;amount={if $product->mProduct.discounted_price != 0}{$product->mProduct.discounted_price}{else}{$product->mProduct.price}{/if}&amp;currency={$paypal_currency_code}&amp;add=1&amp;return={$paypal_return_url|escape:'url'}&amp;cancel_return={$paypal_cancel_url|escape:'url'}&quot;)" />
 &nbsp;
+{elseif $features.shopping_cart}
+{* Shopping Cart Add to Cart Button *}
+<input type="button" name="add_to_cart" value="Add to Cart"
+ onclick="window.location='{$product->mAddToCartLink|prepare_link:'http'}';" />
+&nbsp;
 {/if}
 <input type="button" value="Continue Shopping"
  onclick="window.location='{$product->mPageLink|prepare_link:"http"}';" />

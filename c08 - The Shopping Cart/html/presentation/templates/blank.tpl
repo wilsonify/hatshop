@@ -1,1 +1,0 @@
-{* Smarty blank page *}

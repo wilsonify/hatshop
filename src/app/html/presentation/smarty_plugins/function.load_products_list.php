@@ -18,6 +18,7 @@ class ProductsList
 {
     // Constants
     private const PAGE_NO_PARAM = 'PageNo=';
+    private const INDEX_URL = 'index.php?';
     // Public variables to be read from Smarty template
     public $mProducts;
     public $mPageNo;
@@ -161,7 +162,7 @@ class ProductsList
             self::PAGE_NO_PARAM . ($this->mPageNo + 1),
             $query_string
         );
-        $this->mNextLink = 'index.php?' . $new_query_string;
+        $this->mNextLink = self::INDEX_URL . $new_query_string;
     }
 
     private function buildPreviousLink($query_string)
@@ -176,46 +177,82 @@ class ProductsList
             self::PAGE_NO_PARAM . ($this->mPageNo - 1),
             $query_string
         );
-        $this->mPreviousLink = 'index.php?' . $new_query_string;
+        $this->mPreviousLink = self::INDEX_URL . $new_query_string;
     }
 
     private function buildProductLinks()
     {
         // Build links for product details pages
-        $url = $_SESSION['page_link'] ?? 'index.php';
-        if (!empty($_GET)) {
-            $url = $url . '&ProductID=';
-        } else {
-            $url = $url . '?ProductID=';
-        }
+        $url = $this->buildProductDetailUrl();
 
         $paypalEnabled = FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL);
+        $shoppingCartEnabled = FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART);
+        $cartBaseUrl = $this->buildCartBaseUrl();
+
+        for ($i = 0; $i < count($this->mProducts); $i++) {
+            $this->mProducts[$i]['link'] = $url . $this->mProducts[$i]['product_id'];
+
+            // Create the PayPal link if feature is enabled
+            if ($paypalEnabled) {
+                $this->mProducts[$i]['paypal'] = $this->buildPaypalLink($this->mProducts[$i]);
+            }
+
+            // Create the shopping cart "Add to Cart" link if feature is enabled
+            if ($shoppingCartEnabled) {
+                $this->mProducts[$i]['add_to_cart_link'] = $cartBaseUrl .
+                    'CartAction=' . Config::get('cart_action_add') .
+                    '&ProductID=' . $this->mProducts[$i]['product_id'];
+            }
+        }
+    }
+
+    /**
+     * Build the base URL for product detail links.
+     */
+    private function buildProductDetailUrl(): string
+    {
+        $url = $_SESSION['page_link'] ?? 'index.php';
+        $separator = empty($_GET) ? '?ProductID=' : '&ProductID=';
+        return $url . $separator;
+    }
+
+    /**
+     * Build the base URL for cart action links.
+     */
+    private function buildCartBaseUrl(): string
+    {
+        $cartAddUrl = self::INDEX_URL;
+        if (isset($_GET['DepartmentID'])) {
+            $cartAddUrl .= 'DepartmentID=' . (int)$_GET['DepartmentID'] . '&';
+        }
+        if (isset($_GET['CategoryID'])) {
+            $cartAddUrl .= 'CategoryID=' . (int)$_GET['CategoryID'] . '&';
+        }
+        return $cartAddUrl;
+    }
+
+    /**
+     * Build a PayPal add-to-cart link for a product.
+     */
+    private function buildPaypalLink(array $product): string
+    {
         $paypalEmail = Config::get('paypal_email');
         $paypalUrl = Config::get('paypal_url');
         $paypalReturnUrl = Config::get('paypal_return_url');
         $paypalCancelUrl = Config::get('paypal_cancel_url');
         $paypalCurrency = Config::get('paypal_currency_code');
 
-        for ($i = 0; $i < count($this->mProducts); $i++) {
-            $this->mProducts[$i]['link'] =
-                $url . $this->mProducts[$i]['product_id'];
+        $productPrice = ($product['discounted_price'] == 0)
+            ? $product['price']
+            : $product['discounted_price'];
 
-            // Create the PayPal link if feature is enabled
-            if ($paypalEnabled) {
-                $productPrice = ($this->mProducts[$i]['discounted_price'] == 0)
-                    ? $this->mProducts[$i]['price']
-                    : $this->mProducts[$i]['discounted_price'];
-
-                $this->mProducts[$i]['paypal'] =
-                    'JavaScript:OpenPayPalWindow(&quot;' .
-                    $paypalUrl . '?' .
-                    'cmd=_cart&amp;business=' . rawurlencode($paypalEmail) .
-                    '&amp;item_name=' . rawurlencode($this->mProducts[$i]['name']) .
-                    '&amp;amount=' . $productPrice .
-                    '&amp;currency=' . $paypalCurrency .
-                    '&amp;add=1&amp;return=' . rawurlencode($paypalReturnUrl) .
-                    '&amp;cancel_return=' . rawurlencode($paypalCancelUrl) . '&quot;)';
-            }
-        }
+        return 'JavaScript:OpenPayPalWindow(&quot;' .
+            $paypalUrl . '?' .
+            'cmd=_cart&amp;business=' . rawurlencode($paypalEmail) .
+            '&amp;item_name=' . rawurlencode($product['name']) .
+            '&amp;amount=' . $productPrice .
+            '&amp;currency=' . $paypalCurrency .
+            '&amp;add=1&amp;return=' . rawurlencode($paypalReturnUrl) .
+            '&amp;cancel_return=' . rawurlencode($paypalCancelUrl) . '&quot;)';
     }
 }

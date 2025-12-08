@@ -113,6 +113,17 @@ class Config
             // Admin settings (Chapter 7)
             'admin_username' => 'hatshopadmin',
             'admin_password' => 'hatshopadmin',
+
+            // Shopping Cart settings (Chapter 8)
+            // Cart product retrieval types
+            'cart_get_products' => 1,          // GET_CART_PRODUCTS
+            'cart_get_saved_products' => 2,    // GET_CART_SAVED_PRODUCTS
+            // Cart action types
+            'cart_action_add' => 1,            // ADD_PRODUCT
+            'cart_action_remove' => 2,         // REMOVE_PRODUCT
+            'cart_action_update' => 3,         // UPDATE_PRODUCTS_QUANTITIES
+            'cart_action_save_for_later' => 4, // SAVE_PRODUCT_FOR_LATER
+            'cart_action_move_to_cart' => 5,   // MOVE_PRODUCT_TO_CART
         ];
     }
 
@@ -249,6 +260,14 @@ class Config
             // Admin constants
             'ADMIN_USERNAME' => $instance->config['admin_username'],
             'ADMIN_PASSWORD' => $instance->config['admin_password'],
+            // Shopping Cart constants
+            'GET_CART_PRODUCTS' => $instance->config['cart_get_products'],
+            'GET_CART_SAVED_PRODUCTS' => $instance->config['cart_get_saved_products'],
+            'ADD_PRODUCT' => $instance->config['cart_action_add'],
+            'REMOVE_PRODUCT' => $instance->config['cart_action_remove'],
+            'UPDATE_PRODUCTS_QUANTITIES' => $instance->config['cart_action_update'],
+            'SAVE_PRODUCT_FOR_LATER' => $instance->config['cart_action_save_for_later'],
+            'MOVE_PRODUCT_TO_CART' => $instance->config['cart_action_move_to_cart'],
         ];
 
         foreach ($constants as $name => $value) {

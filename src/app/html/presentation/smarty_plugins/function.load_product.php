@@ -30,6 +30,7 @@ class Product
     // Public variables to be used in Smarty template
     public $mProduct;
     public $mPageLink = 'index.php';
+    public $mAddToCartLink = '';
 
     // Private stuff
     private $_mProductId;
@@ -52,6 +53,12 @@ class Product
 
         if (isset($_SESSION['page_link'])) {
             $this->mPageLink = $_SESSION['page_link'];
+        }
+
+        // Build add to cart link if shopping cart is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
+            $this->mAddToCartLink = 'index.php?CartAction=' . Config::get('cart_action_add') .
+                                    '&ProductID=' . $this->_mProductId;
         }
     }
 }

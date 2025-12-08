@@ -159,6 +159,9 @@ class FeatureFlags
             7 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
                   self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
                   self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN],
+            8 => [self::FEATURE_DEPARTMENTS, self::FEATURE_CATEGORIES, self::FEATURE_PRODUCTS,
+                  self::FEATURE_PRODUCT_DETAILS, self::FEATURE_PAGINATION, self::FEATURE_SEARCH,
+                  self::FEATURE_PAYPAL, self::FEATURE_CATALOG_ADMIN, self::FEATURE_SHOPPING_CART],
         ];
 
         // Disable all features first

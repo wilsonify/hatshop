@@ -36,6 +36,9 @@
       {if $features.search}
         {include file="search_box.tpl"}
       {/if}
+      {if $features.shopping_cart}
+        {include file="$cartSummaryCell"}
+      {/if}
       {if $features.paypal}
       <div class="left_box" id="view_cart">
         <input type="button" name="view_cart" value="View Cart"

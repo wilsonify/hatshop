@@ -59,6 +59,10 @@
     <br /><br />
     <input type="button" name="add_to_cart" value="Add to Cart"
      onclick="{$products_list->mProducts[k].paypal}" />
+    {elseif $features.shopping_cart}
+    <br /><br />
+    <input type="button" name="add_to_cart" value="Add to Cart"
+     onclick="window.location='{$products_list->mProducts[k].add_to_cart_link|prepare_link:'http'}';" />
     {/if}
   </p>
 {/section}
