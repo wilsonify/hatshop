@@ -7,6 +7,7 @@
  */
 
 // Include application bootstrap
+// phpcs:ignore SlevomatCodingStandard.Files.RequireIncludeStrict
 require_once __DIR__ . '/include/app_top.php';
 
 use Hatshop\Core\FeatureFlags;
