@@ -3,8 +3,11 @@
 namespace Hatshop\App\Presentation;
 
 // Require all PHP files in the smarty_plugins directory
-foreach (glob(__DIR__ . '/../smarty_plugins/*.php') as $pluginFile) {
-    require_once $pluginFile;
+$pluginsDir = __DIR__ . '/smarty_plugins';
+if (is_dir($pluginsDir)) {
+    foreach (glob($pluginsDir . '/*.php') as $pluginFile) {
+        require_once $pluginFile;
+    }
 }
 
 use Hatshop\Core\Config;
