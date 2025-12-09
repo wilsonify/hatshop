@@ -15,6 +15,10 @@ This guide covers deploying, configuring, and maintaining HatShop in production.
 - [Deploy to Kubernetes]({{< relref "deploy-kubernetes" >}}) - Production Kubernetes deployment
 - [Feature Flags]({{< relref "feature-flags" >}}) - Controlling features by chapter level
 
+## Infrastructure
+
+- [PostgreSQL Administration]({{< relref "postgresql" >}}) - Database deployment, operations, and troubleshooting
+
 ## Secrets Management
 
 Stage and production environments use [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption:

@@ -10,8 +10,9 @@ This guide covers deploying HatShop to the development environment using Docker 
 
 ## Overview
 
-The dev deployment consists of three services:
-- **PHP Application** - The HatShop c02 application running on Apache
+The dev deployment consists of four services:
+- **PostgreSQL** - Database server for product catalog, customers, and orders
+- **PHP Application** - The HatShop application running on Apache
 - **Nginx** - Reverse proxy for path-based routing (`/dev`)
 - **Cloudflared** - Cloudflare Tunnel for secure public access
 
@@ -24,8 +25,8 @@ Internet
 Cloudflare Tunnel (cloudflared)
     │
     ▼
-Nginx (:10080) ──────► PHP App (:80)
-    │                  (hatshop c02)
+Nginx (:10080) ──────► PHP App (:80) ──────► PostgreSQL (:5432)
+    │                  (hatshop)              (hatshop database)
     │
     └── /dev path routing
 ```
@@ -117,15 +118,41 @@ docker compose logs -f
 
 ```yaml
 services:
+  postgres:
+    image: postgres:18.1-trixie
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ../../../Database Complete/split_sql_files:/docker-entrypoint-initdb.d:ro
+    environment:
+      POSTGRES_USER: hatshop_admin
+      POSTGRES_PASSWORD: ${HATSHOP_DB_PASSWORD:-hatshop_password}
+      POSTGRES_DB: hatshop
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hatshop_admin -d hatshop"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hatshop-network
+
   php:
     build:
-      context: "../../../src/c02 - Laying Out the Foundations"
-      dockerfile: dockerfile
+      context: "../../../src/hatshop"
+      dockerfile: Dockerfile
     user: www-data:www-data
     restart: unless-stopped
-    env_file: .env
+    environment:
+      - HATSHOP_PATH_PREFIX=dev
+      - HATSHOP_DB_SERVER=postgres
+      - HATSHOP_DB_USER=hatshop_admin
+      - HATSHOP_DB_PASSWORD=${HATSHOP_DB_PASSWORD:-hatshop_password}
+      - HATSHOP_DB_NAME=hatshop
     expose:
       - "80"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - hatshop-network
 
@@ -154,6 +181,9 @@ services:
 networks:
   hatshop-network:
     driver: bridge
+
+volumes:
+  postgres_data:
 ```
 
 ### nginx.conf
@@ -180,15 +210,28 @@ Required variables in `.env`:
 | Variable | Description |
 |----------|-------------|
 | `CLOUD_FLARE_TOKEN` | Cloudflare tunnel authentication token |
+| `HATSHOP_DB_PASSWORD` | PostgreSQL database password |
 
-Optional HatShop configuration:
+Database configuration:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
+| `HATSHOP_DB_SERVER` | Database server hostname | `postgres` |
+| `HATSHOP_DB_USER` | Database username | `hatshop_admin` |
+| `HATSHOP_DB_PASSWORD` | Database password | `hatshop_password` |
+| `HATSHOP_DB_NAME` | Database name | `hatshop` |
+
+Application configuration:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HATSHOP_PATH_PREFIX` | URL path prefix for assets | `dev` |
 | `HATSHOP_IS_WARNING_FATAL` | Treat warnings as fatal | `true` |
 | `HATSHOP_DEBUGGING` | Enable debug mode | `true` |
 | `HATSHOP_LOG_ERRORS` | Log errors to file | `false` |
 | `HATSHOP_LOG_ERRORS_FILE` | Error log path | `/var/tmp/hatshop_errors.log` |
+
+For comprehensive PostgreSQL documentation, see [PostgreSQL Administration]({{< relref "/docs/admins/postgresql" >}}).
 
 ## Cloudflare Tunnel Configuration
 
@@ -282,7 +325,23 @@ docker compose logs php
 Common issues:
 - Missing dependencies (rebuild image)
 - Permission issues (check www-data ownership)
-- Database connection (if applicable)
+- Database connection errors (see [PostgreSQL Troubleshooting]({{< relref "/docs/admins/postgresql#troubleshooting" >}}))
+
+### Database connection errors
+
+If the PHP application cannot connect to the database:
+```bash
+# Check PostgreSQL is healthy
+docker compose ps postgres
+
+# Verify database connectivity
+docker compose exec postgres pg_isready -U hatshop_admin -d hatshop
+
+# Check PostgreSQL logs
+docker compose logs postgres
+```
+
+For detailed database troubleshooting, see [PostgreSQL Administration]({{< relref "/docs/admins/postgresql" >}}).
 
 ### Nginx 502 Bad Gateway
 
@@ -318,6 +377,7 @@ docker compose logs nginx
 
 ## Related Documentation
 
+- [PostgreSQL Administration]({{< relref "/docs/admins/postgresql" >}})
 - [Chapter 2: Laying Out the Foundations]({{< relref "/docs/chapters/c02-foundations" >}})
 - [Kubernetes Deployment]({{< relref "/docs/admins/deploy-kubernetes" >}})
 - [Production Deployment]({{< relref "/docs/admins/deploy-prod" >}})
