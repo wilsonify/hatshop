@@ -49,6 +49,22 @@ class Page extends Smarty
             $this->registerPlugin('function', 'load_admin_product', 'smarty_function_load_admin_product');
         }
 
+        // Register customer plugins if customer details feature is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CUSTOMER_DETAILS)) {
+            $this->registerPlugin('function', 'load_customer_login', 'smarty_function_load_customer_login');
+            $this->registerPlugin('function', 'load_customer_logged', 'smarty_function_load_customer_logged');
+            $this->registerPlugin('function', 'load_customer_details', 'smarty_function_load_customer_details');
+            $this->registerPlugin('function', 'load_customer_address', 'smarty_function_load_customer_address');
+            $this->registerPlugin('function', 'load_customer_credit_card', 'smarty_function_load_customer_credit_card');
+        }
+
+        // Register shopping cart plugins if shopping cart feature is enabled
+        if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_SHOPPING_CART)) {
+            $this->registerPlugin('function', 'load_cart_summary', 'smarty_function_load_cart_summary');
+            $this->registerPlugin('function', 'load_cart_details', 'smarty_function_load_cart_details');
+            $this->registerPlugin('function', 'load_checkout_info', 'smarty_function_load_checkout_info');
+        }
+
         // Assign global PayPal configuration if feature is enabled
         if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_PAYPAL)) {
             $this->assign('paypal_url', Config::get('paypal_url'));

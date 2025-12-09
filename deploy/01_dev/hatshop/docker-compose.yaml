@@ -1,12 +1,42 @@
 services:
+  postgres:
+    build:
+      context: "../../../src/c00 - PostgreSQL Image"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hatshop
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: hatshop
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - ../../../Database Complete/split_sql_files:/docker-entrypoint-initdb.d:ro
+    expose:
+      - "5432"
+    networks:
+      - hatshop-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hatshop -d hatshop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   php:
     build:
       context: "../../../src/hatshop"      
     user: www-data:www-data
     restart: unless-stopped
     env_file: .env
+    environment:
+      # Override any shell environment variables with explicit values
+      HATSHOP_DB_SERVER: postgres
+      HATSHOP_DB_USERNAME: hatshop
+      HATSHOP_DB_PASSWORD: changeme
+      HATSHOP_DB_DATABASE: hatshop
     expose:
       - "80"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - hatshop-network
 
@@ -35,3 +65,6 @@ services:
 networks:
   hatshop-network:
     driver: bridge
+
+volumes:
+  postgres-data:
