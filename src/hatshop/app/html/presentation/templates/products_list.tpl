@@ -35,7 +35,7 @@
     </a>
     <br />
     <a href="{$products_list->mProducts[k].link|prepare_link:"http"}">
-      <img src="product_images/{$products_list->mProducts[k].thumbnail}"
+      <img src={"product_images/`$products_list->mProducts[k].thumbnail`"|asset_url}
        border="0" width="120" alt="Product image" class="product_image" />
     </a>
     <span class="product_description">

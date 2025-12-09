@@ -48,13 +48,13 @@
     Image name: {$admin_product->mProductImage}
     <input name="ImageUpload" type="file" value="Upload" />
     <input type="submit" name="Upload" value="Upload" /><br />
-    <img src="product_images/{$admin_product->mProductImage}"
+    <img src={"product_images/`$admin_product->mProductImage`"|asset_url}
      border="0" alt="Product image" />
     <br />
     Thumbnail name: {$admin_product->mProductThumbnail}
     <input name="ThumbnailUpload" type="file" value="Upload" />
     <input type="submit" name="Upload" value="Upload" /><br />
-    <img src="product_images/{$admin_product->mProductThumbnail}"
+    <img src={"product_images/`$admin_product->mProductThumbnail`"|asset_url}
      border="0" alt="Product thumbnail" />
   </span>
 </form>

@@ -4,6 +4,7 @@ all: build run
 
 clean:
 	docker system prune -af
+	find . -type d -name "vendor" -delete 
 
 build:
 	docker build --progress=plain -t ghcr.io/wilsonify/hatshop:latest .

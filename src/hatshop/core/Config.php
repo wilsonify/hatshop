@@ -97,6 +97,7 @@ class Config
             'http_server_host' => 'localhost',
             'http_server_port' => '80',
             'use_ssl' => true,
+            'path_prefix' => '', // URL path prefix (e.g., '/dev' for hatshop.example.com/dev)
 
             // Product display settings
             'short_product_description_length' => 150,
@@ -168,6 +169,7 @@ class Config
             'http_server_host' => 'HATSHOP_HTTP_SERVER_HOST',
             'http_server_port' => 'HATSHOP_HTTP_SERVER_PORT',
             'use_ssl' => 'HATSHOP_USE_SSL',
+            'path_prefix' => 'HATSHOP_PATH_PREFIX',
             'short_product_description_length' => 'HATSHOP_SHORT_PRODUCT_DESCRIPTION_LENGTH',
             'products_per_page' => 'HATSHOP_PRODUCTS_PER_PAGE',
             // PayPal settings

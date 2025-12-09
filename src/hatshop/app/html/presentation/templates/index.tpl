@@ -5,8 +5,8 @@
 <html>
   <head>
     <title>{#site_title#}</title>
-        <link href="hatshop.css" type="text/css" rel="stylesheet" />
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link href={"hatshop.css"|asset_url} type="text/css" rel="stylesheet" />
+    <link rel="icon" href={"images/favicon.ico"|asset_url} type="image/x-icon">
     {if $features.paypal}
     {literal}
     <script language="JavaScript" type="text/javascript">

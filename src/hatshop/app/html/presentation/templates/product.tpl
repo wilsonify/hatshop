@@ -1,7 +1,7 @@
 {load_product assign="product"}
 <span class="description">{$product->mProduct.name}</span>
 <br /><br />
-<img src="product_images/{$product->mProduct.image}"
+<img src={"product_images/`$product->mProduct.image`"|asset_url}
      alt="Product image" width="190" border="0" />
 <br /><br />
 <span>

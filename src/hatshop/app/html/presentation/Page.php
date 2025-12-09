@@ -38,6 +38,7 @@ class Page extends Smarty
         $this->registerPlugin('function', 'load_products_list', 'smarty_function_load_products_list');
         $this->registerPlugin('function', 'load_search_box', 'smarty_function_load_search_box');
         $this->registerPlugin('modifier', 'prepare_link', 'smarty_modifier_prepare_link');
+        $this->registerPlugin('modifier', 'asset_url', 'smarty_modifier_asset_url');
 
         // Register admin plugins if catalog admin feature is enabled
         if (FeatureFlags::isEnabled(FeatureFlags::FEATURE_CATALOG_ADMIN)) {

@@ -1,30 +1,48 @@
 <?php
 /**
- * Smarty modifier to prepare links with the correct host and protocol.
+ * Smarty modifier to prepare links with the correct host, protocol, and path prefix.
  */
+
+use Hatshop\Core\Config;
 
 // Function to join multiple paths, ensuring proper slashes
 function joinPaths(...$paths)
 {
-    return join(DIRECTORY_SEPARATOR, array_map('trimPath', $paths));
+    return join('/', array_map('trimPath', array_filter($paths)));
 }
 
 // Function to trim leading/trailing slashes from a path
 function trimPath($path)
 {
-    return trim($path, DIRECTORY_SEPARATOR);
+    return trim($path, '/');
+}
+
+// Function to get the path prefix from configuration
+function getPathPrefix()
+{
+    $prefix = getenv('HATSHOP_PATH_PREFIX');
+    if ($prefix === false) {
+        $prefix = '';
+    }
+    return trim($prefix, '/');
 }
 
 // Function to generate the base link with HTTPS and the correct domain
 function generateBaseLink()
 {
-    return 'https://' . getenv('HATSHOP_HTTP_SERVER_HOST');
+    $host = getenv('HATSHOP_HTTP_SERVER_HOST') ?: 'localhost';
+    $prefix = getPathPrefix();
+    $basePath = 'https://' . $host;
+    if (!empty($prefix)) {
+        $basePath .= '/' . $prefix;
+    }
+    return $basePath;
 }
 
 // Function to append path to the base link
 function appendPathToLink($baseLink, $string)
 {
-    return joinPaths($baseLink, $string);
+    return $baseLink . '/' . trimPath($string);
 }
 
 // Function to check if 'index.php' or 'admin.php' are in the link
