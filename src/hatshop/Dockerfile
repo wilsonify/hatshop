@@ -1,4 +1,9 @@
 FROM php:8.2-apache AS shared_base
+
+# Set default environment variables
+ENV APACHE_SERVER=localhost
+ENV DEBIAN_FRONTEND=noninteractive
+
 WORKDIR /var/www
 
 # Update base system, install dependencies, PHP extensions and Composer
@@ -27,18 +32,14 @@ COPY --chown=www-data:www-data core/ /var/www/core/
 
 # Copy application files (includes images and product_images)
 COPY --chown=www-data:www-data app/html/ /var/www/html/
+COPY app/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
 # Install dependencies
-RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress
-
-# Enable Apache modules and site
-COPY app/000-default.conf /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite && a2ensite 000-default.conf
-
-# Set default environment variables for Apache config
-ENV APACHE_SERVER=localhost
+RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress \
+    && a2enmod rewrite \
+    && a2ensite 000-default.conf
 
 EXPOSE 80
 USER www-data
