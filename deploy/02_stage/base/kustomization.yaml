@@ -19,7 +19,7 @@ commonLabels:
   app.kubernetes.io/managed-by: kustomize
 
 images:
-  - name: ghcr.io/wilsonify/c02-laying-out-the-foundations
+  - name: ghcr.io/wilsonify/hatshop
     newTag: latest
   - name: nginx
     newName: nginx
