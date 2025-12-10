@@ -17,52 +17,24 @@ jobs:
         unit:
           - 'c00 - Apache Image'
           - 'c00 - Nginx Image'
-          - 'c01 - Base Image'
-          - 'c02 - Laying Out the Foundations'
-          - 'c03 - Creating the Product Catalog Part I'
-          - 'c04 - Creating the Product Catalog Part II'
-          - 'c05 - Searching the Catalog'
-          - 'c06 - Receiving Payments Using PayPal'
-          - 'c07 - Catalog Administration'
-          - 'c08 - The Shopping Cart'
-          - 'c09 - Dealing with Customer Orders'
-          - 'c10 - Product Recommendations'
-          - 'c11 - Managing Customer Details'
-          - 'c12 - Storing Customer Orders'
-          - 'c13 - Implementing the Order Pipeline Part I'
-          - 'c14 - Implementing the Order Pipeline Part II'
-          - 'c15 - Credit Card Transactions - Authorize.net'
-          - 'c15 - Credit Card Transactions - Datacash.com'
-          - 'c16 - Product Reviews - Authorize.net'
-          - 'c16 - Product Reviews - Datacash.com'
-          - 'c17 - Connecting to Web Services - Authorize.net'
-          - 'c17 - Connecting to Web Services - Datacash.com'
+          - 'c00 - PostgreSQL Image'
+          - 'c01 - PHP Image'
           - 'c18 - Kubernetes In Docker'
           - 'c19 - Identity Provider'
           - 'c20 - OAuth2 Proxy'
           - 'c21 - Selenium'
           - 'c22 - Zero Trust'
+          - 'hatshop'
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Login
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build and Push
-        working-directory: ${{ matrix.unit }}
-        run: |
-          # Sanitize the unit name by replacing spaces with dashes, removing consecutive dashes, and converting to lowercase
-          sanitized_unit=$(echo "${{ matrix.unit }}" | tr ' ' '-' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
-
-          # Build the Docker image
-          docker build --progress=plain \
-            -t "ghcr.io/${{ github.repository_owner }}/$sanitized_unit:latest" \
-            -f Dockerfile . \
-            --label "org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/hatshop"  \
-            --label "org.opencontainers.image.description=hatshop ${{ matrix.unit }}" \
-            --label "org.opencontainers.image.licenses=Freeware"
-
-          # Push the Docker image
-          docker push ghcr.io/${{ github.repository_owner }}/$sanitized_unit:latest
+        working-directory: src/${{ matrix.unit }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ${{ github.workspace }}/.github/workflows/scripts/docker-build-push.sh "${{ matrix.unit }}" "${{ github.repository_owner }}"
