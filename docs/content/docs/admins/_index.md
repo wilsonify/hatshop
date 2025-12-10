@@ -8,6 +8,10 @@ bookToc: true
 
 This guide covers deploying, configuring, and maintaining HatShop in production.
 
+## Planning and Operations
+
+- [Long-Term Success Guide]({{< relref "long-term-success" >}}) - Requirements for running a medium-sized hat shop
+
 ## Deployment Guides
 
 - [Deploy to Dev Environment]({{< relref "deploy-dev" >}}) - Docker Compose with Cloudflare Tunnel
