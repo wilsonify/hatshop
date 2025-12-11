@@ -3,13 +3,10 @@ services:
     build:
       context: "../../../src/c00 - PostgreSQL Image"
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: hatshop
-      POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: hatshop
+    env_file: .env
     volumes:
       - postgres-data:/var/lib/postgresql
-      - ../../../Database Complete/split_sql_files:/docker-entrypoint-initdb.d:ro
+      - ../../../src/c00 - PostgreSQL Image/Database Complete/split_sql_files:/docker-entrypoint-initdb.d:ro
     expose:
       - "5432"
     networks:

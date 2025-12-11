@@ -22,7 +22,7 @@ class ProductsList
     // Public variables to be read from Smarty template
     public $mProducts;
     public $mPageNo;
-    public $mrHowManyPages;
+    public $mrHowManyPages = 0;
     public $mNextLink;
     public $mPreviousLink;
     public $mSearchResultsTitle;

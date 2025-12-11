@@ -28,22 +28,24 @@ RUN apt-get update && apt-get upgrade -y \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy core library first (for composer path repository)
-COPY --chown=www-data:www-data core/ /var/www/core/
+COPY --chown=root:root --chmod=555 core/ /var/www/core/
 
 # Install core dependencies
 WORKDIR /var/www/core
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress
 
 # Copy application files (includes images and product_images)
-COPY --chown=www-data:www-data app/html/ /var/www/html/
+COPY --chown=root:root --chmod=555 app/html/ /var/www/html/
 COPY app/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
-# Install dependencies
+# Install dependencies and create log directory
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress \
     && a2enmod rewrite \
-    && a2ensite 000-default.conf
+    && a2ensite 000-default.conf \
+    && mkdir -p /var/log/hatshop \
+    && chown www-data:www-data /var/log/hatshop
 
 EXPOSE 80
 USER www-data
