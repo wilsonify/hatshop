@@ -3,10 +3,11 @@
 namespace Hatshop\Core;
 
 /**
- * Business tier class for catalog administration operations.
+ * Business tier class for product administration operations.
  *
- * This class handles CRUD operations for departments, categories, and products
- * used by the admin interface (Chapter 7).
+ * This class handles CRUD operations for products used by the admin interface.
+ * For department operations, use DepartmentAdmin.
+ * For category operations, use CategoryAdmin.
  */
 class CatalogAdmin
 {
@@ -17,144 +18,6 @@ class CatalogAdmin
         'On Department', // 2
         'On Both'        // 3
     ];
-
-    /**
-     * Retrieves all departments with their descriptions.
-     *
-     * @return array List of departments with descriptions
-     */
-    public static function getDepartmentsWithDescriptions(): array
-    {
-        $sql = 'SELECT * FROM catalog_get_departments();';
-        $result = DatabaseHandler::prepare($sql);
-        return DatabaseHandler::getAll($result) ?? [];
-    }
-
-    /**
-     * Updates department details.
-     *
-     * @param int $departmentId Department ID
-     * @param string $departmentName New department name
-     * @param string $departmentDescription New department description
-     */
-    public static function updateDepartment(
-        int $departmentId,
-        string $departmentName,
-        string $departmentDescription
-    ): void {
-        $sql = 'SELECT catalog_update_department(:department_id, :department_name,
-                                                 :department_description);';
-        $params = [
-            ':department_id' => $departmentId,
-            ':department_name' => $departmentName,
-            ':department_description' => $departmentDescription,
-        ];
-        $result = DatabaseHandler::prepare($sql);
-        DatabaseHandler::execute($result, $params);
-    }
-
-    /**
-     * Deletes a department.
-     *
-     * @param int $departmentId Department ID to delete
-     * @return int Status code (negative if department not empty)
-     */
-    public static function deleteDepartment(int $departmentId): int
-    {
-        $sql = 'SELECT catalog_delete_department(:department_id);';
-        $params = [':department_id' => $departmentId];
-        $result = DatabaseHandler::prepare($sql);
-        return (int) DatabaseHandler::getOne($result, $params);
-    }
-
-    /**
-     * Adds a new department.
-     *
-     * @param string $departmentName Department name
-     * @param string $departmentDescription Department description
-     */
-    public static function addDepartment(string $departmentName, string $departmentDescription): void
-    {
-        $sql = 'SELECT catalog_add_department(:department_name, :department_description);';
-        $params = [
-            ':department_name' => $departmentName,
-            ':department_description' => $departmentDescription,
-        ];
-        $result = DatabaseHandler::prepare($sql);
-        DatabaseHandler::execute($result, $params);
-    }
-
-    /**
-     * Gets all categories in a department.
-     *
-     * @param int $departmentId Department ID
-     * @return array List of categories
-     */
-    public static function getDepartmentCategories(int $departmentId): array
-    {
-        $sql = 'SELECT * FROM catalog_get_department_categories(:department_id);';
-        $params = [':department_id' => $departmentId];
-        $result = DatabaseHandler::prepare($sql);
-        return DatabaseHandler::getAll($result, $params) ?? [];
-    }
-
-    /**
-     * Adds a new category to a department.
-     *
-     * @param int $departmentId Department ID
-     * @param string $categoryName Category name
-     * @param string $categoryDescription Category description
-     */
-    public static function addCategory(
-        int $departmentId,
-        string $categoryName,
-        string $categoryDescription
-    ): void {
-        $sql = 'SELECT catalog_add_category(:department_id, :category_name, :category_description);';
-        $params = [
-            ':department_id' => $departmentId,
-            ':category_name' => $categoryName,
-            ':category_description' => $categoryDescription,
-        ];
-        $result = DatabaseHandler::prepare($sql);
-        DatabaseHandler::execute($result, $params);
-    }
-
-    /**
-     * Deletes a category.
-     *
-     * @param int $categoryId Category ID to delete
-     * @return int Status code (negative if category not empty)
-     */
-    public static function deleteCategory(int $categoryId): int
-    {
-        $sql = 'SELECT catalog_delete_category(:category_id);';
-        $params = [':category_id' => $categoryId];
-        $result = DatabaseHandler::prepare($sql);
-        return (int) DatabaseHandler::getOne($result, $params);
-    }
-
-    /**
-     * Updates a category.
-     *
-     * @param int $categoryId Category ID
-     * @param string $categoryName New category name
-     * @param string $categoryDescription New category description
-     */
-    public static function updateCategory(
-        int $categoryId,
-        string $categoryName,
-        string $categoryDescription
-    ): void {
-        $sql = 'SELECT catalog_update_category(:category_id, :category_name, :category_description);';
-        $params = [
-            ':category_id' => $categoryId,
-            ':category_name' => $categoryName,
-            ':category_description' => $categoryDescription,
-        ];
-        $result = DatabaseHandler::prepare($sql);
-        DatabaseHandler::execute($result, $params);
-    }
 
     /**
      * Gets all products in a category (for admin purposes).
@@ -254,18 +117,6 @@ class CatalogAdmin
         ];
         $result = DatabaseHandler::prepare($sql);
         return (int) DatabaseHandler::getOne($result, $params);
-    }
-
-    /**
-     * Gets all categories.
-     *
-     * @return array List of all categories
-     */
-    public static function getCategories(): array
-    {
-        $sql = 'SELECT * FROM catalog_get_categories();';
-        $result = DatabaseHandler::prepare($sql);
-        return DatabaseHandler::getAll($result) ?? [];
     }
 
     /**
@@ -387,3 +238,4 @@ class CatalogAdmin
         DatabaseHandler::execute($result, $params);
     }
 }
+
