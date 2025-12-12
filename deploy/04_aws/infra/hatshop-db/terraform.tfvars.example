@@ -1,0 +1,21 @@
+# Example terraform.tfvars for HatShop Database
+# Copy this file to terraform.tfvars and fill in your values
+
+# AWS Configuration
+aws_region         = "us-east-1"
+aws_profile        = "default"
+aws_account_number = "123456789012"
+
+# Database Connection
+# Get the RDS endpoint from the hatshop-rds module output
+db_host     = "test-postgres-db.xxxxxxxxxx.us-east-1.rds.amazonaws.com"
+db_port     = 5432
+db_name     = "hatshop"
+db_username = "pgadmin"
+db_password = ""
+db_sslmode  = "require"
+
+# Feature Flags
+create_types       = true
+create_functions   = true
+create_sample_data = false
