@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: hatshop-prod
+
+resources:
+  - namespace.yaml
+  - hatshop-configmap.yaml
+  - hatshop-secrets.enc.yaml
+  - php-deployment.yaml
+  - nginx-configmap.yaml
+  - nginx-deployment.yaml
+  - cloudflared-secret.yaml
+  - cloudflared-deployment.yaml
+
+commonLabels:
+  app.kubernetes.io/name: hatshop
+  app.kubernetes.io/instance: prod
+  app.kubernetes.io/managed-by: kustomize
+
+images:
+  - name: ghcr.io/wilsonify/hatshop
+    newTag: latest
+  - name: nginx
+    newName: nginx
+    newTag: alpine
+  - name: cloudflare/cloudflared
+    newTag: latest

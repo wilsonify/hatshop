@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hatshop-prod
+  labels:
+    app.kubernetes.io/name: hatshop
+    app.kubernetes.io/instance: prod
+    app.kubernetes.io/component: namespace
