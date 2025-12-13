@@ -41,7 +41,7 @@ data:
                 add_header Content-Type text/plain;
             }
 
-            # Route /prod to the PHP application
+            # Route all /prod requests to the PHP application
             location /prod {
                 # Rewrite /prod to / and /prod/... to /...
                 rewrite ^/prod$ / break;

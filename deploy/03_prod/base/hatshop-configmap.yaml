@@ -10,6 +10,9 @@ data:
   # Feature Flags - Set chapter level to enable all features up to chapter 12
   HATSHOP_CHAPTER_LEVEL: "12"
 
+  # Path prefix for assets and links (matches Cloudflare tunnel path)
+  HATSHOP_PATH_PREFIX: "prod"
+
   # Database Configuration - Neon PostgreSQL
   HATSHOP_DB_SERVER: "ep-jolly-bird-a53fz3ri-pooler.us-east-2.aws.neon.tech"
   HATSHOP_DB_USERNAME: "neondb_owner"
