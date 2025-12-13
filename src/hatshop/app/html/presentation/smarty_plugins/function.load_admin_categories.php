@@ -1,6 +1,7 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\CategoryAdmin;
 
 /**
  * Smarty plugin function for admin categories management.
@@ -63,7 +64,7 @@ class AdminCategories
             }
 
             if (empty($this->mErrorMessage)) {
-                Catalog::addCategory($this->mDepartmentId, $categoryName, $categoryDescription);
+                CategoryAdmin::addCategory($this->mDepartmentId, $categoryName, $categoryDescription);
             }
         }
 
@@ -82,13 +83,13 @@ class AdminCategories
             }
 
             if (empty($this->mErrorMessage)) {
-                Catalog::updateCategory($this->mActionedCategoryId, $categoryName, $categoryDescription);
+                CategoryAdmin::updateCategory($this->mActionedCategoryId, $categoryName, $categoryDescription);
             }
         }
 
         // Deleting a category
         if ($this->mAction === 'delete_categ') {
-            $status = Catalog::deleteCategory($this->mActionedCategoryId);
+            $status = CategoryAdmin::deleteCategory($this->mActionedCategoryId);
 
             if ($status < 0) {
                 $this->mErrorMessage = 'Category not empty';
@@ -106,7 +107,7 @@ class AdminCategories
         $this->mAdminCategoriesTarget .= '&DepartmentID=' . $this->mDepartmentId;
 
         // Load the list of categories
-        $this->mCategories = Catalog::getDepartmentCategories($this->mDepartmentId);
+        $this->mCategories = CategoryAdmin::getDepartmentCategories($this->mDepartmentId);
         $this->mCategoriesCount = count($this->mCategories);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
-use Hatshop\Core\Catalog;
+use Hatshop\Core\CatalogAdmin;
+use Hatshop\Core\CategoryAdmin;
 
 /**
  * Path constant for product images directory.
@@ -47,7 +48,7 @@ class AdminProduct
         $this->mDepartmentId = $this->getRequiredParam('DepartmentID');
         $this->mCategoryId = $this->getRequiredParam('CategoryID');
         $this->mProductId = $this->getRequiredParam('ProductID');
-        $this->mProductDisplayOptions = Catalog::$mProductDisplayOptions;
+        $this->mProductDisplayOptions = CatalogAdmin::$mProductDisplayOptions;
     }
 
     /**
@@ -93,7 +94,7 @@ class AdminProduct
                 $_FILES['ImageUpload']['tmp_name'],
                 $imagesPath . $_FILES['ImageUpload']['name']
             );
-            Catalog::setImage($this->mProductId, $_FILES['ImageUpload']['name']);
+            CatalogAdmin::setImage($this->mProductId, $_FILES['ImageUpload']['name']);
         }
 
         if (isset($_FILES['ThumbnailUpload']) && $_FILES['ThumbnailUpload']['error'] === 0) {
@@ -101,7 +102,7 @@ class AdminProduct
                 $_FILES['ThumbnailUpload']['tmp_name'],
                 $imagesPath . $_FILES['ThumbnailUpload']['name']
             );
-            Catalog::setThumbnail($this->mProductId, $_FILES['ThumbnailUpload']['name']);
+            CatalogAdmin::setThumbnail($this->mProductId, $_FILES['ThumbnailUpload']['name']);
         }
     }
 
@@ -115,7 +116,7 @@ class AdminProduct
         }
 
         $targetCategoryId = (int) $_POST['TargetCategoryIdRemove'];
-        $stillExists = Catalog::removeProductFromCategory($this->mProductId, $targetCategoryId);
+        $stillExists = CatalogAdmin::removeProductFromCategory($this->mProductId, $targetCategoryId);
 
         if ($stillExists === 0) {
             $this->redirectToProducts();
@@ -132,7 +133,7 @@ class AdminProduct
         }
 
         $productDisplay = (int) $_POST['ProductDisplay'];
-        Catalog::setProductDisplayOption($this->mProductId, $productDisplay);
+        CatalogAdmin::setProductDisplayOption($this->mProductId, $productDisplay);
     }
 
     /**
@@ -144,7 +145,7 @@ class AdminProduct
             return;
         }
 
-        Catalog::deleteProduct($this->mProductId);
+        CatalogAdmin::deleteProduct($this->mProductId);
         $this->redirectToProducts();
     }
 
@@ -158,7 +159,7 @@ class AdminProduct
         }
 
         $targetCategoryId = (int) $_POST['TargetCategoryIdAssign'];
-        Catalog::assignProductToCategory($this->mProductId, $targetCategoryId);
+        CatalogAdmin::assignProductToCategory($this->mProductId, $targetCategoryId);
     }
 
     /**
@@ -171,7 +172,7 @@ class AdminProduct
         }
 
         $targetCategoryId = (int) $_POST['TargetCategoryIdMove'];
-        Catalog::moveProductToCategory($this->mProductId, $this->mCategoryId, $targetCategoryId);
+        CatalogAdmin::moveProductToCategory($this->mProductId, $this->mCategoryId, $targetCategoryId);
 
         header('Location: admin.php?Page=ProductDetails&DepartmentID=' .
                $this->mDepartmentId . PARAM_CATEGORY_ID .
@@ -194,13 +195,13 @@ class AdminProduct
      */
     private function loadProductInfo(): void
     {
-        $productInfo = Catalog::getProductInfo($this->mProductId);
+        $productInfo = CatalogAdmin::getProductInfo($this->mProductId);
         $this->mProductName = $productInfo['name'] ?? '';
         $this->mProductImage = $productInfo['image'] ?? '';
         $this->mProductThumbnail = $productInfo['thumbnail'] ?? '';
         $this->mProductDisplay = $productInfo['display'] ?? 0;
 
-        $productCategories = Catalog::getCategoriesForProduct($this->mProductId);
+        $productCategories = CatalogAdmin::getCategoriesForProduct($this->mProductId);
 
         if (count($productCategories) === 1) {
             $this->mRemoveFromCategoryButtonDisabled = true;
@@ -214,7 +215,7 @@ class AdminProduct
         $this->mRemoveFromCategories = $temp1;
         $this->mProductCategoriesString = implode(', ', $temp1);
 
-        $allCategories = Catalog::getCategories();
+        $allCategories = CategoryAdmin::getCategories();
         $temp2 = [];
         foreach ($allCategories as $category) {
             $temp2[$category['category_id']] = $category['name'];

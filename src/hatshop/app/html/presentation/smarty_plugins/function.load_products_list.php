@@ -1,6 +1,8 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\CatalogProducts;
+use Hatshop\Core\CatalogSearch;
 use Hatshop\Core\Config;
 use Hatshop\Core\FeatureFlags;
 
@@ -78,27 +80,27 @@ class ProductsList
         /* If browsing a category, get the list of products by calling
            the getProductsInCategory business tier method */
         if (isset($this->mCategoryId)) {
-            $this->mProducts = Catalog::getProductsInCategory(
+            $this->mProducts = CatalogProducts::getProductsInCategory(
                 $this->mCategoryId, $this->mPageNo, $this->mrHowManyPages);
             return;
         }
         /* If browsing a department, get the list of products by calling
            the getProductsOnDepartmentDisplay business tier method */
         if (isset($this->mDepartmentId)) {
-            $this->mProducts = Catalog::getProductsOnDepartmentDisplay(
+            $this->mProducts = CatalogProducts::getProductsOnDepartmentDisplay(
                 $this->mDepartmentId, $this->mPageNo, $this->mrHowManyPages);
             return;
         }
         /* If browsing the first page, get the list of products by
            calling the getProductsOnCatalogDisplay business tier method */
-        $this->mProducts = Catalog::getProductsOnCatalogDisplay(
+        $this->mProducts = CatalogProducts::getProductsOnCatalogDisplay(
             $this->mPageNo, $this->mrHowManyPages);
     }
 
     private function loadSearchResults()
     {
         // Get search results
-        $search_results = Catalog::search(
+        $search_results = CatalogSearch::search(
             $this->mSearchString,
             $this->mAllWords,
             $this->mPageNo,

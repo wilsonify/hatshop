@@ -1,6 +1,7 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\CatalogProducts;
 use Hatshop\Core\Config;
 use Hatshop\Core\FeatureFlags;
 
@@ -49,7 +50,7 @@ class Product
     public function init()
     {
         // Get product details from business tier
-        $this->mProduct = Catalog::getProductDetails($this->productId);
+        $this->mProduct = CatalogProducts::getProductDetails($this->productId);
 
         if (isset($_SESSION['page_link'])) {
             $this->mPageLink = $_SESSION['page_link'];

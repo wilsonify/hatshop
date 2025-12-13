@@ -1,6 +1,7 @@
 <?php
 
 use Hatshop\Core\Catalog;
+use Hatshop\Core\CatalogAdmin;
 
 /**
  * Smarty plugin function for admin products management.
@@ -96,7 +97,7 @@ class AdminProducts
         $this->validateProductInput($productName, $productDescription, $productPrice);
 
         if (empty($this->mErrorMessage)) {
-            Catalog::addProductToCategory(
+            CatalogAdmin::addProductToCategory(
                 $this->mCategoryId,
                 $productName,
                 $productDescription,
@@ -151,7 +152,7 @@ class AdminProducts
         }
 
         if (empty($this->mErrorMessage)) {
-            Catalog::updateProduct(
+            CatalogAdmin::updateProduct(
                 $this->mActionedProductId,
                 $productName,
                 $productDescription,
@@ -190,7 +191,7 @@ class AdminProducts
      */
     private function loadProducts(): void
     {
-        $this->mProducts = Catalog::getCategoryProducts($this->mCategoryId);
+        $this->mProducts = CatalogAdmin::getCategoryProducts($this->mCategoryId);
         $this->mProductsCount = count($this->mProducts);
     }
 }

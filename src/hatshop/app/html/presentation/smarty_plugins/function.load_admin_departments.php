@@ -1,6 +1,6 @@
 <?php
 
-use Hatshop\Core\Catalog;
+use Hatshop\Core\DepartmentAdmin;
 
 /**
  * Smarty plugin function for admin departments management.
@@ -51,7 +51,7 @@ class AdminDepartments
             }
 
             if (empty($this->mErrorMessage)) {
-                Catalog::addDepartment($departmentName, $departmentDescription);
+                DepartmentAdmin::addDepartment($departmentName, $departmentDescription);
             }
         }
 
@@ -70,14 +70,14 @@ class AdminDepartments
             }
 
             if (empty($this->mErrorMessage)) {
-                Catalog::updateDepartment($this->mActionedDepartmentId,
+                DepartmentAdmin::updateDepartment($this->mActionedDepartmentId,
                                           $departmentName, $departmentDescription);
             }
         }
 
         // Deleting a department
         if ($this->mAction === 'delete_dep') {
-            $status = Catalog::deleteDepartment($this->mActionedDepartmentId);
+            $status = DepartmentAdmin::deleteDepartment($this->mActionedDepartmentId);
 
             if ($status < 0) {
                 $this->mErrorMessage = 'Department not empty';
@@ -92,7 +92,7 @@ class AdminDepartments
         }
 
         // Load the list of departments
-        $this->mDepartments = Catalog::getDepartmentsWithDescriptions();
+        $this->mDepartments = DepartmentAdmin::getDepartmentsWithDescriptions();
         $this->mDepartmentsCount = count($this->mDepartments);
     }
 }
