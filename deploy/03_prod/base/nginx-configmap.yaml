@@ -28,7 +28,7 @@ data:
 
         # Upstream for PHP service
         upstream php_backend {
-            server php:80;
+            server php:8080;
         }
 
         server {
