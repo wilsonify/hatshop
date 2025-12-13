@@ -41,12 +41,18 @@ COPY app/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
-# Install dependencies, configure Apache for non-root port, and create log directory
+# Install dependencies, configure Apache for non-root port, and create writable directories
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-progress \
     && a2enmod rewrite \
     && a2ensite 000-default.conf \
     && mkdir -p /var/log/hatshop \
-    && chown www-data:www-data /var/log/hatshop \
+    && mkdir -p /var/www/html/presentation/templates_c \
+    && mkdir -p /var/www/html/presentation/cache \
+    && chown -R www-data:www-data /var/log/hatshop \
+    && chown -R www-data:www-data /var/www/html/presentation/templates_c \
+    && chown -R www-data:www-data /var/www/html/presentation/cache \
+    && chmod -R 755 /var/www/html/presentation/templates_c \
+    && chmod -R 755 /var/www/html/presentation/cache \
     && sed -i 's/Listen 80/Listen ${APACHE_PORT}/g' /etc/apache2/ports.conf \
     && chown -R www-data:www-data /var/run/apache2 /var/lock/apache2
 
