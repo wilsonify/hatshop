@@ -18,6 +18,7 @@ This guide covers deploying, configuring, and maintaining HatShop in production.
 - [Deploy to Stage Environment]({{< relref "deploy-stage" >}}) - KIND (Kubernetes) with SOPS secrets
 - [Deploy to Kubernetes]({{< relref "deploy-kubernetes" >}}) - Production Kubernetes deployment
 - [Feature Flags]({{< relref "feature-flags" >}}) - Controlling features by chapter level
+- [Integration Testing]({{< relref "integration-testing" >}}) - Verifying deployments with automated tests
 
 ## Infrastructure
 

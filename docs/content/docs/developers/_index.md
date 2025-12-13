@@ -12,6 +12,7 @@ This guide covers setting up a development environment and understanding the Hat
 
 - [Feature Flags]({{< relref "feature-flags" >}}) - How feature flags control functionality
 - [Shopping Cart]({{< relref "shopping-cart" >}}) - Shopping cart implementation
+- [Integration Testing]({{< relref "integration-testing" >}}) - Writing and running integration tests
 - [Stage Deployment Upgrades]({{< relref "deploy-stage-upgrades" >}}) - Deploying features to stage
 - [Docker Image Versioning]({{< relref "docker-image-versioning" >}}) - Understanding image tags and versions
 
