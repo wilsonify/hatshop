@@ -54,7 +54,7 @@ resource "aws_db_instance" "postgres" {
   multi_az             = false
   db_name              = "testdb"
   port                 = 5432
-  publicly_accessible  = true
+  publicly_accessible  = false
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name = aws_db_subnet_group.default.name
   skip_final_snapshot  = true
