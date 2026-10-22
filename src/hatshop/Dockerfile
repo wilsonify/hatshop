@@ -1,4 +1,4 @@
-FROM php:8.2-apache AS shared_base
+FROM php:8.2.35-apache AS shared_base
 
 # Set default environment variables
 ENV APACHE_SERVER=localhost

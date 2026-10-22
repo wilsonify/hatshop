@@ -1,5 +1,5 @@
 # Base stage: Use the official PHP image
-FROM php:8.2-fpm AS base
+FROM php:8.2.35-fpm AS base
 WORKDIR /var/www/html
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
