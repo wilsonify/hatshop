@@ -1,6 +1,6 @@
 <?php
 // business logic
-use phpinfo_logic;
+require_once __DIR__ . '/phpinfo_logic.php';
 
 // presentation
-use phpinfo_view;
+require_once __DIR__ . '/phpinfo_view.tpl';
