@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: php
-          image: ghcr.io/wilsonify/hatshop:latest
+          image: ghcr.io/wilsonify/hatshop:0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
