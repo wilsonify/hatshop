@@ -1,14 +1,13 @@
 # Base stage: Use the official PHP image
 FROM php:8.2.35-fpm AS base
 WORKDIR /var/www/html
-RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-libpq-dev \
-sendmail \
-libcurl4-openssl-dev \
-nginx \
-supervisor
-RUN docker-php-ext-install pdo pdo_pgsql pgsql
+    libpq-dev \
+    sendmail \
+    libcurl4-openssl-dev \
+    nginx \
+    supervisor \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
 
 # Builder stage: For dependency installation
 FROM base AS builder
@@ -37,13 +36,13 @@ FROM base AS runtime
 WORKDIR /var/www/html
 
 # adjust file permissions www-data user
-RUN rm -rf /usr/share/nginx/html
-RUN rm /var/www/html/index.nginx-debian.html
-RUN mkdir -p /var/log/php-fpm
-RUN mkdir -p /var/log/nginx
-RUN chown -R www-data /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html
-RUN chgrp -R www-data /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html
-RUN chmod -R g+rwx /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html
+RUN rm -rf /usr/share/nginx/html \
+    && rm /var/www/html/index.nginx-debian.html \
+    && mkdir -p /var/log/php-fpm \
+    && mkdir -p /var/log/nginx \
+    && chown -R www-data /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html \
+    && chgrp -R www-data /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html \
+    && chmod -R g+rwx /run /var/log /var/lib/ /etc/supervisor /etc/ssl /var/www/html
 
 # Copy the default nginx configuration
 COPY default.conf /etc/nginx/conf.d/default.conf

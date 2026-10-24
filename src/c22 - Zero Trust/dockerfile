@@ -1,1 +1,1 @@
-FROM cloudflare/cloudflared:latest
+FROM cloudflare/cloudflared:2025.1.1
