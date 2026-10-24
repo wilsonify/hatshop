@@ -11,10 +11,16 @@ This directory contains the Hugo-based documentation site for HatShop.
 ### Setup
 
 ```bash
-# Clone the hugo-book theme
+# Fetch the pinned hugo-book theme (same commit as the Pages workflow)
 cd docs
-mkdir -p themes
-git clone https://github.com/alex-shpak/hugo-book themes/hugo-book
+HUGO_BOOK_COMMIT=0aacad68fb8e7f39835370cca8ffc7db43c26795
+mkdir -p themes/hugo-book
+git -C themes/hugo-book init --quiet
+git -C themes/hugo-book remote add origin https://github.com/alex-shpak/hugo-book.git
+git -C themes/hugo-book fetch --quiet --depth 1 origin "$HUGO_BOOK_COMMIT"
+git -C themes/hugo-book checkout --quiet --detach FETCH_HEAD
+test "$(git -C themes/hugo-book rev-parse HEAD)" = "$HUGO_BOOK_COMMIT"
+rm -rf themes/hugo-book/.git
 
 # Start the development server
 hugo server -D
@@ -54,7 +60,12 @@ docs/
 
 ## Theme
 
-This site uses the [Hugo Book](https://github.com/alex-shpak/hugo-book) theme.
+This site uses the [Hugo Book](https://github.com/alex-shpak/hugo-book) theme,
+pinned to commit `0aacad68fb8e7f39835370cca8ffc7db43c26795`. The Pages
+workflow and the local instructions fetch that exact commit and verify it
+before building. The theme is MIT-licensed; its `LICENSE` file is included in
+the fetched `themes/hugo-book/` directory. Update the commit in both places
+together.
 
 ## Recent updates (developer notes)
 

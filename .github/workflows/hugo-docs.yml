@@ -53,10 +53,17 @@ jobs:
         uses: actions/configure-pages@v5
       
       - name: Install Hugo theme
+        env:
+          HUGO_BOOK_COMMIT: 0aacad68fb8e7f39835370cca8ffc7db43c26795
         run: |
           cd docs
-          mkdir -p themes
-          git clone https://github.com/alex-shpak/hugo-book themes/hugo-book
+          mkdir -p themes/hugo-book
+          git -C themes/hugo-book init --quiet
+          git -C themes/hugo-book remote add origin https://github.com/alex-shpak/hugo-book.git
+          git -C themes/hugo-book fetch --quiet --depth 1 origin "$HUGO_BOOK_COMMIT"
+          git -C themes/hugo-book checkout --quiet --detach FETCH_HEAD
+          test "$(git -C themes/hugo-book rev-parse HEAD)" = "$HUGO_BOOK_COMMIT"
+          rm -rf themes/hugo-book/.git
       
       - name: Build with Hugo
         env:
