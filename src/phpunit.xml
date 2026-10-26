@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
-         bootstrap="c02 - Laying Out the Foundations/html/vendor/autoload.php"
+<!-- Mirrors ../hatshop/phpunit.xml with paths relative to src/, so running
+     phpunit from this directory exercises the same suites instead of the
+     pre-refactor chapter layout that no longer exists. Result caching is off:
+     hatshop/.phpunit.cache/test-results is committed to git, so every run that
+     writes it rewrites a tracked file. -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         bootstrap="hatshop/core/vendor/autoload.php"
          colors="true"
-         verbose="true">
+         cacheDirectory="hatshop/.phpunit.cache"
+         cacheResult="false">
     <testsuites>
-        <testsuite name="c02-unit">
-            <directory>c02 - Laying Out the Foundations/html/tests/unit</directory>
+        <testsuite name="core-unit">
+            <directory>hatshop/core/tests/unit</directory>
         </testsuite>
-        <testsuite name="c02-integration">
-            <directory>c02 - Laying Out the Foundations/html/tests/integration</directory>
-        </testsuite>
-        <testsuite name="c03-unit">
-            <directory>c03 - Creating the Product Catalog Part I/html/tests</directory>
-            <exclude>c03 - Creating the Product Catalog Part I/html/tests/e2e</exclude>
+        <testsuite name="core-integration">
+            <directory>hatshop/core/tests/integration</directory>
         </testsuite>
     </testsuites>
-    <coverage>
+    <source>
         <include>
-            <directory suffix=".php">c02 - Laying Out the Foundations/html/business</directory>
-            <directory suffix=".php">c02 - Laying Out the Foundations/html/presentation</directory>
-            <directory suffix=".php">c03 - Creating the Product Catalog Part I/html/business</directory>
-            <directory suffix=".php">c03 - Creating the Product Catalog Part I/html/presentation</directory>
+            <directory suffix=".php">hatshop/core</directory>
         </include>
         <exclude>
-            <directory suffix=".php">*/vendor/*</directory>
-            <directory suffix=".php">*/tests/*</directory>
+            <directory suffix=".php">hatshop/core/vendor</directory>
+            <directory suffix=".php">hatshop/core/tests</directory>
+            <directory suffix=".php">hatshop/core/Presentation</directory>
         </exclude>
-        <report>
-            <clover outputFile="../coverage/clover.xml"/>
-            <html outputDirectory="../coverage/html"/>
-        </report>
-    </coverage>
+    </source>
 </phpunit>

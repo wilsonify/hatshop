@@ -15,11 +15,26 @@ class ProductionEndpointTest extends TestCase
     private const PROD_BASE_URL = 'https://hatshop.renewed-renaissance.com/prod';
 
     /**
+     * Base URL these smoke tests exercise.
+     *
+     * Defaults to the production deployment; set HATSHOP_BASE_URL to point
+     * them at staging or a local instance instead.
+     */
+    private function baseUrl(): string
+    {
+        $configured = getenv('HATSHOP_BASE_URL');
+
+        return is_string($configured) && $configured !== ''
+            ? rtrim($configured, '/')
+            : self::PROD_BASE_URL;
+    }
+
+    /**
      * Test that the main index page loads without fatal errors.
      */
     public function testIndexPageLoads(): void
     {
-        $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php');
+        $response = $this->fetchUrl($this->baseUrl() . '/index.php');
 
         $this->assertNotFalse($response, 'Should be able to fetch index page');
         $this->assertStringNotContainsString(
@@ -47,7 +62,7 @@ class ProductionEndpointTest extends TestCase
      */
     public function testProductDetailPageLoads(): void
     {
-        $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php?ProductID=7');
+        $response = $this->fetchUrl($this->baseUrl() . '/index.php?ProductID=7');
 
         $this->assertNotFalse($response, 'Should be able to fetch product detail page');
         $this->assertStringNotContainsString(
@@ -72,7 +87,7 @@ class ProductionEndpointTest extends TestCase
      */
     public function testDepartmentPageLoads(): void
     {
-        $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php?DepartmentID=1');
+        $response = $this->fetchUrl($this->baseUrl() . '/index.php?DepartmentID=1');
 
         $this->assertNotFalse($response, 'Should be able to fetch department page');
         $this->assertStringNotContainsString(
@@ -92,7 +107,7 @@ class ProductionEndpointTest extends TestCase
      */
     public function testCategoryPageLoads(): void
     {
-        $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php?DepartmentID=1&CategoryID=1');
+        $response = $this->fetchUrl($this->baseUrl() . '/index.php?DepartmentID=1&CategoryID=1');
 
         $this->assertNotFalse($response, 'Should be able to fetch category page');
         $this->assertStringNotContainsString(
@@ -112,7 +127,7 @@ class ProductionEndpointTest extends TestCase
      */
     public function testSearchPageLoads(): void
     {
-        $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php?SearchResults=hat');
+        $response = $this->fetchUrl($this->baseUrl() . '/index.php?SearchResults=hat');
 
         $this->assertNotFalse($response, 'Should be able to fetch search results page');
         $this->assertStringNotContainsString(

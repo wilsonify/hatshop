@@ -93,13 +93,20 @@ The `ProductionEndpointTest` makes HTTP requests to the deployed production appl
 
 **Configuration:**
 
-The base URL is defined in the test class:
+The tests target the production deployment by default:
 
 ```php
 private const PROD_BASE_URL = 'https://hatshop.renewed-renaissance.com/prod';
 ```
 
-To test a different environment, modify this constant or create environment-specific test classes.
+Set `HATSHOP_BASE_URL` to aim them at another environment instead of editing the test:
+
+```bash
+cd src/hatshop
+HATSHOP_BASE_URL=https://staging.example.com ./core/vendor/bin/phpunit --testsuite core-integration --colors=always
+```
+
+The variable wins only when it is set to a non-empty value; when it is unset the constant above is used, so an ordinary run keeps targeting production.
 
 ## Writing Integration Tests
 

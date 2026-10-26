@@ -214,16 +214,20 @@ kubectl rollout status deployment/php -n hatshop-prod --timeout=90s
 
 ### Changing the Test URL
 
-The production URL is configured in `src/hatshop/core/tests/integration/ProductionEndpointTest.php`:
+The tests default to the production URL declared in `src/hatshop/core/tests/integration/ProductionEndpointTest.php`:
 
 ```php
 private const PROD_BASE_URL = 'https://hatshop.renewed-renaissance.com/prod';
 ```
 
-To test a staging environment, either:
+To test a staging environment, set `HATSHOP_BASE_URL` instead of editing the test:
 
-1. Modify the constant temporarily
-2. Create a separate `StagingEndpointTest.php` with the staging URL
+```bash
+cd src/hatshop
+HATSHOP_BASE_URL=https://staging.example.com ./core/vendor/bin/phpunit --testsuite core-integration --colors=always
+```
+
+The variable takes effect only when it is set and non-empty; when it is unset the constant above is used, so an ordinary run keeps targeting production.
 
 ### Adding New Endpoint Tests
 
@@ -232,7 +236,7 @@ If you add new pages to HatShop, add corresponding tests:
 ```php
 public function testNewFeaturePageLoads(): void
 {
-    $response = $this->fetchUrl(self::PROD_BASE_URL . '/index.php?NewFeature=1');
+    $response = $this->fetchUrl($this->baseUrl() . '/index.php?NewFeature=1');
 
     $this->assertNotFalse($response, 'Should be able to fetch new feature page');
     $this->assertStringNotContainsString(

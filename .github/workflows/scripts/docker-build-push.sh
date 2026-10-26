@@ -46,7 +46,21 @@ echo "Build date: $build_date"
 echo "Branch: $branch_tag"
 
 # Find the Dockerfile (handles both 'Dockerfile' and 'dockerfile')
-dockerfile_name=$(ls -1 Dockerfile dockerfile 2>/dev/null | head -1)
+# The two names are tested directly rather than with `ls`: `ls` exits 2 when
+# one of them is absent, and under `set -e` + `pipefail` that non-zero status
+# silently aborts the script before anything is built.
+dockerfile_name=""
+for candidate in Dockerfile dockerfile; do
+  if [ -f "$candidate" ]; then
+    dockerfile_name="$candidate"
+    break
+  fi
+done
+
+if [ -z "$dockerfile_name" ]; then
+  echo "No Dockerfile found in $(pwd)" >&2
+  exit 1
+fi
 
 # Build tags array
 # - Semantic version (e.g., 0.0.1)

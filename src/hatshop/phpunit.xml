@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+<!-- Result caching is off: .phpunit.cache/test-results is committed to git, so
+     every run that writes it rewrites a tracked file. -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
          bootstrap="core/vendor/autoload.php"
          colors="true"
-         cacheDirectory=".phpunit.cache">
+         cacheDirectory=".phpunit.cache"
+         cacheResult="false">
     <testsuites>
         <testsuite name="core-unit">
             <directory>core/tests/unit</directory>
