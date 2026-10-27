@@ -28,6 +28,16 @@ This deployment runs the HatShop application with features up to **Chapter 12**:
 
 ## Usage
 
+### Create the environment file
+The stack reads its secrets from `.env`, which is git-ignored. Decrypt it from
+the committed `.env.enc` (requires your age key - see the
+[deployment guide](../../../docs/content/docs/admins/deploy-dev.md)):
+
+```bash
+# sops cannot infer the dotenv format from the .enc extension
+sops decrypt --input-type dotenv --output-type dotenv .env.enc > .env
+```
+
 ### Start the deployment
 ```bash
 docker compose up -d
