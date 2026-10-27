@@ -67,10 +67,12 @@ cd deploy/02_stage
 # 1. Create .env file with Cloudflare token
 cp ../01_dev/hatshop/.env .env
 # Or decrypt from encrypted source:
-# sops decrypt ../01_dev/hatshop/.env.enc > .env
+# sops decrypt --input-type dotenv --output-type dotenv ../01_dev/hatshop/.env.enc > .env
 
 # 2. Set age secret key for SOPS decryption
-export AGE_SECRET_KEY=$(cat ~/.sops/age/keys.txt)
+#    sops' default identity file: %APPDATA%\sops\age\keys.txt on Windows,
+#    ~/.config/sops/age/keys.txt on Linux (override with SOPS_AGE_KEY_FILE)
+export AGE_SECRET_KEY=$(cat "${SOPS_AGE_KEY_FILE:-${APPDATA:-$HOME/.config}/sops/age/keys.txt}")
 
 # 3. Deploy everything (cluster + SOPS operator + secrets + app)
 make all
@@ -86,7 +88,7 @@ Secrets are encrypted using [SOPS](https://github.com/getsops/sops) with [age](h
 
 ### Age Key
 - **Public Key**: `age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek`
-- **Private Key Location**: `~/.sops/age/keys.txt`
+- **Private Key Location**: sops' default identity file - `%APPDATA%\sops\age\keys.txt` on Windows, `~/.config/sops/age/keys.txt` on Linux, or `$SOPS_AGE_KEY_FILE` if set
 
 ### Encrypted Files
 - `base/hatshop-secrets.enc.yaml` - SOPS-encrypted SopsSecret resource

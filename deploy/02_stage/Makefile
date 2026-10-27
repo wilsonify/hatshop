@@ -4,6 +4,8 @@ CLUSTER_NAME := hatshop-stage
 NAMESPACE := hatshop-stage
 CONTEXT := kind-$(CLUSTER_NAME)
 AGE_PUBLIC_KEY := age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
+# Default age identity file sops reads (override with SOPS_AGE_KEY_FILE)
+AGE_KEY_FILE ?= $(or $(SOPS_AGE_KEY_FILE),$(or $(APPDATA),$(HOME)/.config)/sops/age/keys.txt)
 HATSHOP_IMAGE := ghcr.io/wilsonify/hatshop:latest
 
 # Default target
@@ -51,7 +53,7 @@ sops-age-secret:
 			--from-file=keys.txt=/dev/stdin; \
 		echo "SOPS age secret created"; \
 	else \
-		echo "WARNING: AGE_SECRET_KEY not set. Set it with: export AGE_SECRET_KEY=\$$(cat ~/.sops/age/keys.txt)"; \
+		echo "WARNING: AGE_SECRET_KEY not set. Set it with: export AGE_SECRET_KEY=\$$(cat $(AGE_KEY_FILE))"; \
 	fi
 
 # Delete KIND cluster
@@ -164,7 +166,7 @@ help:
 	@echo ""
 	@echo "Prerequisites:"
 	@echo "  1. Build the image: cd ../../src/hatshop && docker build -t $(HATSHOP_IMAGE) ."
-	@echo "  2. Set AGE_SECRET_KEY: export AGE_SECRET_KEY=\$$(cat ~/.config/sops/age/keys.txt)"
+	@echo "  2. Set AGE_SECRET_KEY: export AGE_SECRET_KEY=\$$(cat $(AGE_KEY_FILE))"
 	@echo ""
 	@echo "SOPS Secrets:"
 	@echo "  Secrets are encrypted with age key: $(AGE_PUBLIC_KEY)"
