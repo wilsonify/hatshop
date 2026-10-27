@@ -71,8 +71,8 @@ The `.env.enc` file contains encrypted secrets. Decrypt it using SOPS:
 # Ensure you have the age private key
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
-# Decrypt to .env
-sops decrypt .env.enc > .env
+# Decrypt to .env - sops cannot infer the dotenv format from the .enc extension
+sops decrypt --input-type dotenv --output-type dotenv .env.enc > .env
 ```
 
 If you need to create or update secrets:

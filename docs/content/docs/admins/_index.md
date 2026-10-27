@@ -46,7 +46,7 @@ age1mg4zlx7p736nnrp7glt7gyd96s33kmy8wlck903m0srkkndeaawqrqfzek
 
 ```bash
 cd deploy/01_dev/hatshop
-sops decrypt .env.enc > .env
+sops decrypt --input-type dotenv --output-type dotenv .env.enc > .env
 docker-compose up -d
 ```
 
