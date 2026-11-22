@@ -16,3 +16,4 @@ copilot-instructions.md
 *.dec
 *.dec.yaml
 .phpunit.cache/
+wrangler.jsonc
