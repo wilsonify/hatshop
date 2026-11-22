@@ -51,7 +51,7 @@ const counts = functions.reduce((acc, f) => ({ ...acc, [f.effect]: (acc[f.effect
 
 const rows = (table) => snapshot.row_counts[table] ?? 0;
 
-const tables = [...new Set(snapshot.columns.map((c) => c.table_name))].sort();
+const tables = [...new Set(snapshot.columns.map((c) => c.table_name))].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 
 const columnTable = tables
   .map((table) => {
