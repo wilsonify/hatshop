@@ -1,19 +1,13 @@
 import assert from 'node:assert/strict';
 import { test, afterEach } from 'node:test';
 import { orderStatus, placeOrder, type CheckoutForm } from '../services/checkout.ts';
-import type { PaymentConfig } from '../services/payments.ts';
-import { fakeDb } from './fake-db.ts';
-import { one } from './fake-db.ts';
+import { fakeDb, one } from './fake-db.ts';
+import { installGateway, restoreFetch, sandboxConfig } from './support.ts';
 
 const CART = 'b'.repeat(128);
 const CUSTOMER = 5;
 
-const cfg: PaymentConfig = {
-  configured: true,
-  gatewayUrl: 'https://test.authorize.net/gateway/transact.dll',
-  loginId: 'login',
-  transactionKey: 'key',
-};
+const cfg = sandboxConfig();
 
 const form: CheckoutForm = {
   shippingId: 3,
@@ -24,13 +18,10 @@ const form: CheckoutForm = {
   nonce: 'nonce',
 };
 
-const originalFetch = globalThis.fetch;
-afterEach(() => {
-  globalThis.fetch = originalFetch;
-});
+afterEach(restoreFetch);
 
 function stubGateway(body: string) {
-  globalThis.fetch = (async () => new Response(body, { status: 200 })) as typeof fetch;
+  installGateway(body);
 }
 
 function dbWith(overrides: {
@@ -121,8 +112,7 @@ test('a failed capture leaves the order authorized, not paid', async () => {
     '1|1|1|Approved|AUTH01|Y|TXN9|77|d|25.00',
     '3|1|11|Capture failed|000000||TXN9|77|d|25.00',
   ];
-  let call = 0;
-  globalThis.fetch = (async () => new Response(responses[call++] ?? responses[1]!, { status: 200 })) as typeof fetch;
+  installGateway(responses);
 
   const db = dbWith();
   const result = await placeOrder(db, CUSTOMER, CART, form, cfg);
@@ -133,13 +123,12 @@ test('a failed capture leaves the order authorized, not paid', async () => {
 });
 
 test('the total used for authorization is the database total', async () => {
-  stubGateway('1|1|1|Approved|AUTH01|Y|TXN9|77|d|42.50');
   let sentAmount = '';
-  globalThis.fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-    const body = new URLSearchParams(String(init?.body ?? ''));
-    sentAmount = body.get('x_amount') ?? '';
-    return new Response('1|1|1|Approved|AUTH01|Y|TXN9|77|d|42.50', { status: 200 });
-  }) as typeof fetch;
+  installGateway('1|1|1|Approved|AUTH01|Y|TXN9|77|d|42.50', {
+    onRequest: (sent) => {
+      sentAmount = new URLSearchParams(sent).get('x_amount') ?? '';
+    },
+  });
 
   const db = dbWith({ total: '42.50' });
   const result = await placeOrder(db, CUSTOMER, CART, form, cfg);
