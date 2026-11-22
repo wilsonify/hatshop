@@ -1,0 +1,39 @@
+schema: spec-driven
+
+context: |
+  HatShop is a server-rendered storefront on Cloudflare Workers Free
+  (`src/web`) over the existing Neon PostgreSQL schema. The PHP application in
+  `src/hatshop/` is the behavioural reference and stays untouched.
+
+  The database owns business logic: catalog, cart, order, status and audit
+  behaviour live in plgpsql functions, and the Worker orchestrates them. Do not
+  reimplement those rules in TypeScript, and do not add a second data model.
+
+  Approval gates: database writes and migrations, `wrangler deploy`, secret
+  changes and infrastructure applies all require explicit approval. Run the
+  migrations in `src/web/migrations` only when a change says so and the owner
+  agrees; they are reviewed but unapplied.
+
+  Documentation rule: behaviour belongs in `openspec/specs`. Prose (READMEs,
+  `src/web/docs`, the Hugo site) keeps only decisions and their rationale,
+  empirical measurements, and workflow instructions. Never restate routes,
+  table or function inventories, file trees, or commands that a script,
+  package.json or makefile already exposes — those are discovered by reading
+  the code or running the tooling.
+
+  Requires OpenSpec 2.x (`npx @fission-ai/openspec@2.1.1`). The 1.x CLI found on
+  some machines has a different directory layout and different flags.
+
+rules:
+  proposal:
+    - State what is out of scope, not only what is in scope.
+    - Name the capability paths under openspec/specs/ that the change touches.
+    - Name the approval gate that applies (database, deploy, secrets, infrastructure), or say that none does.
+  specs:
+    - Write one requirement per observable behaviour, using SHALL.
+    - Keep a requirement's description under 500 characters.
+    - Every requirement carries at least one `#### Scenario` with a WHEN step and a THEN step.
+    - A scenario must be observable through an existing test or verification script; name that file in the requirement text rather than describing code paths.
+  tasks:
+    - Each task names the command that proves it (`npm test`, `npm run typecheck`, `node scripts/verify-interactive.mjs`, `openspec validate --all --strict`).
+    - Keep approval-gated steps as their own tasks, never bundled with safe ones.
