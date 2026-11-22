@@ -4,11 +4,14 @@ A storefront that runs on Cloudflare Workers Free and uses the existing Neon
 PostgreSQL database as its business-logic engine. The PHP application remains in
 `../hatshop` as the reference implementation.
 
+- What the system must do: [`../../openspec/specs`](../../openspec/specs)
 - Architecture and trade-offs: [`docs/architecture.md`](docs/architecture.md)
-- Live database inventory: [`docs/schema-inventory.md`](docs/schema-inventory.md)
-- What was ported from PHP: [`docs/functional-inventory.md`](docs/functional-inventory.md)
-- Checkout/payment states: [`docs/payment-states.md`](docs/payment-states.md)
 - Database/proxy verification: [`docs/hyperdrive-verification.md`](docs/hyperdrive-verification.md)
+- Last live test run: [`docs/live-verification.md`](docs/live-verification.md)
+
+A schema snapshot is committed as `docs/schema-snapshot.json`; the readable
+inventory is generated from it (`node scripts/build-schema-doc.mjs`) rather than
+kept by hand.
 
 ## Layout
 
@@ -71,9 +74,8 @@ Invoke-RestMethod http://127.0.0.1:8787/health
 (Invoke-WebRequest http://127.0.0.1:8787/).StatusCode
 ```
 
-Development reads the **production** database. Only the read-only allowlist in
-`docs/schema-inventory.md` should be exercised this way; anything that writes needs
-an isolated branch.
+Development reads the **production** database. Only read-only statements should be
+exercised this way; anything that writes needs an isolated branch.
 
 ## Configuration
 
