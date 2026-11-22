@@ -3,7 +3,7 @@
  *
  * Rules:
  *  - Only the live database's functions are called; business rules are not
- *    reimplemented here (see docs/schema-inventory.md for the inventory).
+ *    reimplemented here (the live snapshot is docs/schema-snapshot.json).
  *  - All values are bound parameters. Parameter casts disambiguate the
  *    overloaded functions (`shopping_cart_create_order`, `orders_update_order`).
  *  - Two plain SELECTs exist (tax list, shipping for a region, admin product
