@@ -5,26 +5,38 @@
  * Values are never printed. A match is written to `.live-account.local.json`
  * (git-ignored) and only the candidate's origin label is reported.
  *
- *   node scripts/try-project-secrets.mjs
+ * Candidates are checked with the Worker's own legacy verification
+ * (`auth/password.ts`), so this script never computes a digest itself. SOPS files
+ * are only read when `SOPS_BIN` names an absolute `sops` executable; nothing is
+ * resolved through PATH.
+ *
+ *   SOPS_BIN=/usr/local/bin/sops node scripts/try-project-secrets.mjs
  */
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
-import { createHash } from 'node:crypto';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
+import { verifyLegacy } from '../auth/password.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
+const NEON_ENV = 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
 
-function connectionString() {
-  const yamlPath = process.env.NEON_ENV_FILE ?? 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-  const text = readFileSync(yamlPath, 'utf8');
+/** Parses flat `KEY: value` lines without a backtracking regular expression. */
+function readEnv(text) {
   const values = {};
   for (const line of text.split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match) values[match[1]] = match[2].trim();
+    const at = line.indexOf(':');
+    if (at <= 0) continue;
+    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
   }
+  return values;
+}
+
+function connectionString() {
+  const yamlPath = process.env.NEON_ENV_FILE ?? NEON_ENV;
+  const values = readEnv(readFileSync(yamlPath, 'utf8'));
   return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
     values.NEON_PASSWORD,
   )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
@@ -52,17 +64,22 @@ function walk(dir, out = []) {
   return out;
 }
 
+/** Removes one pair of matching surrounding quotes. */
+function unquote(value) {
+  if (value.length < 2) return value;
+  const quote = value[0];
+  if ((quote === '"' || quote === "'") && value.at(-1) === quote) return value.slice(1, -1);
+  return value;
+}
+
 /** Extracts `KEY: value` pairs from a decrypted YAML, keeping only secrets. */
 function secretValues(yaml) {
   const values = [];
-  for (const line of yaml.split(/\r?\n/)) {
-    const match = /^\s*([A-Za-z0-9_]+)\s*:\s*(.+?)\s*$/.exec(line);
-    if (!match) continue;
-    const key = match[1];
-    const raw = match[2].replace(/^["']|["']$/g, '');
+  for (const [key, raw] of Object.entries(readEnv(yaml))) {
+    const value = unquote(raw);
     if (!/PASS|SECRET|TOKEN|KEY/i.test(key)) continue;
-    if (!raw || raw.startsWith('ENC[') || raw.includes('your-')) continue;
-    values.push({ label: key, value: raw });
+    if (!value || value.startsWith('ENC[') || value.includes('your-')) continue;
+    values.push({ label: key, value });
   }
   return values;
 }
@@ -71,12 +88,9 @@ const candidates = [];
 
 // Neon credentials (already local, never committed).
 try {
-  const text = readFileSync('C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml', 'utf8');
-  for (const line of text.split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match && /PASS/i.test(match[1]) && match[2].trim()) {
-      candidates.push({ label: `neon:${match[1]}`, value: match[2].trim() });
-    }
+  const values = readEnv(readFileSync(NEON_ENV, 'utf8'));
+  for (const [key, value] of Object.entries(values)) {
+    if (/PASS/i.test(key) && value) candidates.push({ label: `neon:${key}`, value });
   }
 } catch {
   /* ignore */
@@ -89,14 +103,22 @@ const encFiles = [
   ...walk('C:/Users/toman/repos/wilsonify/FreshInstall'),
 ].slice(0, 40);
 
+const sopsBin = process.env.SOPS_BIN;
 let decrypted = 0;
-for (const file of new Set(encFiles)) {
-  try {
-    const yaml = execFileSync('sops', ['-d', file], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    decrypted += 1;
-    for (const { label, value } of secretValues(yaml)) candidates.push({ label: `${file.split(/[\\/]/).pop()}:${label}`, value });
-  } catch {
-    /* no key or not a SOPS file */
+
+if (!sopsBin) {
+  console.log(`SOPS_BIN not set; skipping ${new Set(encFiles).size} encrypted file(s)`);
+} else {
+  for (const file of new Set(encFiles)) {
+    try {
+      const yaml = execFileSync(sopsBin, ['-d', file], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+      decrypted += 1;
+      for (const { label, value } of secretValues(yaml)) {
+        candidates.push({ label: `${file.split(/[\\/]/).pop()}:${label}`, value });
+      }
+    } catch {
+      /* no key or not a SOPS file */
+    }
   }
 }
 
@@ -113,8 +135,6 @@ for (const { label, value } of candidates) {
   }
 }
 
-const sha1 = (v) => createHash('sha1').update(v).digest('hex');
-
 const client = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 12000 });
 await client.connect();
 const { rows } = await client.query('SELECT customer_id, email, password FROM customer ORDER BY customer_id LIMIT 1');
@@ -130,7 +150,7 @@ console.log(`sops files decrypted: ${decrypted}; candidate secrets: ${candidates
 
 let hit = null;
 for (const [value, label] of expanded) {
-  if (sha1(value) === String(target.password).toLowerCase()) {
+  if (await verifyLegacy(value, String(target.password))) {
     hit = { value, label };
     break;
   }
