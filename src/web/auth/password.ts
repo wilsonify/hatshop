@@ -1,7 +1,8 @@
 /**
  * Password verification and upgrade.
  *
- * Live database facts (docs/schema-inventory.md):
+ * Live database facts (captured in docs/schema-snapshot.json; readable form via
+ * scripts/build-schema-doc.mjs):
  *  - `customer.password` is VARCHAR(50) on the live database.
  *  - The single existing row stores 40 hex characters, i.e. legacy SHA-1.
  *  - The current PHP code writes SHA-256 (64 hex), which does not fit VARCHAR(50)
