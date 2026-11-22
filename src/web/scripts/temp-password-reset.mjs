@@ -21,13 +21,14 @@
  *   node scripts/temp-password-reset.mjs --restore
  *   node scripts/temp-password-reset.mjs --probe 401
  */
-import { createHash, randomBytes } from 'node:crypto';
+import { randomBytes } from 'node:crypto';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import http from 'node:http';
 import https from 'node:https';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
+import { sha1Hex } from '../auth/password.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
@@ -45,15 +46,14 @@ function connectionString() {
   const text = readFileSync(yamlPath, 'utf8');
   const values = {};
   for (const line of text.split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match) values[match[1]] = match[2].trim();
+    const at = line.indexOf(':');
+    if (at <= 0) continue;
+    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
   }
   return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
     values.NEON_PASSWORD,
   )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
 }
-
-const sha1 = (value) => createHash('sha1').update(value).digest('hex');
 
 /* --------------------------------------------------------------- HTTP probe */
 
@@ -145,7 +145,7 @@ try {
     if (!row) throw new Error('no customer row');
 
     const password = `Temp-${randomBytes(20).toString('hex')}`; // 45 chars, fits VARCHAR(50)
-    const digest = sha1(password);
+    const digest = await sha1Hex(password);
 
     writeFileSync(
       backupPath,
