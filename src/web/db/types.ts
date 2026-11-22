@@ -11,7 +11,7 @@ export interface Db {
   ): Promise<{ rows: T[] }>;
 }
 
-/** Row shapes returned by the live catalog/order functions (see docs/schema-inventory.md). */
+/** Row shapes returned by the live catalog/order functions (snapshot: docs/schema-snapshot.json). */
 export interface DepartmentRow {
   department_id: number;
   name: string;
