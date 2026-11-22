@@ -13,34 +13,15 @@
  *   SOPS_BIN=/usr/local/bin/sops node scripts/try-project-secrets.mjs
  */
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { writeFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import { verifyLegacy } from '../auth/password.ts';
+import { neonConnectionString, parseEnvText, readEnvFile } from './lib/neon-env.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
-const NEON_ENV = 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-
-/** Parses flat `KEY: value` lines without a backtracking regular expression. */
-function readEnv(text) {
-  const values = {};
-  for (const line of text.split(/\r?\n/)) {
-    const at = line.indexOf(':');
-    if (at <= 0) continue;
-    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
-  }
-  return values;
-}
-
-function connectionString() {
-  const yamlPath = process.env.NEON_ENV_FILE ?? NEON_ENV;
-  const values = readEnv(readFileSync(yamlPath, 'utf8'));
-  return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
-    values.NEON_PASSWORD,
-  )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
-}
 
 function walk(dir, out = []) {
   let entries = [];
@@ -75,7 +56,7 @@ function unquote(value) {
 /** Extracts `KEY: value` pairs from a decrypted YAML, keeping only secrets. */
 function secretValues(yaml) {
   const values = [];
-  for (const [key, raw] of Object.entries(readEnv(yaml))) {
+  for (const [key, raw] of Object.entries(parseEnvText(yaml))) {
     const value = unquote(raw);
     if (!/PASS|SECRET|TOKEN|KEY/i.test(key)) continue;
     if (!value || value.startsWith('ENC[') || value.includes('your-')) continue;
@@ -88,7 +69,7 @@ const candidates = [];
 
 // Neon credentials (already local, never committed).
 try {
-  const values = readEnv(readFileSync(NEON_ENV, 'utf8'));
+  const values = readEnvFile();
   for (const [key, value] of Object.entries(values)) {
     if (/PASS/i.test(key) && value) candidates.push({ label: `neon:${key}`, value });
   }
@@ -135,7 +116,7 @@ for (const { label, value } of candidates) {
   }
 }
 
-const client = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 12000 });
+const client = new pg.Client({ connectionString: neonConnectionString(), connectionTimeoutMillis: 12000 });
 await client.connect();
 const { rows } = await client.query('SELECT customer_id, email, password FROM customer ORDER BY customer_id LIMIT 1');
 await client.end();
