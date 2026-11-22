@@ -176,8 +176,9 @@ function connectionString() {
   const text = readFileSync(yamlPath, 'utf8');
   const values = {};
   for (const line of text.split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match) values[match[1]] = match[2].trim();
+    const at = line.indexOf(':');
+    if (at <= 0) continue;
+    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
   }
   return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
     values.NEON_PASSWORD,
