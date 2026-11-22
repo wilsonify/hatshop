@@ -20,11 +20,11 @@
  */
 import { createHash, createHmac, randomBytes } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import http from 'node:http';
-import https from 'node:https';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
+import { neonConnectionString } from './lib/neon-env.mjs';
+import { createProbe } from './lib/probe.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
@@ -36,8 +36,7 @@ const SLIDING_WINDOW_MS = 30 * 60 * 1000;
 const reportFlag = process.argv.indexOf('--report');
 const REPORT = reportFlag > 0 ? resolve(root, process.argv[reportFlag + 1] ?? 'docs/live-verification.md') : null;
 
-const baseUrl = new URL(BASE);
-const transport = baseUrl.protocol === 'https:' ? https : http;
+const { baseUrl, request } = createProbe(BASE);
 
 /* ------------------------------------------------------------------ results */
 
@@ -53,49 +52,6 @@ function check(name, ok, detail = '') {
   results.push({ section: currentSection, name, ok: Boolean(ok), detail });
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? `\n        ${detail}` : ''}`);
   return Boolean(ok);
-}
-
-/* ------------------------------------------------------------------- http */
-
-function request(method, path, { cookie, form, headers = {} } = {}) {
-  const body = form ? new URLSearchParams(form).toString() : null;
-  const requestHeaders = { ...headers };
-  if (body !== null) {
-    requestHeaders['content-type'] = 'application/x-www-form-urlencoded';
-    requestHeaders['content-length'] = Buffer.byteLength(body);
-  }
-  if (cookie) requestHeaders.cookie = cookie;
-
-  return new Promise((resolvePromise, reject) => {
-    const req = transport.request(
-      {
-        hostname: baseUrl.hostname,
-        port: baseUrl.port,
-        path,
-        method,
-        headers: requestHeaders,
-        rejectUnauthorized: false,
-      },
-      (res) => {
-        let text = '';
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          text += chunk;
-        });
-        res.on('end', () => {
-          resolvePromise({
-            status: res.statusCode,
-            headers: res.headers,
-            body: text,
-            setCookie: res.headers['set-cookie'] ?? [],
-          });
-        });
-      },
-    );
-    req.on('error', reject);
-    if (body !== null) req.write(body);
-    req.end();
-  });
 }
 
 function parseSetCookie(list) {
@@ -168,24 +124,7 @@ function claimsOf(token) {
   }
 }
 
-function connectionString() {
-  if (process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE) {
-    return process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE;
-  }
-  const yamlPath = process.env.NEON_ENV_FILE ?? 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-  const text = readFileSync(yamlPath, 'utf8');
-  const values = {};
-  for (const line of text.split(/\r?\n/)) {
-    const at = line.indexOf(':');
-    if (at <= 0) continue;
-    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
-  }
-  return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
-    values.NEON_PASSWORD,
-  )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
-}
-
-const db = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 15000 });
+const db = new pg.Client({ connectionString: neonConnectionString(), connectionTimeoutMillis: 15000 });
 await db.connect();
 
 const tableNames = (
