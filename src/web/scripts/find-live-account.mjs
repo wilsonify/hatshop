@@ -11,10 +11,10 @@
  *   node scripts/find-live-account.mjs
  */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { createHash } from 'node:crypto';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
+import { verifyLegacy } from '../auth/password.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
@@ -27,15 +27,14 @@ function connectionString() {
   const text = readFileSync(yamlPath, 'utf8');
   const values = {};
   for (const line of text.split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match) values[match[1]] = match[2].trim();
+    const at = line.indexOf(':');
+    if (at <= 0) continue;
+    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
   }
   return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
     values.NEON_PASSWORD,
   )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
 }
-
-const sha1 = (value) => createHash('sha1').update(value).digest('hex');
 
 const client = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 12000 });
 await client.connect();
@@ -132,7 +131,8 @@ let tried = 0;
 for (const candidate of candidates) {
   if (!candidate) continue;
   tried += 1;
-  if (sha1(candidate) === String(target.password).toLowerCase()) {
+  // Same legacy check the Worker uses; the digest is computed only in auth/password.ts.
+  if (await verifyLegacy(candidate, String(target.password))) {
     matched = candidate;
     break;
   }
