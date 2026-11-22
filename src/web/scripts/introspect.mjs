@@ -6,35 +6,13 @@
  *
  *   node scripts/introspect.mjs [--out <path>]
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import pg from 'pg';
+import { neonConnectionString } from './lib/neon-env.mjs';
 
-const ENV_FILE =
-  'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-
-function readEnv() {
-  const text = readFileSync(ENV_FILE, 'utf8');
-  const out = {};
-  for (const line of text.split(/\r?\n/)) {
-    if (!/^[A-Z0-9_]+:/.test(line)) continue;
-    const i = line.indexOf(':');
-    out[line.slice(0, i)] = line.slice(i + 1).trim();
-  }
-  return out;
-}
-
-const env = readEnv();
-const required = ['NEON_USERNAME', 'NEON_PASSWORD', 'NEON_SERVER', 'NEON_DATABASE'];
-for (const key of required) {
-  if (!env[key]) throw new Error(`Missing ${key} in ${ENV_FILE}`);
-}
-
-const connectionString =
-  `postgresql://${encodeURIComponent(env.NEON_USERNAME)}:` +
-  `${encodeURIComponent(env.NEON_PASSWORD)}@${env.NEON_SERVER}/${env.NEON_DATABASE}` +
-  `?sslmode=${env.NEON_SSLMODE || 'require'}`;
+const connectionString = neonConnectionString();
 
 const client = new pg.Client({ connectionString, connectionTimeoutMillis: 15000 });
 await client.connect();
