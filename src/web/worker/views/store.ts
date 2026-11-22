@@ -1,5 +1,12 @@
 /** Storefront pages: home, department, category, product, search, cart. */
-import type { CartProductRow, ProductListRow, ReviewRow, SavedProductRow } from '../../db/types.ts';
+import type {
+  CartProductRow,
+  ProductDetailsRow,
+  ProductListRow,
+  RecommendationRow,
+  ReviewRow,
+  SavedProductRow,
+} from '../../db/types.ts';
 import type { PageMeta } from '../../services/catalog.ts';
 import type { CartView } from '../../services/cart.ts';
 import { dateLabel, e, money, paginationLinks, productImage, truncate } from '../html.ts';
@@ -121,16 +128,9 @@ export function productPage(
   data: {
     departments: NavDepartment[];
     productId: number;
-    details: {
-      product_id: number;
-      name: string;
-      description: string | null;
-      price: string;
-      discounted_price: string | null;
-      image: string | null;
-    } | null;
+    details: ProductDetailsRow | null;
     reviews: ReviewRow[];
-    recommendations: Array<{ product_id: number; name: string; description: string | null }>;
+    recommendations: RecommendationRow[];
   },
 ): string {
   if (!data.details) {
