@@ -1,90 +1,39 @@
 ---
-title: "HatShop E-Commerce Platform"
+title: "HatShop"
 type: docs
 ---
 
-# HatShop E-Commerce Platform
+# HatShop
 
-Welcome to the HatShop documentation! This project is a comprehensive PHP and PostgreSQL e-commerce application based on the book *Beginning PHP and PostgreSQL E-Commerce: From Novice to Professional*.
+An e-commerce storefront that began as the sample application from *Beginning
+PHP and PostgreSQL E-Commerce* and now runs two ways from one repository: the PHP
+application chapter by chapter, and a server-rendered Cloudflare Worker
+(`src/web`) against the same PostgreSQL schema.
 
-{{< columns >}}
+The Worker is deployed at
+[hatshop.tom-andrew-wilson.workers.dev](https://hatshop.tom-andrew-wilson.workers.dev).
 
-- ## 🛒 For Users
+## Guides
 
-  Learn how to browse products, manage your shopping cart, and complete purchases.
+- **[For users]({{< relref "/docs/users" >}})** — browsing, cart and checkout.
+- **[For developers]({{< relref "/docs/developers" >}})** — the chapter codebase and the Worker.
+- **[For admins]({{< relref "/docs/admins" >}})** — deployment and operations.
+- **[Chapter guide]({{< relref "/docs/chapters" >}})** — what each chapter adds.
 
-  [Get Started →]({{< relref "/docs/users" >}})
+## Where to look
 
-- ## 👨‍💻 For Developers
+- **Behaviour** — `openspec/specs/`. Each capability's `spec.md` is the
+  description of what the system does. Nothing else restates it.
+- **Why it is built this way** — `src/web/docs/architecture.md`: the decisions,
+  the measurements behind them, and what was deliberately left out.
+- **Evidence** — `src/web/docs/live-verification.md` and
+  `src/web/docs/hyperdrive-verification.md`: what was checked against a running
+  Worker and the live database.
+- **Commands** — `src/web/README.md`, the `makefile`s and `package.json`.
+- **Workflow** — [OpenSpec workflow](/hatshop/docs/speckit-workflow/) and
+  [where things live](/hatshop/docs/where-things-live/).
 
-  Set up your development environment and understand the codebase architecture.
+## Chapters
 
-  [Developer Guide →]({{< relref "/docs/developers" >}})
-
-- ## ⚙️ For Admins
-
-  Deploy, configure, and maintain your HatShop installation.
-
-  [Admin Guide →]({{< relref "/docs/admins" >}})
-
-{{< /columns >}}
-
----
-
-## Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/wilsonify/hatshop.git
-cd hatshop
-
-# Start with Docker Compose (any chapter)
-cd "src/c03 - Creating the Product Catalog Part I"
-docker-compose up -d
-```
-
-Then open [http://localhost:8080](http://localhost:8080) in your browser.
-
----
-
-## Project Structure
-
-The project is organized by chapters, each adding new features:
-
-| Chapter | Feature | Description |
-|---------|---------|-------------|
-| c01 | Base Image | PHP 8.x with Apache/Nginx base |
-| c02 | Foundations | Error handling, Smarty templating |
-| c03 | Product Catalog I | Departments, categories, products |
-| c04 | Product Catalog II | Product details, thumbnails |
-| c05 | Search | Full-text product search |
-| c06 | PayPal | Payment integration |
-| c07 | Admin | Catalog administration |
-| c08 | Shopping Cart | Cart functionality |
-| c09 | Orders | Order management |
-| c10 | Recommendations | Product recommendations |
-| c11 | Customers | Customer accounts |
-| c12 | Order Storage | Persistent orders |
-| c13-14 | Order Pipeline | Order processing workflow |
-| c15 | Credit Cards | Payment processing |
-| c16 | Reviews | Product reviews |
-| c17 | Web Services | API integrations |
-| c18 | Kubernetes | Container orchestration |
-| c19 | Identity | Authentication provider |
-| c20 | OAuth2 | OAuth2 proxy |
-| c21 | Selenium | E2E testing |
-| c22 | Zero Trust | Security hardening |
-
----
-
-## Technology Stack
-
-- **Backend**: PHP 8.x
-- **Database**: PostgreSQL
-- **Templating**: Smarty 5.x
-- **Web Server**: Apache 2.x / Nginx
-- **Containerization**: Docker & Docker Compose
-- **Orchestration**: Kubernetes (KIND)
-- **Testing**: PHPUnit, Selenium
-- **CI/CD**: GitHub Actions
-- **Code Quality**: SonarQube
+The book's chapter directories remain under `src/`, each a self-contained
+exercise. They are not the deployment path; `src/web` is.
