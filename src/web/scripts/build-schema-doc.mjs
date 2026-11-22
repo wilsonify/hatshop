@@ -1,5 +1,5 @@
 /**
- * Builds docs/schema-inventory.md from docs/schema-snapshot.json.
+ * Builds docs/schema.generated.md from docs/schema-snapshot.json.
  *
  * Classification is by *effect*, derived from the function name family and
  * confirmed against the function bodies in
@@ -96,8 +96,9 @@ The snapshot was captured read-only with \`scripts/introspect.mjs\` against
 3. **\`customer.password\` is \`VARCHAR(50)\`** and the only existing row stores
    **${passwordShape?.len ?? '?'} hex characters**, i.e. a legacy SHA-1 digest
    (${passwordShape?.sha256_hex_like ?? 0} SHA-256-shaped values, ${passwordShape?.has_separator ?? 0}
-   modern \`$separated\` digests). See \`payment-states.md\` and \`architecture.md\`
-   for what this means for sign-in and for the reviewed migration 002.
+   modern \`$separated\` digests). See \`openspec/specs/accounts/spec.md\` and
+   \`openspec/specs/sessions/spec.md\` for what this means for sign-in, and the
+   reviewed migration 002.
 4. **\`orders\` has no \`customer_id\`** in its composite type; ownership is proven by
    looking an order up in the customer's own order list (\`services/orders.ts\`).
 5. **\`orders\` exposes \`auth_code\` and \`reference\` only as columns**, not through
@@ -137,5 +138,5 @@ isolated database branch.
   not imply writes for this set.
 `;
 
-writeFileSync(resolve(here, '../docs/schema-inventory.md'), doc);
-console.log(`wrote docs/schema-inventory.md (${functions.length} functions, ${tables.length} tables)`);
+writeFileSync(resolve(here, '../docs/schema.generated.md'), doc);
+console.log(`wrote docs/schema.generated.md (${functions.length} functions, ${tables.length} tables)`);
