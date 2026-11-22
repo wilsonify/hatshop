@@ -1,0 +1,1689 @@
+{
+  "identity": {
+    "database": "neondb",
+    "role": "neondb_owner",
+    "version": "PostgreSQL 17.12 (4d8000a) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+    "server_addr": "127.0.0.1/32",
+    "replica": false
+  },
+  "extensions": [
+    {
+      "extname": "plpgsql",
+      "extversion": "1.0"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "audit",
+      "column_name": "audit_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('audit_audit_id_seq'::regclass)"
+    },
+    {
+      "table_name": "audit",
+      "column_name": "order_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit",
+      "column_name": "created_on",
+      "data_type": "timestamp without time zone",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit",
+      "column_name": "message",
+      "data_type": "text",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit",
+      "column_name": "message_number",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "category",
+      "column_name": "category_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('category_category_id_seq'::regclass)"
+    },
+    {
+      "table_name": "category",
+      "column_name": "department_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "category",
+      "column_name": "name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "category",
+      "column_name": "description",
+      "data_type": "character varying",
+      "max_len": 1000,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "customer_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('customer_customer_id_seq'::regclass)"
+    },
+    {
+      "table_name": "customer",
+      "column_name": "name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "email",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "password",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "credit_card",
+      "data_type": "text",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "address_1",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "address_2",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "city",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "region",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "postal_code",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "country",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "shipping_region_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "customer",
+      "column_name": "day_phone",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "eve_phone",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "customer",
+      "column_name": "mob_phone",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "department",
+      "column_name": "department_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('department_department_id_seq'::regclass)"
+    },
+    {
+      "table_name": "department",
+      "column_name": "name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "department",
+      "column_name": "description",
+      "data_type": "character varying",
+      "max_len": 1000,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "order_detail",
+      "column_name": "order_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "order_detail",
+      "column_name": "product_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "order_detail",
+      "column_name": "product_name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "order_detail",
+      "column_name": "quantity",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "order_detail",
+      "column_name": "unit_cost",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "order_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('orders_order_id_seq'::regclass)"
+    },
+    {
+      "table_name": "orders",
+      "column_name": "total_amount",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": "0.00"
+    },
+    {
+      "table_name": "orders",
+      "column_name": "created_on",
+      "data_type": "timestamp without time zone",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "shipped_on",
+      "data_type": "timestamp without time zone",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "status",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "orders",
+      "column_name": "comments",
+      "data_type": "character varying",
+      "max_len": 255,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "customer_name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "shipping_address",
+      "data_type": "character varying",
+      "max_len": 255,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "orders",
+      "column_name": "customer_email",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "product_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('product_product_id_seq'::regclass)"
+    },
+    {
+      "table_name": "product",
+      "column_name": "name",
+      "data_type": "character varying",
+      "max_len": 50,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "description",
+      "data_type": "character varying",
+      "max_len": 1000,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "price",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "discounted_price",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": "0.00"
+    },
+    {
+      "table_name": "product",
+      "column_name": "image",
+      "data_type": "character varying",
+      "max_len": 150,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "thumbnail",
+      "data_type": "character varying",
+      "max_len": 150,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "product",
+      "column_name": "display",
+      "data_type": "smallint",
+      "max_len": null,
+      "num_precision": 16,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "product",
+      "column_name": "search_vector",
+      "data_type": "tsvector",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "product_category",
+      "column_name": "product_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "product_category",
+      "column_name": "category_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "review",
+      "column_name": "review_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('review_review_id_seq'::regclass)"
+    },
+    {
+      "table_name": "review",
+      "column_name": "customer_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "review",
+      "column_name": "product_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "review",
+      "column_name": "review",
+      "data_type": "text",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "review",
+      "column_name": "rating",
+      "data_type": "smallint",
+      "max_len": null,
+      "num_precision": 16,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "review",
+      "column_name": "created_on",
+      "data_type": "timestamp without time zone",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shipping",
+      "column_name": "shipping_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('shipping_shipping_id_seq'::regclass)"
+    },
+    {
+      "table_name": "shipping",
+      "column_name": "shipping_type",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shipping",
+      "column_name": "shipping_cost",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shipping",
+      "column_name": "shipping_region_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shipping_region",
+      "column_name": "shipping_region_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('shipping_region_shipping_region_id_seq'::regclass)"
+    },
+    {
+      "table_name": "shipping_region",
+      "column_name": "shipping_region",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shopping_cart",
+      "column_name": "cart_id",
+      "data_type": "character",
+      "max_len": 128,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shopping_cart",
+      "column_name": "product_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shopping_cart",
+      "column_name": "quantity",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "shopping_cart",
+      "column_name": "buy_now",
+      "data_type": "boolean",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "shopping_cart",
+      "column_name": "added_on",
+      "data_type": "timestamp without time zone",
+      "max_len": null,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tax",
+      "column_name": "tax_id",
+      "data_type": "integer",
+      "max_len": null,
+      "num_precision": 32,
+      "num_scale": 0,
+      "is_nullable": "NO",
+      "column_default": "nextval('tax_tax_id_seq'::regclass)"
+    },
+    {
+      "table_name": "tax",
+      "column_name": "tax_type",
+      "data_type": "character varying",
+      "max_len": 100,
+      "num_precision": null,
+      "num_scale": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tax",
+      "column_name": "tax_percentage",
+      "data_type": "numeric",
+      "max_len": null,
+      "num_precision": 10,
+      "num_scale": 2,
+      "is_nullable": "NO",
+      "column_default": null
+    }
+  ],
+  "tables": [
+    {
+      "table_name": "audit",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "category",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "customer",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "department",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "order_detail",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "orders",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "product",
+      "approx_rows": "45"
+    },
+    {
+      "table_name": "product_category",
+      "approx_rows": "17"
+    },
+    {
+      "table_name": "review",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "shipping",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "shipping_region",
+      "approx_rows": "-1"
+    },
+    {
+      "table_name": "shopping_cart",
+      "approx_rows": "12"
+    },
+    {
+      "table_name": "tax",
+      "approx_rows": "-1"
+    }
+  ],
+  "functions": [
+    {
+      "proname": "catalog_add_category",
+      "args": "integer, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_add_department",
+      "args": "character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_add_product_to_category",
+      "args": "integer, character varying, character varying, numeric",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_assign_product_to_category",
+      "args": "integer, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_count_products_in_category",
+      "args": "integer",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_count_products_on_catalog",
+      "args": "",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_count_products_on_department",
+      "args": "integer",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_count_search_result",
+      "args": "text[], character varying",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_create_product_review",
+      "args": "integer, integer, text, smallint",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_delete_category",
+      "args": "integer",
+      "returns": "smallint",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_delete_department",
+      "args": "integer",
+      "returns": "smallint",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_delete_product",
+      "args": "integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_flag_stop_words",
+      "args": "text[]",
+      "returns": "SETOF smallint",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_categories",
+      "args": "",
+      "returns": "SETOF department_category",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_categories_for_product",
+      "args": "integer",
+      "returns": "SETOF product_category_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_categories_list",
+      "args": "integer",
+      "returns": "SETOF category_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_category_details",
+      "args": "integer",
+      "returns": "category_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_category_products",
+      "args": "integer",
+      "returns": "SETOF category_product",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_department_categories",
+      "args": "integer",
+      "returns": "SETOF department_category",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_department_details",
+      "args": "integer",
+      "returns": "department_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_departments",
+      "args": "",
+      "returns": "SETOF department",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_departments_list",
+      "args": "",
+      "returns": "SETOF department_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_product_details",
+      "args": "integer",
+      "returns": "product_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_product_info",
+      "args": "integer",
+      "returns": "product_info",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_product_reviews",
+      "args": "integer",
+      "returns": "SETOF review_info",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_products_in_category",
+      "args": "integer, integer, integer, integer",
+      "returns": "SETOF product_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_products_on_catalog",
+      "args": "integer, integer, integer",
+      "returns": "SETOF product_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_products_on_department",
+      "args": "integer, integer, integer, integer",
+      "returns": "SETOF product_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_get_recommendations",
+      "args": "integer, integer",
+      "returns": "SETOF product_recommendation",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_move_product_to_category",
+      "args": "integer, integer, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_remove_product_from_category",
+      "args": "integer, integer",
+      "returns": "smallint",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_search",
+      "args": "text[], character varying, integer, integer, integer",
+      "returns": "SETOF product_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_set_image",
+      "args": "integer, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_set_product_display_option",
+      "args": "integer, smallint",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_set_thumbnail",
+      "args": "integer, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_update_category",
+      "args": "integer, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_update_department",
+      "args": "integer, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "catalog_update_product",
+      "args": "integer, character varying, character varying, numeric, numeric",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_add",
+      "args": "character varying, character varying, character varying",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_get_customer",
+      "args": "integer",
+      "returns": "customer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_get_customers_list",
+      "args": "",
+      "returns": "SETOF customer_list",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_get_login_info",
+      "args": "character varying",
+      "returns": "customer_login_info",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_get_shipping_regions",
+      "args": "",
+      "returns": "SETOF shipping_region",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_update_account",
+      "args": "integer, character varying, character varying, character varying, character varying, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_update_address",
+      "args": "integer, character varying, character varying, character varying, character varying, character varying, character varying, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "customer_update_credit_card",
+      "args": "integer, text",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_create_audit",
+      "args": "integer, text, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_audit_trail",
+      "args": "integer",
+      "returns": "SETOF audit",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_by_customer_id",
+      "args": "integer",
+      "returns": "SETOF order_short_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_most_recent_orders",
+      "args": "integer",
+      "returns": "SETOF order_short_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_order_details",
+      "args": "integer",
+      "returns": "SETOF order_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_order_info",
+      "args": "integer",
+      "returns": "orders",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_order_short_details",
+      "args": "integer",
+      "returns": "order_short_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_orders_between_dates",
+      "args": "timestamp without time zone, timestamp without time zone",
+      "returns": "SETOF order_short_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_orders_by_status",
+      "args": "integer",
+      "returns": "SETOF order_short_details",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_get_shipping_info",
+      "args": "integer",
+      "returns": "SETOF shipping",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_set_auth_code",
+      "args": "integer, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_set_date_shipped",
+      "args": "integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_update_order",
+      "args": "integer, integer, character varying, character varying, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_update_order",
+      "args": "integer, integer, character varying, character varying, character varying",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "orders_update_status",
+      "args": "integer, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_add_product",
+      "args": "character, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_count_old_carts",
+      "args": "integer",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_create_order",
+      "args": "character, integer, integer, integer",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_create_order",
+      "args": "character",
+      "returns": "integer",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_delete_old_carts",
+      "args": "integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_empty",
+      "args": "character",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_get_products",
+      "args": "character, integer",
+      "returns": "SETOF cart_product",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_get_recommendations",
+      "args": "character, integer",
+      "returns": "SETOF product_recommendation",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_get_saved_products",
+      "args": "character",
+      "returns": "SETOF cart_saved_product",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_get_total_amount",
+      "args": "character",
+      "returns": "numeric",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_move_product_to_cart",
+      "args": "character, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_remove_product",
+      "args": "character, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_save_product_for_later",
+      "args": "character, integer",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    },
+    {
+      "proname": "shopping_cart_update",
+      "args": "character, integer[], integer[]",
+      "returns": "void",
+      "volatility": "v",
+      "security_definer": false,
+      "language": "plpgsql",
+      "kind": "normal"
+    }
+  ],
+  "types": [
+    {
+      "typname": "audit",
+      "attributes": "audit_id integer, order_id integer, created_on timestamp without time zone, message text, message_number integer"
+    },
+    {
+      "typname": "cart_product",
+      "attributes": "product_id integer, name character varying(50), price numeric(10,2), quantity integer, subtotal numeric(10,2)"
+    },
+    {
+      "typname": "cart_saved_product",
+      "attributes": "product_id integer, name character varying(50), price numeric(10,2)"
+    },
+    {
+      "typname": "category",
+      "attributes": "category_id integer, department_id integer, name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "category_details",
+      "attributes": "name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "category_list",
+      "attributes": "category_id integer, name character varying(50)"
+    },
+    {
+      "typname": "category_product",
+      "attributes": "product_id integer, name character varying(50), description character varying(1000), price numeric(10,2), discounted_price numeric(10,2)"
+    },
+    {
+      "typname": "customer",
+      "attributes": "customer_id integer, name character varying(50), email character varying(100), password character varying(50), credit_card text, address_1 character varying(100), address_2 character varying(100), city character varying(100), region character varying(100), postal_code character varying(100), country character varying(100), shipping_region_id integer, day_phone character varying(100), eve_phone character varying(100), mob_phone character varying(100)"
+    },
+    {
+      "typname": "customer_list",
+      "attributes": "customer_id integer, name character varying(50)"
+    },
+    {
+      "typname": "customer_login_info",
+      "attributes": "customer_id integer, password character varying(50)"
+    },
+    {
+      "typname": "department",
+      "attributes": "department_id integer, name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "department_category",
+      "attributes": "category_id integer, name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "department_details",
+      "attributes": "name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "department_list",
+      "attributes": "department_id integer, name character varying(50)"
+    },
+    {
+      "typname": "order_detail",
+      "attributes": "order_id integer, product_id integer, product_name character varying(50), quantity integer, unit_cost numeric(10,2)"
+    },
+    {
+      "typname": "order_details",
+      "attributes": "order_id integer, product_id integer, product_name character varying(50), quantity integer, unit_cost numeric(10,2), subtotal numeric(10,2)"
+    },
+    {
+      "typname": "order_info",
+      "attributes": "order_id integer, total_amount numeric(10,2), created_on timestamp without time zone, shipped_on timestamp without time zone, status character varying(9), comments character varying(255), customer_id integer, auth_code character varying(50), reference character varying(50), shipping_id integer, shipping_type character varying(100), shipping_cost numeric(10,2), tax_id integer, tax_type character varying(100), tax_percentage numeric(10,2)"
+    },
+    {
+      "typname": "order_short_details",
+      "attributes": "order_id integer, total_amount numeric(10,2), created_on timestamp without time zone, shipped_on timestamp without time zone, status integer, customer_name character varying(50)"
+    },
+    {
+      "typname": "orders",
+      "attributes": "order_id integer, total_amount numeric(10,2), created_on timestamp without time zone, shipped_on timestamp without time zone, status integer, comments character varying(255), customer_name character varying(50), shipping_address character varying(255), customer_email character varying(50)"
+    },
+    {
+      "typname": "product",
+      "attributes": "product_id integer, name character varying(50), description character varying(1000), price numeric(10,2), discounted_price numeric(10,2), image character varying(150), thumbnail character varying(150), display smallint, search_vector tsvector"
+    },
+    {
+      "typname": "product_category",
+      "attributes": "product_id integer, category_id integer"
+    },
+    {
+      "typname": "product_category_details",
+      "attributes": "category_id integer, department_id integer, name character varying(50)"
+    },
+    {
+      "typname": "product_details",
+      "attributes": "product_id integer, name character varying(50), description character varying(1000), price numeric(10,2), discounted_price numeric(10,2), image character varying(150)"
+    },
+    {
+      "typname": "product_info",
+      "attributes": "name character varying(50), image character varying(150), thumbnail character varying(150), display smallint"
+    },
+    {
+      "typname": "product_list",
+      "attributes": "product_id integer, name character varying(50), description character varying(1000), price numeric(10,2), discounted_price numeric(10,2), thumbnail character varying(150)"
+    },
+    {
+      "typname": "product_recommendation",
+      "attributes": "product_id integer, name character varying(50), description character varying(1000)"
+    },
+    {
+      "typname": "review",
+      "attributes": "review_id integer, customer_id integer, product_id integer, review text, rating smallint, created_on timestamp without time zone"
+    },
+    {
+      "typname": "review_info",
+      "attributes": "customer_name character varying(50), review text, rating smallint, created_on timestamp without time zone"
+    },
+    {
+      "typname": "shipping",
+      "attributes": "shipping_id integer, shipping_type character varying(100), shipping_cost numeric(10,2), shipping_region_id integer"
+    },
+    {
+      "typname": "shipping_region",
+      "attributes": "shipping_region_id integer, shipping_region character varying(100)"
+    },
+    {
+      "typname": "shopping_cart",
+      "attributes": "cart_id character(128), product_id integer, quantity integer, buy_now boolean, added_on timestamp without time zone"
+    },
+    {
+      "typname": "tax",
+      "attributes": "tax_id integer, tax_type character varying(100), tax_percentage numeric(10,2)"
+    }
+  ],
+  "sequences": [
+    {
+      "sequencename": "audit_audit_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "category_category_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "customer_customer_id_seq",
+      "last_value": "1"
+    },
+    {
+      "sequencename": "department_department_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "orders_order_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "product_product_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "review_review_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "shipping_region_shipping_region_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "shipping_shipping_id_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "tax_tax_id_seq",
+      "last_value": null
+    }
+  ],
+  "row_counts": {
+    "audit": 0,
+    "category": 7,
+    "customer": 1,
+    "department": 3,
+    "order_detail": 0,
+    "orders": 0,
+    "product": 45,
+    "product_category": 47,
+    "review": 0,
+    "shipping": 7,
+    "shipping_region": 4,
+    "shopping_cart": 0,
+    "tax": 2
+  },
+  "password_shape": [
+    {
+      "len": 40,
+      "n": 1,
+      "sha256_hex_like": "0",
+      "has_separator": "0"
+    }
+  ],
+  "product_sample": [
+    {
+      "product_id": 1,
+      "name": "Christmas Candy Hat",
+      "price": "24.99",
+      "discounted_price": "0.00",
+      "image": "ChristmasCandyHat.jpg",
+      "thumbnail": "ChristmasCandyHat.thumb.jpg"
+    },
+    {
+      "product_id": 2,
+      "name": "Hanukah Hat",
+      "price": "24.99",
+      "discounted_price": "21.99",
+      "image": "HanukahHat.jpg",
+      "thumbnail": "HanukahHat.thumb.jpg"
+    },
+    {
+      "product_id": 3,
+      "name": "Springy Santa Hat",
+      "price": "19.99",
+      "discounted_price": "0.00",
+      "image": "SpringySantaHat.jpg",
+      "thumbnail": "SpringySantaHat.thumb.jpg"
+    }
+  ]
+}
