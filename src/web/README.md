@@ -184,17 +184,40 @@ Everything else the scan reports is fixed in code.
 ## Deploy (requires approval)
 
 ```powershell
-# 1. Provision/confirm the Hyperdrive configuration
-cd C:\Users\toman\repos\php\hatshop\deploy\05_cloudflare\terraform
-terraform init
-terraform plan      # review: creates one Hyperdrive config, changes nothing else
-terraform apply
+# 1. Provision/confirm the Hyperdrive configuration (Terraform, FreshInstall repo)
+cd C:\Users\toman\repos\wilsonify\FreshInstall\cloudflare\hatshop
+make init
+make plan      # review: creates one Hyperdrive config, changes nothing else
+make apply
+terraform output -raw hyperdrive_id
 
 # 2. Put the resulting id into src/web/wrangler.jsonc (hyperdrive[0].id)
 
-# 3. Deploy the Worker
+# 3. Deploy the Worker, then set its secrets and deploy again
 cd C:\Users\toman\repos\php\hatshop\src\web
 npx wrangler deploy
+npx wrangler secret put SESSION_SECRET   # fresh random value, never the dev key
+npx wrangler deploy
+```
+
+The deployed Worker is `https://hatshop.tom-andrew-wilson.workers.dev`
+(`workers_dev: true`), version `1db1e2cb-5c4c-4b3a-9cce-9a4b43c96f44` at the time
+of writing. `GET /health` returns `{"status":"ok","database":"ok"}` through the
+deployed Hyperdrive configuration.
+
+`SESSION_SECRET` is currently the only secret on the Worker. Without it sign-in
+returns 503, no cart cookie is minted and the admin area reports "Administration
+is not configured". `ADMIN_USERNAME`/`ADMIN_PASSWORD_HASH` and Authorize.Net
+credentials are deliberately unset, so checkout answers 503.
+
+The Hyperdrive config `hatshop-neon` (`a075585ca7184697910db2dde0273271`) was
+created with `wrangler hyperdrive create`, because the API token stored in
+`FreshInstall/cloudflare/.dec.env` is revoked. Adopt it into Terraform once a
+valid token is in place:
+
+```powershell
+cd C:\Users\toman\repos\wilsonify\FreshInstall\cloudflare\hatshop
+terraform import cloudflare_hyperdrive_config.hatshop a075585ca7184697910db2dde0273271
 ```
 
 ## Operations
