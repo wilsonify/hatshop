@@ -19,8 +19,9 @@ const ENV_FILE = 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml
 function readEnv() {
   const out = {};
   for (const line of readFileSync(ENV_FILE, 'utf8').split(/\r?\n/)) {
-    const match = /^([A-Z0-9_]+):\s*(.*)$/.exec(line);
-    if (match) out[match[1]] = match[2].trim();
+    const at = line.indexOf(':');
+    if (at <= 0) continue;
+    out[line.slice(0, at).trim()] = line.slice(at + 1).trim();
   }
   return out;
 }
