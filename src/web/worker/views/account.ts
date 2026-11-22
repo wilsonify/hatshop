@@ -1,5 +1,5 @@
 /** Account, order history and checkout pages. */
-import type { OrderDetailRow, ShippingRegionRow } from '../../db/types.ts';
+import type { CustomerRow, OrderDetailRow, ShippingRegionRow } from '../../db/types.ts';
 import type { CheckoutOptions } from '../../services/checkout.ts';
 import type { CartView } from '../../services/cart.ts';
 import { statusLabel } from '../../services/orders.ts';
@@ -50,20 +50,7 @@ export function accountPage(
   ctx: ViewContext,
   data: {
     departments: NavDepartment[];
-    customer: {
-      name: string;
-      email: string;
-      address_1: string | null;
-      address_2: string | null;
-      city: string | null;
-      region: string | null;
-      postal_code: string | null;
-      country: string | null;
-      shipping_region_id: number;
-      day_phone: string | null;
-      eve_phone: string | null;
-      mob_phone: string | null;
-    };
+    customer: Omit<CustomerRow, 'customer_id' | 'password' | 'credit_card'>;
     regions: ShippingRegionRow[];
     passwordPolicy: 'pbkdf2' | 'sha1-legacy' | 'disabled';
   },
