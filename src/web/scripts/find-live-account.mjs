@@ -10,33 +10,17 @@
  *
  *   node scripts/find-live-account.mjs
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import { verifyLegacy } from '../auth/password.ts';
+import { neonConnectionString } from './lib/neon-env.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
 
-function connectionString() {
-  if (process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE) {
-    return process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE;
-  }
-  const yamlPath = process.env.NEON_ENV_FILE ?? 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-  const text = readFileSync(yamlPath, 'utf8');
-  const values = {};
-  for (const line of text.split(/\r?\n/)) {
-    const at = line.indexOf(':');
-    if (at <= 0) continue;
-    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
-  }
-  return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
-    values.NEON_PASSWORD,
-  )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
-}
-
-const client = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 12000 });
+const client = new pg.Client({ connectionString: neonConnectionString(), connectionTimeoutMillis: 12000 });
 await client.connect();
 const { rows } = await client.query(
   'SELECT customer_id, name, email, password, length(password) AS len FROM customer ORDER BY customer_id',
