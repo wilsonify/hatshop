@@ -6,14 +6,23 @@ bookFlatSection: true
 
 # Documentation
 
-This section contains all the documentation for HatShop, organized for different audiences.
+This site keeps the parts of the project that cannot be read out of the code: why
+the system is built the way it is, what was measured, and how to work on it.
 
-## Guides by Role
+## Guides by role
 
-- **[Users]({{< relref "/docs/users" >}})** - How to use the shop as a customer
-- **[Developers]({{< relref "/docs/developers" >}})** - Development setup and architecture  
-- **[Admins]({{< relref "/docs/admins" >}})** - Deployment and operations
+- **[Users]({{< relref "users" >}})** — how to use the shop as a customer.
+- **[Developers]({{< relref "developers" >}})** — the chapter codebase and the
+  HTML-native Worker in `src/web`.
+- **[Admins]({{< relref "admins" >}})** — deployment and operations.
+- **[Chapters]({{< relref "chapters" >}})** — the book's chapter-by-chapter build.
 
-## Chapters
+## Working on the Worker
 
-Each chapter progressively builds on the previous one. See the [Chapter Guide]({{< relref "/docs/chapters" >}}) for details.
+- **[OpenSpec workflow]({{< relref "speckit-workflow" >}})** — how behaviour is
+  specified, validated and archived.
+- **[Where things live]({{< relref "where-things-live" >}})** — which document owns
+  which answer, and the rule against duplicating discoverable facts.
+
+Behaviour itself is specified in `openspec/specs/` in the repository; commands live
+in `src/web/README.md`, the `makefile`s and `package.json`.
