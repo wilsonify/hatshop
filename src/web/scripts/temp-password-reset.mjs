@@ -23,12 +23,12 @@
  */
 import { randomBytes } from 'node:crypto';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import http from 'node:http';
-import https from 'node:https';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import { sha1Hex } from '../auth/password.ts';
+import { neonConnectionString } from './lib/neon-env.mjs';
+import { createProbe, csrfFrom } from './lib/probe.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
@@ -41,67 +41,9 @@ if (!['--set', '--restore', '--probe'].includes(mode)) {
   process.exit(64);
 }
 
-function connectionString() {
-  const yamlPath = process.env.NEON_ENV_FILE ?? 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-  const text = readFileSync(yamlPath, 'utf8');
-  const values = {};
-  for (const line of text.split(/\r?\n/)) {
-    const at = line.indexOf(':');
-    if (at <= 0) continue;
-    values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
-  }
-  return `postgresql://${encodeURIComponent(values.NEON_USERNAME)}:${encodeURIComponent(
-    values.NEON_PASSWORD,
-  )}@${values.NEON_SERVER}/${values.NEON_DATABASE}?sslmode=require`;
-}
-
 /* --------------------------------------------------------------- HTTP probe */
 
-const BASE = process.env.HATSHOP_BASE ?? 'https://127.0.0.1:8787';
-const baseUrl = new URL(BASE);
-const transport = baseUrl.protocol === 'https:' ? https : http;
-
-function request(method, path, { cookie, form, headers = {} } = {}) {
-  const body = form ? new URLSearchParams(form).toString() : null;
-  const requestHeaders = { ...headers };
-  if (body !== null) {
-    requestHeaders['content-type'] = 'application/x-www-form-urlencoded';
-    requestHeaders['content-length'] = Buffer.byteLength(body);
-  }
-  if (cookie) requestHeaders.cookie = cookie;
-
-  return new Promise((resolvePromise, reject) => {
-    const req = transport.request(
-      {
-        hostname: baseUrl.hostname,
-        port: baseUrl.port,
-        path,
-        method,
-        headers: requestHeaders,
-        rejectUnauthorized: false,
-      },
-      (res) => {
-        let text = '';
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          text += chunk;
-        });
-        res.on('end', () => resolvePromise({ status: res.statusCode, headers: res.headers, body: text }));
-      },
-    );
-    req.on('error', reject);
-    if (body !== null) req.write(body);
-    req.end();
-  });
-}
-
-function csrfFrom(setCookie = []) {
-  for (const raw of setCookie) {
-    const match = /^hatshop_csrf=([^;]+)/.exec(raw);
-    if (match) return match[1];
-  }
-  return '';
-}
+const { baseUrl, request } = createProbe();
 
 /* -------------------------------------------------------------------- modes */
 
@@ -129,7 +71,7 @@ if (mode === '--probe') {
   process.exit(0);
 }
 
-const client = new pg.Client({ connectionString: connectionString(), connectionTimeoutMillis: 15000 });
+const client = new pg.Client({ connectionString: neonConnectionString(), connectionTimeoutMillis: 15000 });
 await client.connect();
 
 try {
