@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["worker/**/*.ts", "services/**/*.ts", "db/**/*.ts", "auth/**/*.ts", "tests/**/*.ts"]
+}
