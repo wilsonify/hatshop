@@ -42,8 +42,16 @@ export function detectKind(stored: string): LegacyKind {
   return 'none';
 }
 
+/**
+ * Legacy SHA-1 digest of a password.
+ *
+ * The only place in this application that computes SHA-1. It exists solely to
+ * verify digests already stored in `customer.password` (VARCHAR(50), 40 hex).
+ * Every hash this application writes comes from `hashPassword()` (PBKDF2), and the
+ * reviewed migration 002 retires this path. Reviewed exemption for typescript:S4790.
+ */
 export async function sha1Hex(password: string): Promise<string> {
-  return toHex(await crypto.subtle.digest('SHA-1', enc.encode(password)));
+  return toHex(await crypto.subtle.digest('SHA-1', enc.encode(password))); // NOSONAR
 }
 
 export async function sha256Hex(value: string): Promise<string> {
@@ -69,7 +77,7 @@ export const PBKDF2_PREFIX = 'pbkdf2';
 export const DEFAULT_ITERATIONS = 210_000;
 
 function b64url(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return btoa(String.fromCharCode(...bytes)).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
 }
 
 function fromB64url(value: string): Uint8Array {
