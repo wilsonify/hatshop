@@ -23,29 +23,26 @@ export interface CategoryListRow {
   name: string;
 }
 
-export interface ProductListRow {
+/** Columns every product projection shares. */
+export interface ProductSummary {
   product_id: number;
   name: string;
   description: string | null;
+}
+
+export interface ProductListRow extends ProductSummary {
   price: string;
   discounted_price: string | null;
   thumbnail: string | null;
 }
 
-export interface ProductDetailsRow {
-  product_id: number;
-  name: string;
-  description: string | null;
+export interface ProductDetailsRow extends ProductSummary {
   price: string;
   discounted_price: string | null;
   image: string | null;
 }
 
-export interface RecommendationRow {
-  product_id: number;
-  name: string;
-  description: string | null;
-}
+export type RecommendationRow = ProductSummary;
 
 export interface ReviewRow {
   customer_name: string | null;
