@@ -11,26 +11,10 @@
  *
  *   node scripts/verify-db.mjs
  */
-import { readFileSync } from 'node:fs';
 import pg from 'pg';
+import { neonConnectionString } from './lib/neon-env.mjs';
 
-const ENV_FILE = 'C:/Users/toman/repos/wilsonify/FreshInstall/neon/.env.dec.yaml';
-
-function readEnv() {
-  const out = {};
-  for (const line of readFileSync(ENV_FILE, 'utf8').split(/\r?\n/)) {
-    const at = line.indexOf(':');
-    if (at <= 0) continue;
-    out[line.slice(0, at).trim()] = line.slice(at + 1).trim();
-  }
-  return out;
-}
-
-const env = readEnv();
-const connectionString =
-  `postgresql://${encodeURIComponent(env.NEON_USERNAME)}:` +
-  `${encodeURIComponent(env.NEON_PASSWORD)}@${env.NEON_SERVER}/${env.NEON_DATABASE}` +
-  `?sslmode=${env.NEON_SSLMODE || 'require'}`;
+const connectionString = neonConnectionString();
 
 const results = {};
 const client = new pg.Client({ connectionString, connectionTimeoutMillis: 15000 });
