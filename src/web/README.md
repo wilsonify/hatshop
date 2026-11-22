@@ -159,6 +159,28 @@ checks passed.
 The results of the last run are committed as
 [`docs/live-verification.md`](docs/live-verification.md).
 
+## Static analysis (SonarQube)
+
+The code is scanned as the `hatshop` SonarQube project (configuration lives in
+`sonar-project.properties` at the repository root). Run the scan from `php/hatshop`:
+
+```powershell
+sonar-scanner.bat `
+  -Dsonar.projectKey=hatshop `
+  -Dsonar.sources=. `
+  -Dsonar.host.url=http://localhost:9000
+```
+
+Two findings are intentional and are resolved in configuration or with an inline
+justification rather than by changing behaviour:
+
+| Finding | Where | Why |
+| --- | --- | --- |
+| `docker:S6471` (image runs as root) | `sonar-project.properties` criterion `e6` | `src/c*` holds one-line `FROM` files from the book's chapters, not this app's deploy path; running them unprivileged needs entrypoint changes that would alter the exercises. |
+| `typescript:S4790` (weak hash) | `auth/password.ts` on `sha1Hex`, `// NOSONAR` | SHA-1 is computed only to verify digests already stored in `customer.password VARCHAR(50)`; every hash the app writes is PBKDF2 (migration 002 retires the legacy path). |
+
+Everything else the scan reports is fixed in code.
+
 ## Deploy (requires approval)
 
 ```powershell
@@ -205,7 +227,7 @@ Health responses: `200 {"status":"ok","database":"ok"}` or
 | `introspect.mjs`, `verify-db.mjs` | yes, read-only |
 | `verify-interactive.mjs` | yes, read-only (SELECTs only); it drives rejected POSTs deliberately |
 | `temp-password-reset.mjs --set` / `--restore` | **no — writes one customer row twice**; only with explicit approval |
-| `find-live-account.mjs` / `try-project-secrets.mjs` | yes, read-only; write `.live-account.local.json` only |
+| `find-live-account.mjs` / `try-project-secrets.mjs` | yes, read-only; write `.live-account.local.json` only. `try-project-secrets.mjs` reads SOPS files only when `SOPS_BIN` is an absolute path |
 | `build-schema-doc.mjs` | yes, rewrites one generated file |
 | `terraform init` / `validate` / `plan` | yes, read-only |
 | `terraform apply` | **no** — approval required |
