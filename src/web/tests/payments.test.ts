@@ -8,33 +8,26 @@ import {
   expiryValid,
   luhnValid,
   paymentConfig,
-  type PaymentConfig,
 } from '../services/payments.ts';
+import { installGateway, restoreFetch, sandboxConfig } from './support.ts';
 
-const cfg: PaymentConfig = {
-  configured: true,
-  gatewayUrl: 'https://test.authorize.net/gateway/transact.dll',
-  loginId: 'login',
-  transactionKey: 'key',
-};
-
-const originalFetch = globalThis.fetch;
+const cfg = sandboxConfig();
 let lastBody = '';
 
 function stubGateway(body: string, status = 200) {
-  globalThis.fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-    lastBody = String(init?.body ?? '');
-    return new Response(body, { status });
-  }) as typeof fetch;
+  installGateway(body, {
+    status,
+    onRequest: (sent) => {
+      lastBody = sent;
+    },
+  });
 }
 
 beforeEach(() => {
   lastBody = '';
 });
 
-afterEach(() => {
-  globalThis.fetch = originalFetch;
-});
+afterEach(restoreFetch);
 
 // AIM field order: responseCode|subcode|reasonCode|reasonText|authCode|avs|transId|invoice|desc|amount
 const APPROVED = '1|1|1|Approved|AUTH01|Y|TXN123|7|HatShop order 7|25.00';
