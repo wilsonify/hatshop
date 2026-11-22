@@ -12,19 +12,18 @@ Workers Free, using the existing Neon PostgreSQL database. The PHP application i
 
 ## Why a rewrite was possible without porting business logic
 
-The live database implements the catalog, cart, order and customer behaviour in 75
-plpgsql functions. The Worker calls those functions and renders HTML around them. It
-does not reimplement pricing, search or order creation.
+The live database implements the catalog, cart, order and customer behaviour as
+stored procedures. The Worker calls those procedures and renders HTML around them.
+It does not reimplement pricing, search or order creation.
 
 ## Key documents
 
 | Topic | Location |
 | --- | --- |
+| What the Worker must do, capability by capability | `openspec/specs/` |
 | Architecture, CPU budget, password findings | `src/web/docs/architecture.md` |
-| Live schema and function inventory | `src/web/docs/schema-inventory.md` |
-| What was ported from PHP, and what was not | `src/web/docs/functional-inventory.md` |
-| Checkout and payment state machine | `src/web/docs/payment-states.md` |
 | Database/Hyperdrive verification matrix | `src/web/docs/hyperdrive-verification.md` |
+| Last live verification run | `src/web/docs/live-verification.md` |
 | Commands and operations | `src/web/README.md` |
 
 ## Status
