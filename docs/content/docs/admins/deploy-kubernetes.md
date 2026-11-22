@@ -16,9 +16,8 @@ This guide covers deploying HatShop to a Kubernetes cluster.
 
 ## Deployment Steps
 
-{{< hint info >}}
-Documentation for Kubernetes deployment is coming soon.
-{{< /hint >}}
+> [!NOTE]
+> Documentation for Kubernetes deployment is coming soon.
 
 ## Related Documentation
 
