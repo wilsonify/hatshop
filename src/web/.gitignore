@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.dev.vars
+*.log
+coverage/
+
+# Local-only credentials discovered by scripts/find-live-account.mjs
+.live-account.local.json
+.password-restore.local.json
